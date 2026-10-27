@@ -4,6 +4,10 @@
 **Status:** Self-initiated project — simulated scenario.
 **What it is:** An end-to-end improvement of a business pipeline, from request intake to release, with the flow, the quality, and the reporting built as one system.
 
+## What kind of project this is
+
+This is a project management project, not a technology build. There is no software to build and no tool to buy here. The work is PM work: charter and scope, stakeholder alignment, a phased schedule, risk and change control, a playbook, quality gates, and a control plan that shows whether the improvement held. See `docs/pm-plan.md` for the full PM plan, including stakeholder roles, governance, and the risk log for the improvement itself. The demo is only a visual aid for the pipeline; the deliverables are the plan, the playbook, and the reporting routine.
+
 ## The problem I analysed
 
 In the simulated scenario, a subscription product and live experience operation was receiving about 35 requests a week — new features, content and experience improvements, partner requests, and member and guest experience fixes — and completing about 28 a week.
