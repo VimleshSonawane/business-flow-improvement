@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Business Flow Improvement — Demo</title>
+<style>body{font-family:system-ui,Arial,sans-serif;max-width:980px;margin:0 auto;padding:24px;color:#111}h1{font-size:28px}h2{margin-top:32px}.muted{color:#555}.card{border:1px solid #ddd;border-radius:10px;padding:14px;margin:10px 0}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{border:1px solid #ddd;border-radius:10px;padding:12px}.kpi b{font-size:22px;display:block}button{padding:8px 12px;margin:4px 6px 4px 0;border-radius:8px;border:1px solid #999;background:#fff;cursor:pointer}button.active{background:#111;color:#fff}.stage{cursor:pointer}.stage:hover{background:#f5f5f5}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:6px;text-align:left}ul{line-height:1.5}</style>
+</head><body>
+<h1>Business Flow Improvement — Demo</h1>
+<p class="muted">A project by Vimlesh Sonawane, Project Manager. Simulated scenario. All numbers below are simulated pipeline data, computed in this page from the same table.</p>
+<p><b>The idea in one line:</b> the work took about 7 days. The waiting took about 14 days. Fix the waiting, and the pipeline gets faster without working faster.</p>
+
+<h2>Phase</h2>
+<div id="phases"><button type="button" data-phase="all" class="active">All weeks</button><button type="button" data-phase="base">Baseline</button><button type="button" data-phase="imp">Improve</button><button type="button" data-phase="ctrl">Control</button></div>
+<div class="kpis" id="kpis"></div>
+
+<h2>Pipeline — click a stage</h2>
+<div id="stages"></div>
+<div class="card" id="stageDetail"></div>
+
+<h2>Intake</h2>
+<div class="card"><p><b>Intake gate:</b> a request is accepted only when it has a one-sentence request, who it is for, the problem it solves, scope in and out, a date if any, a requesting owner, and dependencies.</p>
+<p><b>Priority tiers:</b> P1 — member or guest impact now, or a dated event that cannot move, triaged same day. P2 — planned improvement, triaged within 2 days, ordered by impact and effort. P3 — nice to have, held in backlog review.</p>
+<p>Try it: a request missing its scope or dependencies is returned with the missing items named. It is not queued in the hope the information appears later.</p></div>
+
+<h2>Quality</h2>
+<div class="card"><p>Three gates, not one: a gate at scoping, a mid-build check, and a final review — all against the same written definition of done. Rework is work returned before release. An escape is a defect found after release, logged with the stage where it was created, not only where it was found.</p></div>
+
+<h2>Reporting</h2>
+<div class="card"><p>Weekly review, every week, same definitions: demand vs. throughput, lead time split into waiting and working time, rework and escapes, what is aging over 5 days, and one decision — what to start, what to defer, what to stop.</p></div>
+
+<h2>Weekly pipeline table</h2>
+<table><thead><tr><th>Week</th><th>Phase</th><th>Demand</th><th>Completed</th><th>Backlog</th><th>Lead (days)</th><th>Rework</th><th>Escapes</th></tr></thead><tbody id="rows"></tbody></table>
+
+<h2>What this demo does not claim</h2>
+<p class="muted">Phased interventions show a sequence and phase averages; they do not prove how much any single intervention caused on its own. See the repo docs for the full analysis, definitions, and limits.</p>
+
+<script>
+const DATA=[
+{w:1,ph:"Baseline",d:34,c:27,b:91,lead:22,rew:24,esc:15},
+{w:2,ph:"Baseline",d:36,c:28,b:99,lead:21,rew:22,esc:14},
+{w:3,ph:"Baseline",d:33,c:29,b:103,lead:20,rew:21,esc:13},
+{w:4,ph:"Baseline",d:35,c:28,b:110,lead:21,rew:21,esc:14},
+{w:5,ph:"Improve",d:34,c:36,b:108,lead:18,rew:18,esc:11},
+{w:6,ph:"Improve",d:35,c:37,b:106,lead:16,rew:15,esc:9},
+{w:7,ph:"Improve",d:33,c:36,b:103,lead:15,rew:13,esc:8},
+{w:8,ph:"Improve",d:36,c:38,b:101,lead:14,rew:11,esc:7},
+{w:9,ph:"Control",d:34,c:38,b:97,lead:13,rew:10,esc:6},
+{w:10,ph:"Control",d:35,c:39,b:93,lead:12,rew:9,esc:5},
+{w:11,ph:"Control",d:33,c:38,b:88,lead:12,rew:9,esc:5},
+{w:12,ph:"Control",d:36,c:40,b:84,lead:11,rew:8,esc:4}];
+const STAGES=[
+{name:"1. Intake and triage",bw:3.2,bt:0.5,cw:0.8,ct:0.5,wip:10,problem:"Requests arrived incomplete, so work waited for clarification or started and stopped.",fix:"Completeness checklist, intake gate, and priority tiers P1/P2/P3. No owner, no entry."},
+{name:"2. Scoping",bw:2.8,bt:1.5,cw:1.0,ct:1.5,wip:8,problem:"No priority rule and no agreed definition of done, so decisions waited and scope drifted into build.",fix:"Scope, out-of-scope, dependencies, and definition of done agreed in writing before build, plus a quality gate at scoping."},
+{name:"3. Build and preparation",bw:3.1,bt:3.0,cw:1.8,ct:3.0,wip:12,problem:"Too much work open at once, so attention split and everything moved slowly.",fix:"WIP limit of 12, daily flow review, and a mid-build check against the definition of done."},
+{name:"4. Quality review",bw:3.4,bt:1.2,cw:0.9,ct:1.2,wip:8,problem:"Quality checked only at the end, so problems found here looped back to build and scoping.",fix:"Early gates at scoping and mid-build, plus a final review. Defects logged with the stage where they were created."},
+{name:"5. Release and delivery",bw:1.5,bt:0.8,cw:0.5,ct:0.8,wip:5,problem:"Last-minute changes with no freeze and no checklist, so release day became rework day.",fix:"Release checklist, freeze window, rollback plan, and a release note. Escapes logged the same day."}];
+const avg=(a,k)=>a.reduce((s,x)=>s+x[k],0)/a.length;
+let phase="all";
+function rowsFor(){if(phase==="all")return DATA;if(phase==="base")return DATA.filter(x=>x.ph==="Baseline");if(phase==="imp")return DATA.filter(x=>x.ph==="Improve");return DATA.filter(x=>x.ph==="Control");}
+function render(){
+const rows=rowsFor();
+document.getElementById("kpis").innerHTML=
+`<div class="kpi"><b>${avg(rows,"lead").toFixed(1)} days</b>Lead time</div>`+
+`<div class="kpi"><b>${avg(rows,"c").toFixed(1)} / week</b>Throughput</div>`+
+`<div class="kpi"><b>${avg(rows,"rew").toFixed(0)}%</b>Rework</div>`+
+`<div class="kpi"><b>${avg(rows,"esc").toFixed(0)}%</b>Quality escapes</div>`;
+document.getElementById("rows").innerHTML=DATA.map(x=>`<tr><td>${x.w}</td><td>${x.ph}</td><td>${x.d}</td><td>${x.c}</td><td>${x.b}</td><td>${x.lead}</td><td>${x.rew}%</td><td>${x.esc}%</td></tr>`).join("");
+showStage(0);
+}
+function showStage(i){
+const s=STAGES[i];
+document.getElementById("stageDetail").innerHTML=`<h3>${s.name}</h3><p><b>Baseline:</b> waiting ${s.bw} days + working ${s.bt} days = ${(s.bw+s.bt).toFixed(1)} days. <b>Control:</b> waiting ${s.cw} days + working ${s.ct} days = ${(s.cw+s.ct).toFixed(1)} days. Working time did not change. Waiting time did.</p><p><b>Problem:</b> ${s.problem}</p><p><b>Fix:</b> ${s.fix}</p><p><b>WIP limit:</b> ${s.wip}</p>`;
+}
+document.getElementById("stages").innerHTML=STAGES.map((s,i)=>`<div class="card stage" data-i="${i}"><b>${s.name}</b> — baseline ${(s.bw+s.bt).toFixed(1)} days, control ${(s.cw+s.ct).toFixed(1)} days, WIP limit ${s.wip}</div>`).join("");
+document.querySelectorAll(".stage").forEach(el=>el.addEventListener("click",()=>showStage(Number(el.dataset.i))));
+document.querySelectorAll("#phases button").forEach(b=>b.addEventListener("click",()=>{phase=b.dataset.phase;document.querySelectorAll("#phases button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render();}));
+render();
+</script></body></html>
