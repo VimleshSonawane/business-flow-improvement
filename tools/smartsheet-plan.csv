@@ -1,0 +1,12 @@
+Task Name,Section,Start Week,End Week,Duration (weeks),Predecessors,Owner Role,Status,Notes
+Real diagnostic confirmed - Boston 311 2024,Diagnose,1,1,1,,Pipeline lead,Complete,"306,756 requests; 76.5% on time; Parking Enforcement 48.2% on time; Pothole Repair 40.8% on time"
+Measure stage times for Parking Enforcement,Diagnose,2,3,2,1,Pipeline lead,Proposed,"Dataset has open/closed only; stage timestamps to be added, not invented"
+Measure stage times for Pothole Repair,Diagnose,2,3,2,1,Pipeline lead,Proposed,Same measurement as Parking Enforcement
+Map handoffs for Parking Enforcement,Map,4,5,2,2,Stage owners,Proposed,"Intake to triage to assignment to closure; mark waiting points"
+Map handoffs for Pothole Repair,Map,4,5,2,3,Stage owners,Proposed,Same mapping as Parking Enforcement
+Review intake channels,Map,5,5,1,4,Pipeline lead,Proposed,Employee Generated 42.2 percent; App 26.0 percent; Call 17.8 percent - check all three not app only
+Define SLA and ownership for enforcement and repair cases,Plan,6,6,1,5,Pipeline lead,Proposed,"Named owner per case type; SLA definition recorded before any target is set"
+Proposed fixes for Parking and Pothole flow,Plan,7,8,2,6,Pipeline lead,Proposed,"One fix per cause found in mapping; no target claimed as achieved"
+Milestone - Diagnostic and plan agreed,Plan,8,8,0,7,Sponsor,Proposed,Go to control only with agreed diagnostic and plan
+Control and reporting routine,Control,9,12,4,8,Pipeline lead,Proposed,"Monthly volume and on-time rate; trigger if overdue share rises for two months"
+Close-out and playbook,Control,12,12,0,9,Sponsor,Proposed,Playbook locked only after control reporting is in place

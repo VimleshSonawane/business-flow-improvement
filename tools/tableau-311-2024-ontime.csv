@@ -1,0 +1,7 @@
+Type,Volume,OnTime,Overdue,OnTimePct,OverdueShareOfAllOverduePct
+Parking Enforcement,63112,30408,32704,48.2,45.3
+Requests for Street Cleaning,22507,20408,2099,90.7,2.9
+Improper Storage of Trash (Barrels),20460,20339,121,99.4,0.2
+Request for Pothole Repair,10620,4334,6286,40.8,8.7
+Missed Trash/Recycling/Yard Waste/Bulk Item,10593,10354,239,97.7,0.3
+All types,306756,234564,72192,76.5,100.0

@@ -1,8 +1,29 @@
 # Business Flow Improvement
 
 **Author:** Vimlesh Sonawane, Project Manager
-**Status:** Self-initiated project — simulated scenario.
+**Status:** Self-initiated project — real public-data diagnostic, plus a proposed improvement framework.
 **What it is:** An end-to-end improvement of a business pipeline, from request intake to release, with the flow, the quality, and the reporting built as one system.
+
+## Real-data update — Boston 311, 2024
+
+This project now has two layers, kept separate on purpose:
+
+1. **Real diagnostic analysis** in `docs/real-data-analysis.md`: City of Boston
+   311 Service Requests, 2024, 306,756 requests, from Analyze Boston.
+   On time 76.5%, overdue 23.5%. Parking Enforcement (63,112 requests,
+   48.2% on time) and Pothole Repair (10,620 requests, 40.8% on time)
+   together account for 54.0% of all overdue cases, from 24.0% of volume.
+   Monthly volume peaks in August (30,713) and September (29,852).
+2. **Proposed improvement framework** in the other docs: the simulated
+   pipeline, its 12-week plan, and its stage times are a proposal for how
+   to measure and fix the flow found in layer 1. They are NOT results
+   measured from the 311 data, and no improvement result is claimed
+   from the diagnostic alone.
+
+The tool files in `tools/` are built from layer 1: Tableau CSVs from the
+real 2024 counts, a Smartsheet / Asana plan for diagnosing and mapping
+Parking Enforcement and Pothole Repair first, and a Miro board structure
+with the real numbers to copy in.
 
 ## What kind of project this is
 
@@ -80,6 +101,11 @@ This is covered in full in `docs/business-model.md`. In short, a faster, cleaner
 - `docs/role-angles.md` — how APM, PM, Product Operations, Business Operations, Process Improvement, and Customer Experience roles use this work
 - `docs/resume-bullets.md` — repo docs only, for resume use with a Project label
 - `docs/retrospective.md` — what worked, what did not, and what to do next
+- `docs/real-data-analysis.md` — Boston 311, 2024: real diagnostic, source, findings, and limits
+- `docs/tool-stack.md` — Tableau, Miro, Asana, and Smartsheet: what each tool shows, and its import files
+- `docs/miro-board-structure.md` — Miro board frames with the real 311 numbers to copy in
+- `tools/tableau-311-2024-by-month.csv`, `tools/tableau-311-2024-by-type.csv`, `tools/tableau-311-2024-ontime.csv` — real 2024 counts for Tableau Public
+- `tools/smartsheet-plan.csv`, `tools/asana-tasks.csv` — real-data diagnostic and mapping plan, proposed steps, not completed work
 - `demo/index.html` — interactive pipeline demo
 
 ## Limits, stated plainly
