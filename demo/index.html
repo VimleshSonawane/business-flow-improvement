@@ -1,35 +1,57 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Business Flow Improvement — Demo</title>
-<style>body{font-family:system-ui,Arial,sans-serif;max-width:980px;margin:0 auto;padding:24px;color:#111}h1{font-size:28px}h2{margin-top:32px}.muted{color:#555}.card{border:1px solid #ddd;border-radius:10px;padding:14px;margin:10px 0}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{border:1px solid #ddd;border-radius:10px;padding:12px}.kpi b{font-size:22px;display:block}button{padding:8px 12px;margin:4px 6px 4px 0;border-radius:8px;border:1px solid #999;background:#fff;cursor:pointer}button.active{background:#111;color:#fff}.stage{cursor:pointer}.stage:hover{background:#f5f5f5}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:6px;text-align:left}ul{line-height:1.5}</style>
+<style>body{font-family:system-ui,Arial,sans-serif;max-width:1020px;margin:0 auto;padding:24px;color:#111}h1{font-size:28px}h2{margin-top:36px}.muted{color:#555}.card{border:1px solid #ddd;border-radius:10px;padding:14px;margin:10px 0}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{border:1px solid #ddd;border-radius:10px;padding:12px}.kpi b{font-size:22px;display:block}button{padding:8px 12px;margin:4px 6px 4px 0;border-radius:8px;border:1px solid #999;background:#fff;cursor:pointer}button.active{background:#111;color:#fff}.stage{cursor:pointer}.stage:hover{background:#f5f5f5}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:6px;text-align:left}.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}.fbox{border:2px solid #111;border-radius:10px;padding:10px;flex:1;min-width:150px;background:#fff}.fbox.hot{border-color:#c00;background:#fff5f5}.arrow{align-self:center;font-size:20px}.bar-row{display:flex;align-items:center;gap:8px;margin:6px 0}.bar-label{width:170px;flex-shrink:0}.bar-track{flex:1;background:#eee;border-radius:6px;height:18px;position:relative}.bar-fill{height:18px;border-radius:6px;background:#111}.gantt{display:grid;grid-template-columns:170px repeat(12,1fr);gap:2px;align-items:center}.gantt div{padding:4px 2px}.gcell{background:#111;color:#fff;border-radius:4px;text-align:center;font-size:12px}.gcell.soft{background:#888}.risk-high{background:#fde8e8}.risk-med{background:#fef3c7}.risk-low{background:#e6f4ea}svg text{font-family:system-ui,Arial,sans-serif}</style>
 </head><body>
 <h1>Business Flow Improvement — Demo</h1>
-<p class="muted">A project by Vimlesh Sonawane, Project Manager. Simulated scenario. All numbers below are simulated pipeline data, computed in this page from the same table.</p>
-<p><b>The idea in one line:</b> the work took about 7 days. The waiting took about 14 days. Fix the waiting, and the pipeline gets faster without working faster.</p>
+<p class="muted">A project by Vimlesh Sonawane, Project Manager. Simulated scenario. A project management project, not a technology build. All numbers below are simulated pipeline data, computed in this page from the same table.</p>
+<p><b>How this project was done, in order:</b> 1) Figure it out — measure the current flow and find the bottleneck. 2) Map it — draw the process, as-is and to-be. 3) Plan it — roadmap, schedule, and risk mitigations. 4) Fix it — one change per cause, in phases. 5) Control it — hold the improvement with reviews and triggers.</p>
 
-<h2>Phase</h2>
-<div id="phases"><button type="button" data-phase="all" class="active">All weeks</button><button type="button" data-phase="base">Baseline</button><button type="button" data-phase="imp">Improve</button><button type="button" data-phase="ctrl">Control</button></div>
-<div class="kpis" id="kpis"></div>
-
-<h2>Pipeline — click a stage</h2>
+<h2>1. Process flow map — as-is</h2>
+<p class="muted">Click a stage below the map for its problem and fix. The red dashed loop is the rework loop: work found defective at Quality went back to Preparation and Scoping, which is why lead time and waiting time were so high.</p>
+<div class="flow" id="flowmap"></div>
+<p class="muted">Rework loop, as-is: Quality review → back to Preparation (and sometimes Scoping) → Quality review again. To-be: quality gates at Scoping and mid-Preparation catch problems where they are created, so the loop is used far less. Baseline rework 22%, control 9%.</p>
 <div id="stages"></div>
 <div class="card" id="stageDetail"></div>
 
-<h2>Intake</h2>
-<div class="card"><p><b>Intake gate:</b> a request is accepted only when it has a one-sentence request, who it is for, the problem it solves, scope in and out, a date if any, a requesting owner, and dependencies.</p>
-<p><b>Priority tiers:</b> P1 — member or guest impact now, or a dated event that cannot move, triaged same day. P2 — planned improvement, triaged within 2 days, ordered by impact and effort. P3 — nice to have, held in backlog review.</p>
-<p>Try it: a request missing its scope or dependencies is returned with the missing items named. It is not queued in the hope the information appears later.</p></div>
+<h2>2. Charts — figuring it out from the data</h2>
+<h3>Lead time by week (days)</h3>
+<div id="leadChart"></div>
+<p class="muted">Target: under 14 days in control. Baseline about 21 days, improve about 16, control about 12.</p>
+<h3>Demand vs. completed per week</h3>
+<div id="throughChart"></div>
+<p class="muted">Baseline: demand about 35 a week, completed about 28. Control: completed about 39 a week, above demand, so backlog falls from its peak of 110 to 84.</p>
+<h3>Rework and quality escapes by week (%)</h3>
+<div id="rewChart"></div>
 
-<h2>Quality</h2>
-<div class="card"><p>Three gates, not one: a gate at scoping, a mid-build check, and a final review — all against the same written definition of done. Rework is work returned before release. An escape is a defect found after release, logged with the stage where it was created, not only where it was found.</p></div>
+<h2>3. Roadmap — plan, in phases</h2>
+<div class="card"><p><b>Phase 0 — Figure it out, Weeks 1–4 (Baseline):</b> measure only. Value-stream map, Pareto, weekly table. Milestone M1 at end of Week 4: baseline agreed, no changes yet.</p>
+<p><b>Phase 1 — Fix it, Weeks 5–8 (Improve):</b> Week 5 intake gate and priority tiers. Week 6 named owners, WIP limits, daily flow review. Week 7 early quality gates. Week 8 release checklist and freeze. Milestone M2 at end of Week 8: go / no-go decision to move to Control.</p>
+<p><b>Phase 2 — Control it, Weeks 9–12 (Control):</b> no new changes. Same definitions, same limits, same reviews. Milestone M3 at end of Week 12: close-out — does the improvement hold, and what goes into the playbook permanently?</p></div>
 
-<h2>Reporting</h2>
-<div class="card"><p>Weekly review, every week, same definitions: demand vs. throughput, lead time split into waiting and working time, rework and escapes, what is aging over 5 days, and one decision — what to start, what to defer, what to stop.</p></div>
+<h2>4. Schedule — Gantt, weeks 1–12</h2>
+<div class="card"><div class="gantt" id="gantt"></div><p class="muted">Dark bars are the main work, grey bars are ongoing control and review. The schedule is the plan: one change per cause, in Pareto order, so each change can be judged before the next one starts.</p></div>
+
+<h2>5. Risk mitigations</h2>
+<table><thead><tr><th>Risk</th><th>Level</th><th>Mitigation</th><th>Owner</th><th>Trigger</th></tr></thead><tbody>
+<tr class="risk-high"><td>WIP limits ignored under pressure</td><td>High</td><td>Daily flow review holds the limit; deferral is a visible decision</td><td>Pipeline lead</td><td>Any stage over its WIP limit for 2 days</td></tr>
+<tr class="risk-high"><td>Intake gate bypassed for urgent work</td><td>High</td><td>P1 triage same day, so urgency is handled by priority, not by skipping the gate</td><td>Pipeline lead</td><td>Incomplete request enters scoping</td></tr>
+<tr class="risk-med"><td>Quality gates skipped to meet a date</td><td>Medium</td><td>Escapes logged separately and reviewed weekly</td><td>Quality reviewer</td><td>Escapes rise for 2 weeks</td></tr>
+<tr class="risk-med"><td>Improvement fades after the project ends</td><td>Medium</td><td>Control plan with triggers, playbook owned by pipeline lead</td><td>Pipeline lead</td><td>Lead time over 14 days or rework over 10% for 2 weeks</td></tr>
+<tr class="risk-low"><td>Demand surge breaks the flow</td><td>Low</td><td>Priority tiers and WIP limits force a deferral decision instead of silent queue growth</td><td>Operations lead</td><td>Demand over 40 a week for 2 weeks</td></tr>
+</tbody></table>
+
+<h2>Phase results</h2>
+<div id="phases"><button type="button" data-phase="all" class="active">All weeks</button><button type="button" data-phase="base">Baseline</button><button type="button" data-phase="imp">Improve</button><button type="button" data-phase="ctrl">Control</button></div>
+<div class="kpis" id="kpis"></div>
+
+<h2>Intake, Quality, Reporting</h2>
+<div class="card"><p><b>Intake gate:</b> a request is accepted only when it has a one-sentence request, who it is for, the problem it solves, scope in and out, a date if any, a requesting owner, and dependencies. <b>Priority tiers:</b> P1 triaged same day, P2 within 2 days by impact and effort, P3 held in backlog review.</p>
+<p><b>Quality:</b> three gates, not one — at scoping, mid-preparation, and final review — all against the same written definition of done. Rework is returned before delivery. An escape is found after delivery, logged with the stage where it was created.</p>
+<p><b>Reporting:</b> weekly review, same definitions every week: demand vs. completed, lead time split into waiting and working time, rework and escapes, aging over 5 days, and one decision — what to start, what to defer, what to stop.</p></div>
 
 <h2>Weekly pipeline table</h2>
 <table><thead><tr><th>Week</th><th>Phase</th><th>Demand</th><th>Completed</th><th>Backlog</th><th>Lead (days)</th><th>Rework</th><th>Escapes</th></tr></thead><tbody id="rows"></tbody></table>
-
-<h2>What this demo does not claim</h2>
 <p class="muted">Phased interventions show a sequence and phase averages; they do not prove how much any single intervention caused on its own. See the repo docs for the full analysis, definitions, and limits.</p>
 
 <script>
@@ -47,14 +69,15 @@ const DATA=[
 {w:11,ph:"Control",d:33,c:38,b:88,lead:12,rew:9,esc:5},
 {w:12,ph:"Control",d:36,c:40,b:84,lead:11,rew:8,esc:4}];
 const STAGES=[
-{name:"1. Intake and triage",bw:3.2,bt:0.5,cw:0.8,ct:0.5,wip:10,problem:"Requests arrived incomplete, so work waited for clarification or started and stopped.",fix:"Completeness checklist, intake gate, and priority tiers P1/P2/P3. No owner, no entry."},
-{name:"2. Scoping",bw:2.8,bt:1.5,cw:1.0,ct:1.5,wip:8,problem:"No priority rule and no agreed definition of done, so decisions waited and scope drifted into build.",fix:"Scope, out-of-scope, dependencies, and definition of done agreed in writing before build, plus a quality gate at scoping."},
-{name:"3. Build and preparation",bw:3.1,bt:3.0,cw:1.8,ct:3.0,wip:12,problem:"Too much work open at once, so attention split and everything moved slowly.",fix:"WIP limit of 12, daily flow review, and a mid-build check against the definition of done."},
-{name:"4. Quality review",bw:3.4,bt:1.2,cw:0.9,ct:1.2,wip:8,problem:"Quality checked only at the end, so problems found here looped back to build and scoping.",fix:"Early gates at scoping and mid-build, plus a final review. Defects logged with the stage where they were created."},
-{name:"5. Release and delivery",bw:1.5,bt:0.8,cw:0.5,ct:0.8,wip:5,problem:"Last-minute changes with no freeze and no checklist, so release day became rework day.",fix:"Release checklist, freeze window, rollback plan, and a release note. Escapes logged the same day."}];
+{name:"1. Intake and triage",bw:3.2,bt:0.5,cw:0.8,ct:0.5,wip:10,problem:"Requests arrived incomplete, so work waited for clarification or started and stopped.",fix:"Completeness checklist, intake gate, and priority tiers P1/P2/P3. No owner, no entry.",hot:false},
+{name:"2. Scoping",bw:2.8,bt:1.5,cw:1.0,ct:1.5,wip:8,problem:"No priority rule and no agreed definition of done, so decisions waited and scope drifted into preparation.",fix:"Scope, out-of-scope, dependencies, and definition of done agreed in writing before preparation, plus a quality gate at scoping.",hot:false},
+{name:"3. Preparation",bw:3.1,bt:3.0,cw:1.8,ct:3.0,wip:12,problem:"Too much work open at once, so attention split and everything moved slowly.",fix:"WIP limit of 12, daily flow review, and a mid-preparation check against the definition of done.",hot:true},
+{name:"4. Quality review",bw:3.4,bt:1.2,cw:0.9,ct:1.2,wip:8,problem:"Quality checked only at the end, so problems found here looped back to preparation and scoping.",fix:"Early gates at scoping and mid-preparation, plus a final review. Defects logged with the stage where they were created.",hot:true},
+{name:"5. Delivery",bw:1.5,bt:0.8,cw:0.5,ct:0.8,wip:5,problem:"Last-minute changes with no freeze and no checklist, so delivery day became rework day.",fix:"Delivery checklist, freeze window, rollback plan, and a delivery note. Escapes logged the same day.",hot:false}];
 const avg=(a,k)=>a.reduce((s,x)=>s+x[k],0)/a.length;
 let phase="all";
 function rowsFor(){if(phase==="all")return DATA;if(phase==="base")return DATA.filter(x=>x.ph==="Baseline");if(phase==="imp")return DATA.filter(x=>x.ph==="Improve");return DATA.filter(x=>x.ph==="Control");}
+function bar(label,val,max,color){return `<div class="bar-row"><span class="bar-label">${label}</span><span class="bar-track"><span class="bar-fill" style="width:${Math.round(val/max*100)}%;background:${color}"></span></span><span>${val}</span></div>`;}
 function render(){
 const rows=rowsFor();
 document.getElementById("kpis").innerHTML=
@@ -63,14 +86,22 @@ document.getElementById("kpis").innerHTML=
 `<div class="kpi"><b>${avg(rows,"rew").toFixed(0)}%</b>Rework</div>`+
 `<div class="kpi"><b>${avg(rows,"esc").toFixed(0)}%</b>Quality escapes</div>`;
 document.getElementById("rows").innerHTML=DATA.map(x=>`<tr><td>${x.w}</td><td>${x.ph}</td><td>${x.d}</td><td>${x.c}</td><td>${x.b}</td><td>${x.lead}</td><td>${x.rew}%</td><td>${x.esc}%</td></tr>`).join("");
+document.getElementById("leadChart").innerHTML=DATA.map(x=>bar("W"+x.w+" "+x.ph,x.lead,24,x.ph==="Baseline"?"#c00":x.ph==="Improve"?"#e67e22":"#1a7f37")).join("");
+document.getElementById("throughChart").innerHTML=DATA.map(x=>`<div class="bar-row"><span class="bar-label">W${x.w} ${x.ph}</span><span class="bar-track"><span class="bar-fill" style="width:${Math.round(x.d/40*100)}%;background:#888"></span></span><span>demand ${x.d}</span>&nbsp;<span class="bar-track"><span class="bar-fill" style="width:${Math.round(x.c/40*100)}%;background:#111"></span></span><span>done ${x.c}</span></div>`).join("");
+document.getElementById("rewChart").innerHTML=DATA.map(x=>bar("W"+x.w+" rework %",x.rew,25,"#c00")+bar("W"+x.w+" escapes %",x.esc,25,"#e67e22")).join("");
 showStage(0);
 }
 function showStage(i){
 const s=STAGES[i];
 document.getElementById("stageDetail").innerHTML=`<h3>${s.name}</h3><p><b>Baseline:</b> waiting ${s.bw} days + working ${s.bt} days = ${(s.bw+s.bt).toFixed(1)} days. <b>Control:</b> waiting ${s.cw} days + working ${s.ct} days = ${(s.cw+s.ct).toFixed(1)} days. Working time did not change. Waiting time did.</p><p><b>Problem:</b> ${s.problem}</p><p><b>Fix:</b> ${s.fix}</p><p><b>WIP limit:</b> ${s.wip}</p>`;
 }
+document.getElementById("flowmap").innerHTML=STAGES.map((s,i)=>`<div class="fbox ${s.hot?"hot":""}"><b>${s.name}</b><br>Baseline ${(s.bw+s.bt).toFixed(1)}d (wait ${s.bw} + work ${s.bt})<br>Control ${(s.cw+s.ct).toFixed(1)}d (wait ${s.cw} + work ${s.ct})<br>WIP limit ${s.wip}</div>`+(i<STAGES.length-1?`<span class="arrow">→</span>`:"")).join("");
 document.getElementById("stages").innerHTML=STAGES.map((s,i)=>`<div class="card stage" data-i="${i}"><b>${s.name}</b> — baseline ${(s.bw+s.bt).toFixed(1)} days, control ${(s.cw+s.ct).toFixed(1)} days, WIP limit ${s.wip}</div>`).join("");
 document.querySelectorAll(".stage").forEach(el=>el.addEventListener("click",()=>showStage(Number(el.dataset.i))));
+const tasks=[["Baseline measurement",1,4,""], ["Intake gate + tiers",5,5,""], ["Owners + WIP + daily review",6,6,""], ["Early quality gates",7,7,""], ["Delivery checklist + freeze",8,8,""], ["Control + weekly review",9,12,"soft"], ["Go / no-go (end W8)",8,8,""], ["Close-out (end W12)",12,12,""]];
+let g=`<div></div>`; for(let w=1;w<=12;w++) g+=`<div><b>W${w}</b></div>`;
+tasks.forEach(t=>{g+=`<div>${t[0]}</div>`; for(let w=1;w<=12;w++){g+= w>=t[1]&&w<=t[2] ? `<div class="gcell ${t[3]}">●</div>` : `<div></div>`;}});
+document.getElementById("gantt").innerHTML=g;
 document.querySelectorAll("#phases button").forEach(b=>b.addEventListener("click",()=>{phase=b.dataset.phase;document.querySelectorAll("#phases button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render();}));
 render();
 </script></body></html>

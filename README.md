@@ -29,7 +29,10 @@ The result in baseline (Weeks 1–4, simulated): lead time about **21 days**, re
 - A playbook: runbooks for intake, build, quality, release, and recovery, with a definition of done for each stage.
 - A pipeline model: WIP limits, a daily flow review, and a quality gate moved earlier in the flow.
 - A reporting system: weekly pipeline metrics, a stage bottleneck view, and a business review template.
-- A working demo in `demo/index.html`: an interactive pipeline — click a stage to see its problem, its fix, and its numbers; filter by phase; and see lead time, throughput, rework, and quality escapes move from baseline to control.
+- Proper process mapping: as-is and to-be flowcharts, a swimlane view, and a diagnostic order — measure, split waiting from working time, rank causes, map, plan, fix, control — in `docs/process-maps.md`.
+- A roadmap and schedule: phased roadmap with milestones M1, M2, M3, a 12-week Gantt schedule, and dependencies, in `docs/roadmap.md`.
+- Risk mitigations with level, owner, and trigger for each risk, in `docs/risk-mitigation.md`.
+- A working demo in `demo/index.html`: an interactive pipeline — a visual flow map with the rework loop, charts for lead time, demand vs. completed, and rework/escapes, a roadmap, a Gantt schedule, a risk table, click a stage to see its problem, its fix, and its numbers, and filter by phase.
 
 ## The result, in the simulated case
 
@@ -70,6 +73,10 @@ This is covered in full in `docs/business-model.md`. In short, a faster, cleaner
 - `docs/reporting.md` — KPI definitions, weekly review, and business review template
 - `docs/improvement-plan.md` — phased plan, one change per cause
 - `docs/business-model.md` — how flow improvement changes the business model
+- `docs/process-maps.md` — as-is and to-be flowcharts, swimlane, diagnostic order
+- `docs/roadmap.md` — roadmap, Gantt schedule, dependencies, milestone success criteria
+- `docs/risk-mitigation.md` — risk matrix with mitigation, owner, and trigger
+- `docs/pm-plan.md` — PM plan: scope, stakeholders, schedule, risk, change control, governance
 - `docs/role-angles.md` — how APM, PM, Product Operations, Business Operations, Process Improvement, and Customer Experience roles use this work
 - `docs/resume-bullets.md` — repo docs only, for resume use with a Project label
 - `docs/retrospective.md` — what worked, what did not, and what to do next
