@@ -1,0 +1,21 @@
+year,rank,cases,pct_of_cases,steps,variant
+2018,1,4610,55.81,5,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,2,2472,29.93,6,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,3,344,4.16,8,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,4,186,2.25,9,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,5,174,2.11,3,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE
+2018,6,100,1.21,1,Declaration SAVED by EMPLOYEE
+2018,7,77,0.93,9,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,8,49,0.59,10,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,9,36,0.44,11,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2018,10,31,0.38,4,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE
+2017,1,1392,62.14,4,Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2017,2,575,25.67,5,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2017,3,57,2.54,8,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by PRE_APPROVER > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2017,4,40,1.79,7,Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2017,5,34,1.52,1,Declaration SAVED by EMPLOYEE
+2017,6,22,0.98,7,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2017,7,21,0.94,3,Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING
+2017,8,18,0.80,3,Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE
+2017,9,8,0.36,5,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
+2017,10,8,0.36,9,Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled
