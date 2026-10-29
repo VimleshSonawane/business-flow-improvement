@@ -1,0 +1,81 @@
+name: Fetch BPI Challenge 2020 data
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Create data folder
+        run: mkdir -p data/raw/bpi2020
+
+      - name: Download DomesticDeclarations.xes.gz
+        run: |
+          URL_HTTPS="https://icpmconference.org/2020/wp-content/uploads/sites/4/2020/03/DomesticDeclarations.xes_.gz"
+          URL_HTTP="http://icpmconference.org/2020/wp-content/uploads/sites/4/2020/03/DomesticDeclarations.xes_.gz"
+          OUT="data/raw/bpi2020/DomesticDeclarations.xes.gz"
+          if curl -fL --retry 3 -o "$OUT" "$URL_HTTPS"; then
+            echo "DOWNLOAD_URL=$URL_HTTPS" >> "$GITHUB_ENV"
+          else
+            echo "HTTPS download failed, trying HTTP..."
+            if curl -fL --retry 3 -o "$OUT" "$URL_HTTP"; then
+              echo "DOWNLOAD_URL=$URL_HTTP" >> "$GITHUB_ENV"
+            else
+              echo "::error::Download failed over both HTTPS and HTTP: $URL_HTTPS"
+              exit 1
+            fi
+          fi
+          echo "DOWNLOAD_TIME=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$GITHUB_ENV"
+
+      - name: Check size and MD5
+        run: |
+          OUT="data/raw/bpi2020/DomesticDeclarations.xes.gz"
+          EXPECTED_SIZE=933930
+          EXPECTED_MD5=6a78c39491498363ce4788e0e8ca75ef
+          SIZE=$(stat -c %s "$OUT")
+          MD5=$(md5sum "$OUT" | cut -d' ' -f1)
+          echo "Size: $SIZE bytes (expected $EXPECTED_SIZE)"
+          echo "MD5:  $MD5 (expected $EXPECTED_MD5)"
+          if [ "$SIZE" = "$EXPECTED_SIZE" ] && [ "$MD5" = "$EXPECTED_MD5" ]; then
+            RESULT=MATCH
+          else
+            RESULT=MISMATCH
+          fi
+          echo "Result: $RESULT"
+          echo "FILE_SIZE=$SIZE" >> "$GITHUB_ENV"
+          echo "FILE_MD5=$MD5" >> "$GITHUB_ENV"
+          echo "CHECK_RESULT=$RESULT" >> "$GITHUB_ENV"
+
+      - name: Write SOURCE.md
+        run: |
+          cat > data/raw/bpi2020/SOURCE.md <<EOT
+          # Source — BPI Challenge 2020: Domestic Declarations
+
+          - Download URL: $DOWNLOAD_URL
+          - Official dataset DOI: https://doi.org/10.4121/uuid:3f422315-ed9d-4882-891f-e180b5b4feb5
+          - Licence: CC BY-NC 4.0
+          - Citation: van Dongen, Boudewijn (2020): BPI Challenge 2020: Domestic Declarations. 4TU.ResearchData
+          - Downloaded: $DOWNLOAD_TIME
+          - File: DomesticDeclarations.xes.gz (saved unchanged)
+          - Size: $FILE_SIZE bytes (publisher: 933930 bytes)
+          - MD5: $FILE_MD5 (publisher: 6a78c39491498363ce4788e0e8ca75ef)
+          - Check result: $CHECK_RESULT
+          EOT
+          cat data/raw/bpi2020/SOURCE.md
+
+      - name: Commit and push to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/raw/bpi2020/DomesticDeclarations.xes.gz data/raw/bpi2020/SOURCE.md
+          git commit -m "Add raw BPI Challenge 2020 Domestic Declarations data (fetched by GitHub Actions)"
+          git push origin HEAD:main
