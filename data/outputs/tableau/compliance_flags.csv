@@ -1,0 +1,11 @@
+case_id,year,check,detail
+declaration 95149,2017,payment_without_final_approval,Payment Handled with no FINAL_APPROVED by SUPERVISOR event
+declaration 90815,2017,payment_without_final_approval,Payment Handled with no FINAL_APPROVED by SUPERVISOR event
+declaration 90815,2017,events_after_payment,Payment Handled is not the last event; last is Declaration REJECTED by EMPLOYEE
+declaration 115669,2018,payment_without_request,Payment Handled with no Request Payment event
+declaration 124535,2018,payment_without_request,Payment Handled with no Request Payment event
+declaration 138147,2018,payment_without_request,Payment Handled with no Request Payment event
+declaration 136996,2018,payment_without_request,Payment Handled with no Request Payment event
+declaration 138710,2018,payment_without_request,Payment Handled with no Request Payment event
+declaration 142992,2018,payment_without_request,Payment Handled with no Request Payment event
+declaration 141310,2018,payment_without_request,Payment Handled with no Request Payment event
