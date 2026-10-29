@@ -1,0 +1,12 @@
+check,case_id,year,detail
+payment_before_final_approval,declaration 90815,2017,no final approval anywhere in the case
+payment_before_final_approval,declaration 95149,2017,no final approval anywhere in the case
+payment_without_request,declaration 115669,2018,Payment Handled with no Request Payment event in the case
+payment_without_request,declaration 124535,2018,Payment Handled with no Request Payment event in the case
+payment_without_request,declaration 136996,2018,Payment Handled with no Request Payment event in the case
+payment_without_request,declaration 138147,2018,Payment Handled with no Request Payment event in the case
+payment_without_request,declaration 138710,2018,Payment Handled with no Request Payment event in the case
+payment_without_request,declaration 141310,2018,Payment Handled with no Request Payment event in the case
+payment_without_request,declaration 142992,2018,Payment Handled with no Request Payment event in the case
+request_without_prior_approval,declaration 90815,2017,no approval event before the first Request Payment
+request_without_prior_approval,declaration 95149,2017,no approval event before the first Request Payment

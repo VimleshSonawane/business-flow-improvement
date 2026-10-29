@@ -1,0 +1,73 @@
+kpi_id,kpi,year,case_set,denominator_label,denominator,numerator,value,unit
+0,Cases by status: closed_by_employee_after_rejection,2018,all cases in year,cases in year,8260,248,3.002421307506053,% of cases
+0,Cases by status: incomplete_never_submitted,2018,all cases in year,cases in year,8260,100,1.2106537530266344,% of cases
+0,Cases by status: incomplete_rejected_no_employee_response,2018,all cases in year,cases in year,8260,9,0.1089588377723971,% of cases
+0,Cases by status: paid,2018,all cases in year,cases in year,8260,7903,95.6779661016949,% of cases
+0,Cases by status: closed_by_employee_after_rejection,2017,all cases in year,cases in year,2240,35,1.5625,% of cases
+0,Cases by status: incomplete_never_submitted,2017,all cases in year,cases in year,2240,34,1.5178571428571428,% of cases
+0,Cases by status: incomplete_rejected_no_employee_response,2017,all cases in year,cases in year,2240,30,1.3392857142857142,% of cases
+0,Cases by status: paid,2017,all cases in year,cases in year,2240,2141,95.58035714285714,% of cases
+1,"Cycle time, first submission to Payment Handled: median",2018,paid cases with a submission,paid cases with a submission,7903,,8.046782407407408,days
+1,"Cycle time, first submission to Payment Handled: mean",2018,paid cases with a submission,paid cases with a submission,7903,,11.62439281144994,days
+1,"Cycle time, first submission to Payment Handled: p75",2018,paid cases with a submission,paid cases with a submission,7903,,13.039565972222222,days
+1,"Cycle time, first submission to Payment Handled: p90",2018,paid cases with a submission,paid cases with a submission,7903,,20.25082175925926,days
+1,"Cycle time, first submission to Payment Handled: median",2017,paid cases with a submission,paid cases with a submission,2140,,7.097361111111111,days
+1,"Cycle time, first submission to Payment Handled: mean",2017,paid cases with a submission,paid cases with a submission,2140,,11.592124307718935,days
+1,"Cycle time, first submission to Payment Handled: p75",2017,paid cases with a submission,paid cases with a submission,2140,,11.013093171296296,days
+1,"Cycle time, first submission to Payment Handled: p90",2017,paid cases with a submission,paid cases with a submission,2140,,19.190340277777786,days
+3,Wait before ADMINISTRATION acts: median,2018,events by that actor (not a case's first event),events,9133,,0.00047453703703703704,days
+3,Wait before ADMINISTRATION acts: P90,2018,events by that actor (not a case's first event),events,9133,,0.02212962962962963,days
+3,Wait before PRE_APPROVER acts: median,2018,events by that actor (not a case's first event),events,0,,,days
+3,Wait before PRE_APPROVER acts: P90,2018,events by that actor (not a case's first event),events,0,,,days
+3,Wait before BUDGET OWNER acts: median,2018,events by that actor (not a case's first event),events,2875,,0.8639467592592592,days
+3,Wait before BUDGET OWNER acts: P90,2018,events by that actor (not a case's first event),events,2875,,4.85199537037037,days
+3,Wait before SUPERVISOR acts: median,2018,events by that actor (not a case's first event),events,8125,,1.0186226851851852,days
+3,Wait before SUPERVISOR acts: P90,2018,events by that actor (not a case's first event),events,8125,,6.209305555555556,days
+3,Wait before Request Payment (system) acts: median,2018,events by that actor (not a case's first event),events,7896,,1.059670138888889,days
+3,Wait before Request Payment (system) acts: P90,2018,events by that actor (not a case's first event),events,7896,,6.832239583333333,days
+3,Wait before Payment Handled (system) acts: median,2018,events by that actor (not a case's first event),events,7903,,3.2138541666666667,days
+3,Wait before Payment Handled (system) acts: P90,2018,events by that actor (not a case's first event),events,7903,,4.414212962962963,days
+4,Submitted cases rejected at least once (by an approver),2018,submitted cases (drafts never submitted excluded),submitted cases,8160,1072,13.137254901960786,% of cases
+4,Submitted cases rejected at least once (by an approver),2017,submitted cases (drafts never submitted excluded),submitted cases,2205,229,10.38548752834467,% of cases
+4,Rejections by ADMINISTRATION per 100 cases that reached that role,2018,cases with at least one event by that role,cases that reached the role,8160,948,11.617647058823529,per 100 cases
+4,Rejections by PRE_APPROVER per 100 cases that reached that role,2018,cases with at least one event by that role,cases that reached the role,0,0,,per 100 cases
+4,Rejections by BUDGET OWNER per 100 cases that reached that role,2018,cases with at least one event by that role,cases that reached the role,2832,59,2.083333333333333,per 100 cases
+4,Rejections by SUPERVISOR per 100 cases that reached that role,2018,cases with at least one event by that role,cases that reached the role,7952,222,2.7917505030181085,per 100 cases
+4,Rejections by MISSING per 100 cases that reached that role,2018,cases with at least one event by that role,cases that reached the role,0,0,,per 100 cases
+4,Rejections by EMPLOYEE per 100 cases that reached that role,2018,cases with at least one event by that role,cases that reached the role,8260,1204,14.576271186440678,per 100 cases
+5,Resubmissions (submission events after a case's first),2018,submitted cases,submitted cases,8160,,979.0,events
+5,Submitted cases with 1 or more resubmissions,2018,submitted cases,submitted cases,8160,848,10.392156862745098,% of cases
+5,"Median cycle time, paid cases with an approver rejection",2018,paid cases with a rejection,paid cases with a rejection,815,,13.211261574074074,days
+5,"Median cycle time, paid cases without an approver rejection",2018,paid cases without a rejection,paid cases without a rejection,7088,,7.3366493055555555,days
+5,Resubmissions (submission events after a case's first),2017,submitted cases,submitted cases,2205,,187.0,events
+5,Submitted cases with 1 or more resubmissions,2017,submitted cases,submitted cases,2205,171,7.755102040816326,% of cases
+5,"Median cycle time, paid cases with an approver rejection",2017,paid cases with a rejection,paid cases with a rejection,164,,13.261261574074075,days
+5,"Median cycle time, paid cases without an approver rejection",2017,paid cases without a rejection,paid cases without a rejection,1976,,6.973269675925926,days
+6,Cases on the most common path,2018,all cases in year,cases in year,8260,4610,55.81113801452785,% of cases
+6,Cases on the top 10 paths,2018,all cases in year,cases in year,8260,8079,97.80871670702179,% of cases
+6,Distinct paths (variants),2018,all cases in year,cases in year,8260,,63.0,paths
+6,Cases on the most common path,2017,all cases in year,cases in year,2240,1392,62.142857142857146,% of cases
+6,Cases on the top 10 paths,2017,all cases in year,cases in year,2240,2175,97.09821428571429,% of cases
+6,Distinct paths (variants),2017,all cases in year,cases in year,2240,,41.0,paths
+7,Compliance: payment_without_request,2018,paid cases,paid cases,7903,7,7.0,cases
+7,Compliance: payment_without_request,2017,paid cases,paid cases,2141,0,0.0,cases
+7,Compliance: payment_without_request,all,paid cases,paid cases,10044,7,7.0,cases
+7,Compliance: payment_before_final_approval,2018,paid cases,paid cases,7903,0,0.0,cases
+7,Compliance: payment_before_final_approval,2017,paid cases,paid cases,2141,2,2.0,cases
+7,Compliance: payment_before_final_approval,all,paid cases,paid cases,10044,2,2.0,cases
+7,Compliance: request_without_prior_approval,2018,cases with a Request Payment,cases with a Request Payment,7896,0,0.0,cases
+7,Compliance: request_without_prior_approval,2017,cases with a Request Payment,cases with a Request Payment,2144,2,2.0,cases
+7,Compliance: request_without_prior_approval,all,cases with a Request Payment,cases with a Request Payment,10040,2,2.0,cases
+7,Compliance: paid_more_than_once,2018,paid cases,paid cases,7903,0,0.0,cases
+7,Compliance: paid_more_than_once,2017,paid cases,paid cases,2141,0,0.0,cases
+7,Compliance: paid_more_than_once,all,paid cases,paid cases,10044,0,0.0,cases
+8,Drafts saved and never submitted,2018,all cases in year,cases in year,8260,100,100.0,cases
+8,Drafts saved and never submitted,2017,all cases in year,cases in year,2240,35,35.0,cases
+10,Cases with a zero amount (excluded from money figures),2018,all cases in year,cases in year,8260,,353.0,cases
+10,Median Amount (units as in source),2018,cases with a non-zero amount,cases with a non-zero amount,7907,,43.75374171174609,Amount (units as in source)
+10,"Total Amount (units as in source), all cases",2018,cases with a non-zero amount,cases with a non-zero amount,7907,,721736.6044141606,Amount (units as in source)
+10,Total Amount (units as in source) in cases rejected at least once,2018,"cases with a non-zero amount, rejected at least once",cases with a non-zero amount,7907,819,134645.21707584706,Amount (units as in source)
+10,Cases with a zero amount (excluded from money figures),2017,all cases in year,cases in year,2240,,93.0,cases
+10,Median Amount (units as in source),2017,cases with a non-zero amount,cases with a non-zero amount,2147,,41.51944558934451,Amount (units as in source)
+10,"Total Amount (units as in source), all cases",2017,cases with a non-zero amount,cases with a non-zero amount,2147,,185669.57205653403,Amount (units as in source)
+10,Total Amount (units as in source) in cases rejected at least once,2017,"cases with a non-zero amount, rejected at least once",cases with a non-zero amount,2147,170,26533.25222668225,Amount (units as in source)
