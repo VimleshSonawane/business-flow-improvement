@@ -401,8 +401,14 @@ def main():
           "## KPI table", "",
           "| ID | KPI | Year | Filter (case set) | Denominator | Value | Unit |",
           "|---|---|---|---|---:|---:|---|"]
+    missing_note = ("MISSING only ever rejects (its only event is `Declaration REJECTED by "
+                    "MISSING`), so its rate per 100 cases reaching the role can exceed 100. It "
+                    "is not comparable with the other roles and is left out of role charts "
+                    "(decision 8).")
     for k in kpis:
-        md.append(f"| {k[0]} | {k[1]} | {k[2]} | {k[3]} | {k[5]:,} ({k[4]}) | {k[6]} | {k[7]} |")
+        name = k[1] + (" [note 1]" if "MISSING" in k[1] else "")
+        md.append(f"| {k[0]} | {name} | {k[2]} | {k[3]} | {k[5]:,} ({k[4]}) | {k[6]} | {k[7]} |")
+    md += ["", f"[note 1] {missing_note}"]
 
     md += ["", "## Findings (2018 main view unless labelled)", ""]
     find = []
@@ -442,11 +448,10 @@ def main():
         "time): " + ", ".join(f"{wd_names[d]} {pay_wd[d]:,}" for d in range(7) if pay_wd[d])
         + ".")
     find.append(
-        f"**ADMINISTRATION acts within seconds of submission**: median "
-        f"{f2(pct_point(admin_sec, 50))} seconds from `SUBMITTED` to the next ADMINISTRATION "
-        f"event ({len(admin_sec):,} transitions, complete 2018 cases); P90 "
-        f"{f2(pct_point(admin_sec, 90) / 60)} minutes. This looks like when the step was "
-        "recorded rather than real review time; see limitations.")
+        f"**ADMINISTRATION's first step comes a median of {f2(pct_point(admin_sec, 50))} "
+        f"seconds after submission** ({len(admin_sec):,} transitions, complete 2018 cases; P90 "
+        f"{f2(pct_point(admin_sec, 90) / 60)} minutes). This is treated as a data limitation "
+        "(system-recorded), not review time (decision 5).")
     find.append(
         "**Slowest common transitions** (median days, transitions seen in 100+ complete 2018 "
         "cases): " + "; ".join(
@@ -460,7 +465,9 @@ def main():
     find.append(
         "**Compliance flags** (cases with a payment, both years, denominator "
         f"{with_pay:,}): " + "; ".join(f"{k.replace('_', ' ')} {len(flag_by[k])}" for k in checks)
-        + ". Case ids are listed below and in `compliance_flags.csv`.")
+        + ". Case ids are listed below and in `compliance_flags.csv`. Cases paid without "
+        "final approval are control exceptions flagged for review: either a control failure "
+        "or a data issue, not determinable from this data (decision 6).")
     d17 = sum(1 for c in drafts if in_year(c, "2017"))
     d18 = sum(1 for c in drafts if in_year(c, "2018"))
     inc_total = len(cases) - len(complete)
@@ -492,7 +499,10 @@ def main():
     md += ["", "### Compliance case ids", ""]
     for k in checks:
         ids = [f[0] for f in flag_by[k]]
-        md.append(f"- **{k}** ({len(ids)}): " + (", ".join(ids) if ids else "none"))
+        note = (" — control exceptions flagged for review: either a control failure or a "
+                "data issue, not determinable from this data (decision 6)"
+                if k == "payment_without_final_approval" and ids else "")
+        md.append(f"- **{k}** ({len(ids)}): " + (", ".join(ids) if ids else "none") + note)
 
     md += ["", "### Top 10 paths, 2018", "", "| Rank | Cases | % of 2018 cases | Path |",
            "|---:|---:|---:|---|"]
@@ -506,14 +516,12 @@ def main():
            "cut off by the end of the extract (last event 2019-06-17) and appear incomplete.",
            f"- {len(paid_no_submit)} paid case(s) have no SUBMITTED event and so no cycle time: "
            + ", ".join(paid_no_submit) + ".",
-           "- `Declaration REJECTED by MISSING` is the only event with role MISSING, so its "
-           "\"per 100 cases reaching the role\" can exceed 100 and is not comparable with the "
-           "other roles.",
+           f"- {missing_note}",
            "- Timestamps record when a step was completed, not when work on it started, so a "
            "\"wait\" includes both queue time and working time.",
-           "- The first approval step often follows submission within seconds, which suggests "
-           "the SUBMITTED timestamp may be recorded late (close to the first approval). Time "
-           "spent before that is not visible in the log.",
+           "- ADMINISTRATION's first step comes seconds after submission. This is treated as a "
+           "data limitation (system-recorded), not review time (decision 5); time spent before "
+           "that step is not visible in the log.",
            "- `org:resource` is anonymised (STAFF MEMBER / SYSTEM only), so workload per person "
            "cannot be measured.",
            "- Amounts were anonymised by the publisher and no currency is given.",
