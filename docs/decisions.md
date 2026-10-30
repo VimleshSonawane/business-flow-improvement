@@ -87,7 +87,7 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
    Describe them as something that "may indicate a separate or manual payment route", with no
    recommendation.
 
-## Definitions
+## Definitions (2026-10-29)
 
 - **Year of a case:** the year of its first "Declaration SUBMITTED by EMPLOYEE" event; for
   never-submitted drafts, the year of the first event. A case spanning New Year counts once, in
