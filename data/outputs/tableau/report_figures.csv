@@ -1,0 +1,59 @@
+figure,value,year,filter,denominator,report_section
+Cases in the processed log,10500,both years,all cases,,Input check (intro)
+Events in the processed log,56437,both years,all events,,Input check (intro)
+Cases by year definition,2240,2017,"all cases, year 2017",10500 cases,Input check (intro)
+Cases by year definition,8260,2018,"all cases, year 2018",10500 cases,Input check (intro)
+Cases whose year agrees with cases.csv year,10500,both years,all cases,10500 cases,Input check (intro)
+Cases whose rejected-at-least-once flag agrees with cases.csv,10500,both years,all cases,10500 cases,Definitions
+REJECTED by MISSING events,91,2017,"all cases, year 2017",,KPI table note 1; Rejections by role; Limitations
+Cases rejected by MISSING,87,2017,"all cases, year 2017",,KPI table note 1; Rejections by role; Limitations
+Paid median cycle time with / without a rejection (ratio),1.800721422525957,2018,"paid cases, year 2018",815 / 7088 paid cases,Finding 2
+Submitted cases with 1+ resubmission,848,2018,"submitted cases, year 2018",8160 submitted cases,Finding 3
+Zero-amount cases that are never-submitted drafts,100,2018,"cases with amount 0, year 2018",353 zero-amount cases,Finding 6
+Cases closed by the employee (all of them rejected zero-amount cases),248,2018,"cases closed by the employee, year 2018",,Finding 6
+Payment Handled events on a Monday or Thursday,7876,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Monday,3297,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Tuesday,26,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Wednesday,1,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Thursday,4579,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Friday,0,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Saturday,0,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Payment Handled events on a Sunday,0,2018,"Payment Handled events, cases of 2018 (Dutch time)",7903 Payment Handled events,Finding 8
+Distinct values of the timestamp seconds field,60,both years,all events,56437 events,Finding 9; Limitations
+Events with milliseconds other than .000,0,both years,all events,56437 events,Finding 9; Limitations
+Cases on the top 10 paths (%),97.80871670702179,2018,"all cases, year 2018",8260 cases,Finding 11
+Cases on the top 10 paths,8079,2018,"all cases, year 2018",8260 cases,Finding 11
+"Amount (units as in source), declaration 95149 (paid without submission)",51.927888061111986,2017,"cases flagged paid_without_submission, both years",,Finding 12
+Incomplete cases (no clear end),173,both years,all cases,10500 cases,Finding 13
+Incomplete cases (%),1.6476190476190475,both years,all cases,10500 cases,Finding 13
+"Drafts saved, never submitted",135,both years,all cases,10500 cases,Finding 13
+Drafts that are incomplete,134,both years,"drafts, both years",135 drafts,Finding 13
+Drafts that were paid,1,both years,"drafts, both years",135 drafts,Finding 13
+Incomplete cases whose last activity is Declaration REJECTED by MISSING,30,2017,"incomplete cases, year 2017",,Finding 13
+Incomplete cases whose last activity is Declaration SAVED by EMPLOYEE,34,2017,"incomplete cases, year 2017",,Finding 13
+Incomplete cases whose last activity is Declaration REJECTED by ADMINISTRATION,5,2018,"incomplete cases, year 2018",,Finding 13
+Incomplete cases whose last activity is Declaration REJECTED by SUPERVISOR,4,2018,"incomplete cases, year 2018",,Finding 13
+Incomplete cases whose last activity is Declaration SAVED by EMPLOYEE,100,2018,"incomplete cases, year 2018",,Finding 13
+Drafts with status incomplete,100,2018,"drafts, year 2018",100 drafts,Case status reconciliation
+Drafts with status incomplete,34,2017,"drafts, year 2017",35 drafts,Case status reconciliation
+Drafts with status paid,1,2017,"drafts, year 2017",35 drafts,Case status reconciliation
+"Amount (units as in source), declaration 115669",49.460878089595134,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 115669",284.27465277777776,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Amount (units as in source), declaration 124535",66.53414949991803,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 124535",56.146203703703705,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Amount (units as in source), declaration 136996",5.593555666202158,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 136996",48.38984953703704,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Amount (units as in source), declaration 138147",54.350828999436146,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 138147",48.36609953703704,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Amount (units as in source), declaration 138710",241.7066101807431,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 138710",48.24928240740741,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Amount (units as in source), declaration 141310",44.51453035809064,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 141310",48.306157407407404,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Amount (units as in source), declaration 142992",14.010741731748075,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+"Days from final approval to payment, declaration 142992",37.367662037037036,2018,"cases flagged payment_without_request, both years",,Payments with no Request Payment step
+Last event date in the log (UTC),2019-06-17,both years,all events,,Limitations
+Incomplete cases that are not drafts,9,2018,"incomplete submitted cases, year 2018",109 incomplete cases,Limitations
+Earliest last-event date of those cases (UTC),2018-12-19,2018,"incomplete submitted cases, year 2018",9 cases,Limitations
+Latest last-event date of those cases (UTC),2019-04-22,2018,"incomplete submitted cases, year 2018",9 cases,Limitations
+Incomplete cases that are never-submitted drafts,100,2018,"incomplete cases, year 2018",109 incomplete cases,Limitations
+Events sharing an exact timestamp with an earlier event in the same case,10,both years,all events,56437 events,Limitations

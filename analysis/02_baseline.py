@@ -2,7 +2,8 @@
 
 Reads data/processed/events.csv and data/processed/cases.csv (built by
 analysis/01_clean.py) and writes:
-  data/outputs/tableau/*.csv     tables for Tableau (values unrounded)
+  data/outputs/tableau/*.csv     tables for Tableau (values unrounded); report_figures.csv
+                                 holds every report figure that no other CSV holds
   docs/baseline-kpi-report.md    deliverable D3 (rounding happens only here)
 
 Measures only; no recommendations. Decisions applied are in docs/decisions.md.
@@ -171,6 +172,11 @@ def main():
         if not den:
             return  # step or role absent in this year; the CSVs keep the empty row
         kpis.append((kid, name, y, case_set, den_text, den, value, unit))
+
+    figs = []  # report figures held in no other CSV: (figure, value, year, filter, denominator, section)
+
+    def fig(figure, value, y, filt, den, section):
+        figs.append((figure, value, y, filt, den, section))
 
     # 0. Case status (every case is exactly one of paid, closed by employee, incomplete).
     for y in YEARS:
@@ -386,11 +392,11 @@ def main():
         with_pay, len(flagged_cases), "cases")
     nr_days = [d for *_, d in no_request if d is not None]
     add("7b", "Payments without Request Payment: final approval to payment, median", "all",
-        "cases flagged payment_without_request", "cases", len(nr_days), pct_point(nr_days, 50), "days")
+        "cases flagged payment_without_request, both years", "cases", len(nr_days), pct_point(nr_days, 50), "days")
     add("7b", "Payments without Request Payment: final approval to payment, minimum", "all",
-        "cases flagged payment_without_request", "cases", len(nr_days), min(nr_days) if nr_days else None, "days")
+        "cases flagged payment_without_request, both years", "cases", len(nr_days), min(nr_days) if nr_days else None, "days")
     add("7b", "Payments without Request Payment: final approval to payment, maximum", "all",
-        "cases flagged payment_without_request", "cases", len(nr_days), max(nr_days) if nr_days else None, "days")
+        "cases flagged payment_without_request, both years", "cases", len(nr_days), max(nr_days) if nr_days else None, "days")
 
     # 8. Abandoned drafts and incomplete cases.
     for y in YEARS:
@@ -566,7 +572,8 @@ def main():
           "`PERCENTILE.INC`). Values are rounded only in this report; the CSVs are unrounded.",
           f"- **Money**: `{MONEY}`. The source states no currency. Cases with amount 0 are "
           "excluded from money figures only; for rejection rates by amount, the base is "
-          "submitted cases.", "",
+          "submitted cases. In the CSVs, the column `amount_units_as_in_source` means the same "
+          "thing.", "",
           "## KPI table", "",
           "| ID | KPI | Year | Filter (case set) | Denominator | Value | Unit |",
           "|---|---|---|---|---:|---:|---|"]
@@ -660,7 +667,7 @@ def main():
         f"{f2(pct(top[0][1], ncs))}% of 2018 cases ({top[0][1]:,} of {ncs:,}) and the top 10 "
         f"cover {f2(pct(sum(n for _, n in top), ncs))}%; {nvar:,} distinct paths in total. "
         f"Most common path: `{top[0][0]}`.")
-    pns = ", ".join(f"{c} ({year[c]}, amount {f2(float(cases[c]['amount']))})" for c in paid_no_submit)
+    pns = ", ".join(f"{c} ({year[c]}, {MONEY} {f2(float(cases[c]['amount']))})" for c in paid_no_submit)
     already = [c for c in paid_no_submit
                if any(f[0] == c and f[2] != "paid_without_submission" for f in flags)]
     find.append(
@@ -759,6 +766,7 @@ def main():
         md.append(f"| {i} | {n:,} | {f2(pct(n, ncs))} | {v} |")
 
     log_end = max(e["timestamp"] for evs in events.values() for e in evs)[:10]
+    n_ties = sum(len(evs) - len({e["timestamp"] for e in evs}) for evs in events.values())
     inc18 = [c for c in cases if in_year(c, Y) and c not in complete]
     inc18_open = [c for c in inc18 if c in submitted]
     inc18_open_first = min(events[c][-1]["timestamp"] for c in inc18_open)[:10]
@@ -788,9 +796,90 @@ def main():
            "cannot be measured.",
            "- Amounts were anonymised by the publisher and no currency is given.",
            "- Durations use calendar days, including weekends and holidays.",
-           "- 10 events share an exact timestamp with another event in the same case; their "
+           f"- {n_ties} events share an exact timestamp with another event in the same case; their "
            "order follows the raw file (see `docs/data-cleaning-log.md`).",
            ""]
+    # Figures used in the report that no other output CSV holds.
+    allc, ally = "all cases", "both years"
+    sec_in, sec_def = "Input check (intro)", "Definitions"
+    fig("Cases in the processed log", len(cases), ally, allc, "", sec_in)
+    fig("Events in the processed log", n_events, ally, "all events", "", sec_in)
+    for y, n in found_years.items():
+        fig("Cases by year definition", n, y, f"all cases, year {y}", f"{len(cases)} cases", sec_in)
+    fig("Cases whose year agrees with cases.csv year", year_agrees, ally, allc,
+        f"{len(cases)} cases", sec_in)
+    fig("Cases whose rejected-at-least-once flag agrees with cases.csv", rej_flag_agrees, ally,
+        allc, f"{len(cases)} cases", sec_def)
+    sec_m = "KPI table note 1; Rejections by role; Limitations"
+    fig("REJECTED by MISSING events", missing17_events, "2017", "all cases, year 2017", "", sec_m)
+    fig("Cases rejected by MISSING", missing17_cases, "2017", "all cases, year 2017",
+        "", sec_m)
+    fig("Paid median cycle time with / without a rejection (ratio)",
+        pct_point(wr, 50) / pct_point(wor, 50), Y, f"paid cases, year {Y}",
+        f"{len(wr)} / {len(wor)} paid cases", "Finding 2")
+    fig("Submitted cases with 1+ resubmission", nrc, Y, f"submitted cases, year {Y}",
+        f"{nsub} submitted cases", "Finding 3")
+    fig("Zero-amount cases that are never-submitted drafts", len(zero18_drafts), Y,
+        f"cases with amount 0, year {Y}", f"{len(zero18)} zero-amount cases", "Finding 6")
+    fig("Cases closed by the employee (all of them rejected zero-amount cases)", len(closed18), Y,
+        f"cases closed by the employee, year {Y}", "", "Finding 6")
+    fig("Payment Handled events on a Monday or Thursday", mon_thu, Y,
+        f"Payment Handled events, cases of {Y} (Dutch time)", f"{n_pay} Payment Handled events",
+        "Finding 8")
+    for d in range(7):
+        fig(f"Payment Handled events on a {wd_names[d]}", pay_wd[d], Y,
+            f"Payment Handled events, cases of {Y} (Dutch time)", f"{n_pay} Payment Handled events",
+            "Finding 8")
+    fig("Distinct values of the timestamp seconds field", len(secs), ally, "all events",
+        f"{n_events} events", "Finding 9; Limitations")
+    fig("Events with milliseconds other than .000", sum(n for k, n in frac.items() if k != ".000"),
+        ally, "all events", f"{n_events} events", "Finding 9; Limitations")
+    fig("Cases on the top 10 paths (%)", pct(sum(n for _, n in top), ncs), Y,
+        f"all cases, year {Y}", f"{ncs} cases", "Finding 11")
+    fig("Cases on the top 10 paths", sum(n for _, n in top), Y, f"all cases, year {Y}",
+        f"{ncs} cases", "Finding 11")
+    for c in paid_no_submit:
+        fig(f"{MONEY}, {c} (paid without submission)", float(cases[c]["amount"]), year[c],
+            "cases flagged paid_without_submission, both years", "", "Finding 12")
+    fig("Incomplete cases (no clear end)", inc_total, ally, allc, f"{len(cases)} cases",
+        "Finding 13")
+    fig("Incomplete cases (%)", pct(inc_total, len(cases)), ally, allc, f"{len(cases)} cases",
+        "Finding 13")
+    fig("Drafts saved, never submitted", len(drafts), ally, allc, f"{len(cases)} cases",
+        "Finding 13")
+    fig("Drafts that are incomplete", len(drafts_inc), ally, "drafts, both years",
+        f"{len(drafts)} drafts", "Finding 13")
+    fig("Drafts that were paid", len(drafts_done), ally, "drafts, both years",
+        f"{len(drafts)} drafts", "Finding 13")
+    for (y, a_), n in sorted(incomplete_last.items()):
+        fig(f"Incomplete cases whose last activity is {a_}", n, y,
+            f"incomplete cases, year {y}", "", "Finding 13")
+    for y in YEARS:
+        dsplit = collections.Counter(status(c) for c in drafts if in_year(c, y))
+        for s_, n in sorted(dsplit.items()):
+            fig(f"Drafts with status {s_}", n, y, f"drafts, year {y}",
+                f"{sum(dsplit.values())} drafts", "Case status reconciliation")
+    for c, y, amt, d in nr_sorted:
+        fig(f"{MONEY}, {c}", float(amt), y, "cases flagged payment_without_request, both years",
+            "", "Payments with no Request Payment step")
+        fig(f"Days from final approval to payment, {c}", d, y,
+            "cases flagged payment_without_request, both years", "",
+            "Payments with no Request Payment step")
+    sec_l = "Limitations"
+    fig("Last event date in the log (UTC)", log_end, ally, "all events", "", sec_l)
+    fig("Incomplete cases that are not drafts", len(inc18_open), Y,
+        f"incomplete submitted cases, year {Y}", f"{len(inc18)} incomplete cases", sec_l)
+    fig("Earliest last-event date of those cases (UTC)", inc18_open_first, Y,
+        f"incomplete submitted cases, year {Y}", f"{len(inc18_open)} cases", sec_l)
+    fig("Latest last-event date of those cases (UTC)", inc18_open_last, Y,
+        f"incomplete submitted cases, year {Y}", f"{len(inc18_open)} cases", sec_l)
+    fig("Incomplete cases that are never-submitted drafts", len(inc18) - len(inc18_open), Y,
+        f"incomplete cases, year {Y}", f"{len(inc18)} incomplete cases", sec_l)
+    fig("Events sharing an exact timestamp with an earlier event in the same case", n_ties,
+        ally, "all events", f"{n_events} events", sec_l)
+    write_csv("report_figures.csv",
+              ["figure", "value", "year", "filter", "denominator", "report_section"], figs)
+
     with open(REPORT_MD, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(md))
 
