@@ -215,7 +215,7 @@ def main():
     # 2. Transitions (complete cases only, per decision 4).
     trans_rows = []
     trans = {}
-    for y in YEARS + ["all"]:
+    for y in YEARS:  # one set of rows per year; the process map defaults to 2018
         acc = collections.defaultdict(lambda: {"cases": set(), "d": []})
         for c in cases:
             if c not in complete or not in_year(c, y):
@@ -270,7 +270,13 @@ def main():
         n_rej = sum(1 for c in sub_y if rejected(c))
         rej[y] = (n_rej, len(sub_y))
         add("4a", "Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted)",
-            y, f"submitted cases, year {y}", "submitted cases", len(sub_y), pct(n_rej, len(sub_y)), "%")
+            y, f"submitted cases, year {y}", "submitted cases", len(sub_y), pct(n_rej, len(sub_y)),
+            f"% ({n_rej} of {len(sub_y)} cases)")
+        sub_nz = [c for c in sub_y if cases[c]["amount_flag"] == ""]
+        n_rej_nz = sum(1 for c in sub_nz if rejected(c))
+        add("4a", "Rejected at least once, non-zero amounts only", y,
+            f"submitted cases with amount > 0, year {y}", "submitted cases with amount > 0",
+            len(sub_nz), pct(n_rej_nz, len(sub_nz)), f"% ({n_rej_nz} of {len(sub_nz)} cases)")
     sub_18 = [c for c in cases if c in submitted and in_year(c, Y)]
     for role in REJECT_ROLES:
         reached = [c for c in sub_18 if any(e["org:role"] == role for e in events[c])]
@@ -552,6 +558,8 @@ def main():
           f"is not counted as a rejection; checked against `cases.csv`, agreeing for {rej_flag_agrees:,} "
           f"of {len(cases):,} cases).",
           "- **Resubmission**: any `SUBMITTED` event after the first in a case.",
+          "- **Process map** (`transitions.csv`): one set of rows per year, in the `year` column "
+          "(2018 and 2017, never combined). The process map defaults to 2018; filter on `year` for 2017.",
           "- **Wait before a step**: time from the previous event in the case to that step; "
           "for approver roles, any event by that role (approve or reject). 2018 only.",
           "- **Percentiles**: linear interpolation (numpy's default method, the same as Excel "
@@ -611,6 +619,17 @@ def main():
         + ". Rejections in them by role (2018 only): "
         + "; ".join(f"{r} {zero_role[r][0]:,} events in {zero_role[r][1]:,} cases"
                     for r in REJECT_ROLES if zero_role[r][0]) + ".")
+    zero18 = [c for c in cases if in_year(c, Y) and cases[c]["amount_flag"] == "zero"]
+    zero18_drafts = [c for c in zero18 if c not in submitted]
+    zero18_rej = [c for c in zero18 if c in submitted and rejected(c)]
+    closed18 = [c for c in closed if in_year(c, Y)]
+    if (not any(c in paid for c in zero18) and len(zero18_drafts) + len(zero18_rej) == len(zero18)
+            and all(c in zero18_rej for c in closed18)):
+        find.append(
+            f"**No zero-amount case was paid. Every {Y} zero-amount case is either a never-submitted "
+            f"draft ({len(zero18_drafts)}) or was rejected ({len(zero18_rej)}), and those rejections "
+            f"account for all {len(closed18)} cases closed by the employee.** Denominator: "
+            f"{len(zero18)} zero-amount {Y} cases; {len(closed18)} cases closed by the employee in {Y}.")
     find.append(
         f"**Among the steps, the longest median wait is before `Payment Handled`** (2018 only). Median wait before "
         f"`Request Payment`: {f2(pct_point(w18[REQUEST], 50))} days (P90 "
@@ -727,6 +746,8 @@ def main():
         md.append(f"| {r[1]} | {r[2]:,} | {r[3]:,} | {r[4]:,} | "
                   + ("rate not meaningful [note 1]" if r[1] == "MISSING" else f2(r[5]) or "role absent") + " |")
 
+    md += ["", f"MISSING, 2017 (data-quality context, not a role KPI): {missing17_events} rejection "
+           f"events in {missing17_cases} distinct cases. See [note 1]."]
     md += ["", f"### Wait before each step ({ONLY}, complete cases)", "",
            "| Step | Events | Cases | Median days | P90 days |", "|---|---:|---:|---:|---:|"]
     for r in wait_rows:
@@ -737,12 +758,19 @@ def main():
     for i, (v, n) in enumerate(top, 1):
         md.append(f"| {i} | {n:,} | {f2(pct(n, ncs))} | {v} |")
 
+    log_end = max(e["timestamp"] for evs in events.values() for e in evs)[:10]
+    inc18 = [c for c in cases if in_year(c, Y) and c not in complete]
+    inc18_open = [c for c in inc18 if c in submitted]
+    inc18_open_first = min(events[c][-1]["timestamp"] for c in inc18_open)[:10]
+    inc18_open_last = max(events[c][-1]["timestamp"] for c in inc18_open)[:10]
     md += ["", "## Limitations", "",
            "- 2017 covers two departments only (dataset description), and its roles differ from "
            "2018's (decision 1). It cannot be checked from the log, which has no department field. "
            "2017 vs 2018 is not a trend, and role-level KPIs are 2018 only.",
-           "- Cases are assigned to the year of their first submission. Cases started late in 2018 may be "
-           "cut off by the end of the extract (last event 2019-06-17) and appear incomplete.",
+           f"- Cases are assigned to the year of their first submission. The log runs to {log_end}. "
+           f"The {len(inc18_open)} incomplete {Y} cases that aren't drafts last moved between "
+           f"{inc18_open_first} and {inc18_open_last}; the other {len(inc18) - len(inc18_open)} "
+           f"incomplete {Y} cases are never-submitted drafts.",
            f"- {len(paid_no_submit)} paid case(s) have no SUBMITTED event and so no cycle time: "
            + ", ".join(paid_no_submit) + ".",
            f"- {missing_note}",
@@ -752,7 +780,10 @@ def main():
            "data limitation (system-recorded), not review time (decision 5); time spent before "
            "that step is not visible in the log.",
            "- The log can't show whether a zero amount was entered on purpose or written as a "
-           "default, so the reason zero-amount cases are rejected more often is not established.",
+           "default, so the reason zero-amount cases are rejected more often is not established. "
+           "The pattern (no zero-amount case paid; every one a draft or rejected) suggests a zero "
+           "amount may be a placeholder for a declaration without a real amount, which the log "
+           "can't confirm.",
            "- `org:resource` is anonymised (STAFF MEMBER / SYSTEM only), so workload per person "
            "cannot be measured.",
            "- Amounts were anonymised by the publisher and no currency is given.",

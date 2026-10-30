@@ -16,7 +16,8 @@ kpi_id,kpi,year,case_set,denominator_description,denominator,value,unit
 3,"Wait before Request Payment, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,7896,6.832239583333333,days
 3,"Wait before Payment Handled, median (2018 only)",2018,"complete cases, year 2018",events of this step,7903,3.2138541666666667,days
 3,"Wait before Payment Handled, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,7903,4.414212962962963,days
-4a,Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted),2018,"submitted cases, year 2018",submitted cases,8160,13.137254901960784,%
+4a,Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted),2018,"submitted cases, year 2018",submitted cases,8160,13.137254901960784,% (1072 of 8160 cases)
+4a,"Rejected at least once, non-zero amounts only",2018,"submitted cases with amount > 0, year 2018",submitted cases with amount > 0,7907,10.357910712027318,% (819 of 7907 cases)
 4b,Rejections by ADMINISTRATION per 100 cases reaching ADMINISTRATION (2018 only),2018,"submitted cases reaching ADMINISTRATION, year 2018",cases with a ADMINISTRATION event,8160,11.617647058823529,per 100 cases (948 rejections)
 4b,Rejections by BUDGET OWNER per 100 cases reaching BUDGET OWNER (2018 only),2018,"submitted cases reaching BUDGET OWNER, year 2018",cases with a BUDGET OWNER event,2832,2.0833333333333335,per 100 cases (59 rejections)
 4b,Rejections by SUPERVISOR per 100 cases reaching SUPERVISOR (2018 only),2018,"submitted cases reaching SUPERVISOR, year 2018",cases with a SUPERVISOR event,7952,2.7917505030181085,per 100 cases (222 rejections)
@@ -54,7 +55,8 @@ kpi_id,kpi,year,case_set,denominator_description,denominator,value,unit
 1b,"Cycle time, mean",2017,"paid cases, year 2017",paid cases with a submission,2140,11.592124307718933,days
 1c,"Cycle time, P75",2017,"paid cases, year 2017",paid cases with a submission,2140,11.013093171296296,days
 1d,"Cycle time, P90",2017,"paid cases, year 2017",paid cases with a submission,2140,19.19034027777777,days
-4a,Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted),2017,"submitted cases, year 2017",submitted cases,2205,10.38548752834467,%
+4a,Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted),2017,"submitted cases, year 2017",submitted cases,2205,10.38548752834467,% (229 of 2205 cases)
+4a,"Rejected at least once, non-zero amounts only",2017,"submitted cases with amount > 0, year 2017",submitted cases with amount > 0,2146,7.921714818266542,% (170 of 2146 cases)
 5a,Resubmissions (SUBMITTED events after the first),2017,"submitted cases, year 2017",submitted cases,2205,187,events
 5b,Cases with 1+ resubmission,2017,"submitted cases, year 2017",submitted cases,2205,7.755102040816326,%
 5c,"Cycle time median, paid WITH a rejection",2017,"paid cases rejected 1+, year 2017",paid cases rejected at least once,164,13.261261574074075,days

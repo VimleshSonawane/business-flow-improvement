@@ -16,6 +16,7 @@ Input check: 10,500 cases and 56,437 events; 2,240 cases in 2017, 8,260 cases in
 - **Cycle time**: first `Declaration SUBMITTED by EMPLOYEE` to `Payment Handled`, paid cases with a submission only, in fractional days from the timestamps (each carries its own UTC offset).
 - **Rejected at least once**: one or more rejections by ADMINISTRATION, PRE_APPROVER, BUDGET OWNER, SUPERVISOR or MISSING (the employee's own `REJECTED by EMPLOYEE` step is not counted as a rejection; checked against `cases.csv`, agreeing for 10,500 of 10,500 cases).
 - **Resubmission**: any `SUBMITTED` event after the first in a case.
+- **Process map** (`transitions.csv`): one set of rows per year, in the `year` column (2018 and 2017, never combined). The process map defaults to 2018; filter on `year` for 2017.
 - **Wait before a step**: time from the previous event in the case to that step; for approver roles, any event by that role (approve or reject). 2018 only.
 - **Percentiles**: linear interpolation (numpy's default method, the same as Excel `PERCENTILE.INC`). Values are rounded only in this report; the CSVs are unrounded.
 - **Money**: `Amount (units as in source)`. The source states no currency. Cases with amount 0 are excluded from money figures only; for rejection rates by amount, the base is submitted cases.
@@ -41,7 +42,8 @@ Input check: 10,500 cases and 56,437 events; 2,240 cases in 2017, 8,260 cases in
 | 3 | Wait before Request Payment, P90 (2018 only) | 2018 | complete cases, year 2018 | 7,896 (events of this step) | 6.83 | days |
 | 3 | Wait before Payment Handled, median (2018 only) | 2018 | complete cases, year 2018 | 7,903 (events of this step) | 3.21 | days |
 | 3 | Wait before Payment Handled, P90 (2018 only) | 2018 | complete cases, year 2018 | 7,903 (events of this step) | 4.41 | days |
-| 4a | Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted) | 2018 | submitted cases, year 2018 | 8,160 (submitted cases) | 13.14 | % |
+| 4a | Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted) | 2018 | submitted cases, year 2018 | 8,160 (submitted cases) | 13.14 | % (1072 of 8160 cases) |
+| 4a | Rejected at least once, non-zero amounts only | 2018 | submitted cases with amount > 0, year 2018 | 7,907 (submitted cases with amount > 0) | 10.36 | % (819 of 7907 cases) |
 | 4b | Rejections by ADMINISTRATION per 100 cases reaching ADMINISTRATION (2018 only) | 2018 | submitted cases reaching ADMINISTRATION, year 2018 | 8,160 (cases with a ADMINISTRATION event) | 11.62 | per 100 cases (948 rejections) |
 | 4b | Rejections by BUDGET OWNER per 100 cases reaching BUDGET OWNER (2018 only) | 2018 | submitted cases reaching BUDGET OWNER, year 2018 | 2,832 (cases with a BUDGET OWNER event) | 2.08 | per 100 cases (59 rejections) |
 | 4b | Rejections by SUPERVISOR per 100 cases reaching SUPERVISOR (2018 only) | 2018 | submitted cases reaching SUPERVISOR, year 2018 | 7,952 (cases with a SUPERVISOR event) | 2.79 | per 100 cases (222 rejections) |
@@ -79,7 +81,8 @@ Input check: 10,500 cases and 56,437 events; 2,240 cases in 2017, 8,260 cases in
 | 1b | Cycle time, mean | 2017 | paid cases, year 2017 | 2,140 (paid cases with a submission) | 11.59 | days |
 | 1c | Cycle time, P75 | 2017 | paid cases, year 2017 | 2,140 (paid cases with a submission) | 11.01 | days |
 | 1d | Cycle time, P90 | 2017 | paid cases, year 2017 | 2,140 (paid cases with a submission) | 19.19 | days |
-| 4a | Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted) | 2017 | submitted cases, year 2017 | 2,205 (submitted cases) | 10.39 | % |
+| 4a | Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted) | 2017 | submitted cases, year 2017 | 2,205 (submitted cases) | 10.39 | % (229 of 2205 cases) |
+| 4a | Rejected at least once, non-zero amounts only | 2017 | submitted cases with amount > 0, year 2017 | 2,146 (submitted cases with amount > 0) | 7.92 | % (170 of 2146 cases) |
 | 5a | Resubmissions (SUBMITTED events after the first) | 2017 | submitted cases, year 2017 | 2,205 (submitted cases) | 187 | events |
 | 5b | Cases with 1+ resubmission | 2017 | submitted cases, year 2017 | 2,205 (submitted cases) | 7.76 | % |
 | 5c | Cycle time median, paid WITH a rejection | 2017 | paid cases rejected 1+, year 2017 | 164 (paid cases rejected at least once) | 13.26 | days |
@@ -113,16 +116,17 @@ Input check: 10,500 cases and 56,437 events; 2,240 cases in 2017, 8,260 cases in
 3. **13.14% of submitted cases are rejected at least once** (1,072 of 8,160 submitted 2018 cases). 979 resubmissions in 848 cases (10.39% of submitted cases).
 4. **ADMINISTRATION does most of the rejecting** (2018 only): 948 rejections, 11.62 per 100 of the 8,160 2018 cases it handled. Other roles: SUPERVISOR 2.79 per 100 (222 rejections, 7,952 cases); BUDGET OWNER 2.08 per 100 (59 rejections, 2,832 cases). PRE_APPROVER and MISSING do not appear in 2018 cases.
 5. **Zero-amount cases are rejected at a higher rate; reason not established from the log alone.** Of 253 submitted 2018 cases with amount 0, 253 (100.00%) were rejected at least once, against 819 of 7,907 submitted cases with amount > 0 (10.36%). Zero-amount cases are 23.60% of all 1,072 rejected submitted 2018 cases. Final outcome of the 253 rejected zero-amount cases: paid 0, closed by employee 248, incomplete 5. Rejections in them by role (2018 only): ADMINISTRATION 230 events in 209 cases; BUDGET OWNER 14 events in 14 cases; SUPERVISOR 46 events in 45 cases.
-6. **Among the steps, the longest median wait is before `Payment Handled`** (2018 only). Median wait before `Request Payment`: 1.06 days (P90 6.83; 7,896 events). Before `Payment Handled`: 3.21 days (P90 4.41). Approver waits: ADMINISTRATION 0.00 (P90 0.02); BUDGET OWNER 0.86 (P90 4.85); SUPERVISOR 1.02 (P90 6.21) days; complete 2018 cases.
-7. **Payments run in batches**: 99.66% of `Payment Handled` events fall on a Monday or Thursday (7,876 of 7,903 events in 2018 cases, Dutch time): Monday 3,297, Tuesday 26, Wednesday 1, Thursday 4,579.
-8. **ADMINISTRATION's approval is typically logged within a minute of submission, which suggests it's recorded automatically or in batches; it shouldn't be read as review effort** (2018 only). Of 9,123 submission-to-ADMINISTRATION transitions in complete 2018 cases, 4,921 (53.94%) took under a minute; median 41.00 seconds, interquartile range 6.00 to 259.00 seconds. Timestamps are precise to the second: milliseconds are always .000 and the seconds field takes 60 different values, so the median is measured to the second. Treated as a data limitation, not review time (decision 5).
-9. **Slowest common transitions** (median days, transitions seen in 100+ complete 2018 cases): Request Payment → Payment Handled 3.21 days (7,896 cases); Declaration APPROVED by BUDGET OWNER → Declaration FINAL_APPROVED by SUPERVISOR 1.91 days (2,784 cases); Declaration FINAL_APPROVED by SUPERVISOR → Request Payment 1.06 days (7,896 cases).
-10. **The process is fairly standardised**: the most common path covers 55.81% of 2018 cases (4,610 of 8,260) and the top 10 cover 97.81%; 63 distinct paths in total. Most common path: `Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled`.
-11. **Compliance flags** (cases with a payment, both years, denominator 10,044): payment without request 7; payment without final approval 2; payment before final approval 0; paid more than once 0; events after payment 1; paid without submission 1. In total 11 flag events in 9 distinct cases. Paid without a submission: 1 case(s), declaration 95149 (2017, amount 51.93); declaration 95149 is the only one, and was already flagged for another check (payment_without_final_approval). Case ids are listed below and in `compliance_flags.csv`. Cases paid without final approval are control exceptions flagged for review: either a control failure or a data issue, not determinable from this data (decision 6).
-12. **173 cases (1.65% of all 10,500) have no clear end** and are excluded from durations. 135 cases were saved and never submitted (2017: 35, 2018: 100); 134 of them are among the incomplete cases and 1 was paid anyway (declaration 95149). By year and last activity: 2017 Declaration REJECTED by MISSING 30; 2017 Declaration SAVED by EMPLOYEE 34; 2018 Declaration REJECTED by ADMINISTRATION 5; 2018 Declaration REJECTED by SUPERVISOR 4; 2018 Declaration SAVED by EMPLOYEE 100.
-13. **Money**: median amount 43.75 (Amount (units as in source)); cases rejected at least once hold 134,645.22 of 721,736.60 total (18.66%); denominator 7,907 2018 cases with amount > 0.
-14. **Workload**: 2018 submissions peak in 2018-06 (1,014 SUBMITTED events) and are lowest in 2018-08 (348); see `monthly_volume.csv`.
-15. *2017, two departments only, not comparable as a trend:* median cycle time 7.10 days (2,140 paid cases); 10.39% rejected at least once (229 of 2,205 submitted cases).
+6. **No zero-amount case was paid. Every 2018 zero-amount case is either a never-submitted draft (100) or was rejected (253), and those rejections account for all 248 cases closed by the employee.** Denominator: 353 zero-amount 2018 cases; 248 cases closed by the employee in 2018.
+7. **Among the steps, the longest median wait is before `Payment Handled`** (2018 only). Median wait before `Request Payment`: 1.06 days (P90 6.83; 7,896 events). Before `Payment Handled`: 3.21 days (P90 4.41). Approver waits: ADMINISTRATION 0.00 (P90 0.02); BUDGET OWNER 0.86 (P90 4.85); SUPERVISOR 1.02 (P90 6.21) days; complete 2018 cases.
+8. **Payments run in batches**: 99.66% of `Payment Handled` events fall on a Monday or Thursday (7,876 of 7,903 events in 2018 cases, Dutch time): Monday 3,297, Tuesday 26, Wednesday 1, Thursday 4,579.
+9. **ADMINISTRATION's approval is typically logged within a minute of submission, which suggests it's recorded automatically or in batches; it shouldn't be read as review effort** (2018 only). Of 9,123 submission-to-ADMINISTRATION transitions in complete 2018 cases, 4,921 (53.94%) took under a minute; median 41.00 seconds, interquartile range 6.00 to 259.00 seconds. Timestamps are precise to the second: milliseconds are always .000 and the seconds field takes 60 different values, so the median is measured to the second. Treated as a data limitation, not review time (decision 5).
+10. **Slowest common transitions** (median days, transitions seen in 100+ complete 2018 cases): Request Payment → Payment Handled 3.21 days (7,896 cases); Declaration APPROVED by BUDGET OWNER → Declaration FINAL_APPROVED by SUPERVISOR 1.91 days (2,784 cases); Declaration FINAL_APPROVED by SUPERVISOR → Request Payment 1.06 days (7,896 cases).
+11. **The process is fairly standardised**: the most common path covers 55.81% of 2018 cases (4,610 of 8,260) and the top 10 cover 97.81%; 63 distinct paths in total. Most common path: `Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled`.
+12. **Compliance flags** (cases with a payment, both years, denominator 10,044): payment without request 7; payment without final approval 2; payment before final approval 0; paid more than once 0; events after payment 1; paid without submission 1. In total 11 flag events in 9 distinct cases. Paid without a submission: 1 case(s), declaration 95149 (2017, amount 51.93); declaration 95149 is the only one, and was already flagged for another check (payment_without_final_approval). Case ids are listed below and in `compliance_flags.csv`. Cases paid without final approval are control exceptions flagged for review: either a control failure or a data issue, not determinable from this data (decision 6).
+13. **173 cases (1.65% of all 10,500) have no clear end** and are excluded from durations. 135 cases were saved and never submitted (2017: 35, 2018: 100); 134 of them are among the incomplete cases and 1 was paid anyway (declaration 95149). By year and last activity: 2017 Declaration REJECTED by MISSING 30; 2017 Declaration SAVED by EMPLOYEE 34; 2018 Declaration REJECTED by ADMINISTRATION 5; 2018 Declaration REJECTED by SUPERVISOR 4; 2018 Declaration SAVED by EMPLOYEE 100.
+14. **Money**: median amount 43.75 (Amount (units as in source)); cases rejected at least once hold 134,645.22 of 721,736.60 total (18.66%); denominator 7,907 2018 cases with amount > 0.
+15. **Workload**: 2018 submissions peak in 2018-06 (1,014 SUBMITTED events) and are lowest in 2018-08 (348); see `monthly_volume.csv`.
+16. *2017, two departments only, not comparable as a trend:* median cycle time 7.10 days (2,140 paid cases); 10.39% rejected at least once (229 of 2,205 submitted cases).
 
 ### Case status reconciliation
 
@@ -170,6 +174,8 @@ These may indicate a separate or manual payment route. Median 48.37 days from fi
 | SUPERVISOR | 222 | 217 | 7,952 | 2.79 |
 | MISSING | 0 | 0 | 0 | rate not meaningful [note 1] |
 
+MISSING, 2017 (data-quality context, not a role KPI): 91 rejection events in 87 distinct cases. See [note 1].
+
 ### Wait before each step (2018 only, complete cases)
 
 | Step | Events | Cases | Median days | P90 days |
@@ -199,12 +205,12 @@ These may indicate a separate or manual payment route. Median 48.37 days from fi
 ## Limitations
 
 - 2017 covers two departments only (dataset description), and its roles differ from 2018's (decision 1). It cannot be checked from the log, which has no department field. 2017 vs 2018 is not a trend, and role-level KPIs are 2018 only.
-- Cases are assigned to the year of their first submission. Cases started late in 2018 may be cut off by the end of the extract (last event 2019-06-17) and appear incomplete.
+- Cases are assigned to the year of their first submission. The log runs to 2019-06-17. The 9 incomplete 2018 cases that aren't drafts last moved between 2018-12-19 and 2019-04-22; the other 100 incomplete 2018 cases are never-submitted drafts.
 - 1 paid case(s) have no SUBMITTED event and so no cycle time: declaration 95149.
 - MISSING only ever rejects (its only event is `Declaration REJECTED by MISSING`), so a rate per 100 cases reaching the role is not meaningful and is not shown. It does not occur in 2018 (0 rejection events, 0 cases). In 2017 (data-quality context, not a role KPI) it has 91 rejection events in 87 distinct cases. It is left out of role charts (decision 8).
 - Timestamps record when a step was completed, not when work on it started, so a "wait" includes both queue time and working time.
 - ADMINISTRATION's approval is typically logged within a minute of submission, which suggests it's recorded automatically or in batches; it shouldn't be read as review effort. Timestamps are precise to the second: milliseconds are always .000 and the seconds field takes 60 different values. This is treated as a data limitation (system-recorded), not review time (decision 5); time spent before that step is not visible in the log.
-- The log can't show whether a zero amount was entered on purpose or written as a default, so the reason zero-amount cases are rejected more often is not established.
+- The log can't show whether a zero amount was entered on purpose or written as a default, so the reason zero-amount cases are rejected more often is not established. The pattern (no zero-amount case paid; every one a draft or rejected) suggests a zero amount may be a placeholder for a declaration without a real amount, which the log can't confirm.
 - `org:resource` is anonymised (STAFF MEMBER / SYSTEM only), so workload per person cannot be measured.
 - Amounts were anonymised by the publisher and no currency is given.
 - Durations use calendar days, including weekends and holidays.
