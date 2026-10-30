@@ -77,6 +77,6 @@ kpi_id,kpi,year,case_set,denominator_description,denominator,value,unit
 7,Compliance: paid_without_submission,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,1,cases
 7,Compliance: flag events (all checks),all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,11,flag events
 7,Compliance: distinct cases flagged (any check),all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,9,cases
-7b,"Payments without Request Payment: final approval to payment, median",all,cases flagged payment_without_request,cases,7,48.36609953703704,days
-7b,"Payments without Request Payment: final approval to payment, minimum",all,cases flagged payment_without_request,cases,7,37.367662037037036,days
-7b,"Payments without Request Payment: final approval to payment, maximum",all,cases flagged payment_without_request,cases,7,284.27465277777776,days
+7b,"Payments without Request Payment: final approval to payment, median",all,"cases flagged payment_without_request, both years",cases,7,48.36609953703704,days
+7b,"Payments without Request Payment: final approval to payment, minimum",all,"cases flagged payment_without_request, both years",cases,7,37.367662037037036,days
+7b,"Payments without Request Payment: final approval to payment, maximum",all,"cases flagged payment_without_request, both years",cases,7,284.27465277777776,days
