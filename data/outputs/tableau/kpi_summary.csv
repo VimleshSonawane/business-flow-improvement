@@ -1,56 +1,82 @@
 kpi_id,kpi,year,case_set,denominator_description,denominator,value,unit
-1a,"Cycle time, median",2018,"paid cases, start year 2018",paid cases with a submission,7903,8.05,days
-1b,"Cycle time, mean",2018,"paid cases, start year 2018",paid cases with a submission,7903,11.62,days
-1c,"Cycle time, P75",2018,"paid cases, start year 2018",paid cases with a submission,7903,13.04,days
-1d,"Cycle time, P90",2018,"paid cases, start year 2018",paid cases with a submission,7903,20.25,days
-3,"Wait before ADMINISTRATION acts, median / P90",2018,"complete cases, start year 2018",events of this step,9123,0.00 / 0.02,days
-3,"Wait before BUDGET OWNER acts, median / P90",2018,"complete cases, start year 2018",events of this step,2874,0.86 / 4.85,days
-3,"Wait before SUPERVISOR acts, median / P90",2018,"complete cases, start year 2018",events of this step,8121,1.02 / 6.21,days
-3,"Wait before Request Payment, median / P90",2018,"complete cases, start year 2018",events of this step,7896,1.06 / 6.83,days
-3,"Wait before Payment Handled, median / P90",2018,"complete cases, start year 2018",events of this step,7903,3.21 / 4.41,days
-4a,Cases rejected at least once,2018,"submitted cases, start year 2018",submitted cases,8160,13.14,%
-4b,Rejections by ADMINISTRATION per 100 cases reaching ADMINISTRATION,2018,"submitted cases reaching ADMINISTRATION, start year 2018",cases with a ADMINISTRATION event,8160,11.62,per 100 cases (948 rejections)
-4b,Rejections by BUDGET OWNER per 100 cases reaching BUDGET OWNER,2018,"submitted cases reaching BUDGET OWNER, start year 2018",cases with a BUDGET OWNER event,2832,2.08,per 100 cases (59 rejections)
-4b,Rejections by SUPERVISOR per 100 cases reaching SUPERVISOR,2018,"submitted cases reaching SUPERVISOR, start year 2018",cases with a SUPERVISOR event,7952,2.79,per 100 cases (222 rejections)
-5a,Resubmissions (SUBMITTED events after the first),2018,"submitted cases, start year 2018",submitted cases,8160,979,events
-5b,Cases with 1+ resubmission,2018,"submitted cases, start year 2018",submitted cases,8160,10.39,%
-5c,"Cycle time median, paid WITH a rejection",2018,"paid cases rejected 1+, start year 2018",paid cases rejected at least once,815,13.21,days
-5d,"Cycle time median, paid WITHOUT a rejection",2018,"paid cases never rejected, start year 2018",paid cases never rejected,7088,7.34,days
-6,Cases on the most common path,2018,"all cases, start year 2018",all cases,8260,55.81,% (63 distinct paths)
-8a,"Drafts saved, never submitted",2018,"all cases, start year 2018",all cases,8260,100,cases
-8b,Incomplete cases (no clear end),2018,"all cases, start year 2018",all cases,8260,109,cases
-9,"Submissions per month, median",2018,"SUBMITTED events dated 2018 (Dutch time), any case",months,12,778.50,events per month
-10a,"Median amount, Amount (units as in source)",2018,"cases with amount > 0, start year 2018",cases with amount > 0,7907,43.75,units as in source
-10b,"Total amount in cases rejected 1+, Amount (units as in source)",2018,"cases with amount > 0, start year 2018",cases with amount > 0,7907,134645.22,units as in source (18.66% of total 721736.60)
-3b,Payment Handled events on a Monday or Thursday,2018,"Payment Handled events, cases starting 2018 (Dutch time)",Payment Handled events,7903,99.66,%
-3c,"Submission to ADMINISTRATION action, median",2018,"complete cases, start year 2018",SUBMITTED then ADMINISTRATION transitions,9123,41.00,seconds
-1a,"Cycle time, median",2017,"paid cases, start year 2017",paid cases with a submission,2139,7.10,days
-1b,"Cycle time, mean",2017,"paid cases, start year 2017",paid cases with a submission,2139,11.59,days
-1c,"Cycle time, P75",2017,"paid cases, start year 2017",paid cases with a submission,2139,11.01,days
-1d,"Cycle time, P90",2017,"paid cases, start year 2017",paid cases with a submission,2139,19.20,days
-3,"Wait before ADMINISTRATION acts, median / P90",2017,"complete cases, start year 2017",events of this step,22,27.09 / 104.00,days
-3,"Wait before PRE_APPROVER acts, median / P90",2017,"complete cases, start year 2017",events of this step,767,0.00 / 0.02,days
-3,"Wait before BUDGET OWNER acts, median / P90",2017,"complete cases, start year 2017",events of this step,4,1.76 / 6.23,days
-3,"Wait before SUPERVISOR acts, median / P90",2017,"complete cases, start year 2017",events of this step,2270,0.00 / 3.06,days
-3,"Wait before Request Payment, median / P90",2017,"complete cases, start year 2017",events of this step,2141,2.03 / 7.76,days
-3,"Wait before Payment Handled, median / P90",2017,"complete cases, start year 2017",events of this step,2141,3.28 / 6.10,days
-4a,Cases rejected at least once,2017,"submitted cases, start year 2017",submitted cases,2205,10.39,%
-4b,Rejections by ADMINISTRATION per 100 cases reaching ADMINISTRATION,2017,"submitted cases reaching ADMINISTRATION, start year 2017",cases with a ADMINISTRATION event,18,22.22,per 100 cases (4 rejections)
-4b,Rejections by PRE_APPROVER per 100 cases reaching PRE_APPROVER,2017,"submitted cases reaching PRE_APPROVER, start year 2017",cases with a PRE_APPROVER event,681,12.63,per 100 cases (86 rejections)
-4b,Rejections by BUDGET OWNER per 100 cases reaching BUDGET OWNER,2017,"submitted cases reaching BUDGET OWNER, start year 2017",cases with a BUDGET OWNER event,4,0.00,per 100 cases (0 rejections)
-4b,Rejections by SUPERVISOR per 100 cases reaching SUPERVISOR,2017,"submitted cases reaching SUPERVISOR, start year 2017",cases with a SUPERVISOR event,2196,3.23,per 100 cases (71 rejections)
-4b,Rejections by MISSING per 100 cases reaching MISSING,2017,"submitted cases reaching MISSING, start year 2017",cases with a MISSING event,87,104.60,per 100 cases (91 rejections)
-5a,Resubmissions (SUBMITTED events after the first),2017,"submitted cases, start year 2017",submitted cases,2205,187,events
-5b,Cases with 1+ resubmission,2017,"submitted cases, start year 2017",submitted cases,2205,7.76,%
-5c,"Cycle time median, paid WITH a rejection",2017,"paid cases rejected 1+, start year 2017",paid cases rejected at least once,163,13.29,days
-5d,"Cycle time median, paid WITHOUT a rejection",2017,"paid cases never rejected, start year 2017",paid cases never rejected,1976,6.97,days
-6,Cases on the most common path,2017,"all cases, start year 2017",all cases,2240,62.14,% (41 distinct paths)
-8a,"Drafts saved, never submitted",2017,"all cases, start year 2017",all cases,2240,35,cases
-8b,Incomplete cases (no clear end),2017,"all cases, start year 2017",all cases,2240,64,cases
-10a,"Median amount, Amount (units as in source)",2017,"cases with amount > 0, start year 2017",cases with amount > 0,2147,41.52,units as in source
-10b,"Total amount in cases rejected 1+, Amount (units as in source)",2017,"cases with amount > 0, start year 2017",cases with amount > 0,2147,26533.25,units as in source (14.29% of total 185669.57)
+0a,Cases paid (has a Payment Handled event),2018,"all cases, year 2018",all cases,8260,7903,cases
+0b,Cases closed by employee,2018,"all cases, year 2018",all cases,8260,248,cases
+0c,Cases incomplete,2018,"all cases, year 2018",all cases,8260,109,cases
+1a,"Cycle time, median",2018,"paid cases, year 2018",paid cases with a submission,7903,8.046782407407408,days
+1b,"Cycle time, mean",2018,"paid cases, year 2018",paid cases with a submission,7903,11.624392811449942,days
+1c,"Cycle time, P75",2018,"paid cases, year 2018",paid cases with a submission,7903,13.039565972222222,days
+1d,"Cycle time, P90",2018,"paid cases, year 2018",paid cases with a submission,7903,20.25082175925926,days
+3,"Wait before ADMINISTRATION acts, median (2018 only)",2018,"complete cases, year 2018",events of this step,9123,0.00047453703703703704,days
+3,"Wait before ADMINISTRATION acts, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,9123,0.0218703703703701,days
+3,"Wait before BUDGET OWNER acts, median (2018 only)",2018,"complete cases, year 2018",events of this step,2874,0.8636747685185184,days
+3,"Wait before BUDGET OWNER acts, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,2874,4.852017361111112,days
+3,"Wait before SUPERVISOR acts, median (2018 only)",2018,"complete cases, year 2018",events of this step,8121,1.0186226851851852,days
+3,"Wait before SUPERVISOR acts, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,8121,6.208576388888889,days
+3,"Wait before Request Payment, median (2018 only)",2018,"complete cases, year 2018",events of this step,7896,1.059670138888889,days
+3,"Wait before Request Payment, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,7896,6.832239583333333,days
+3,"Wait before Payment Handled, median (2018 only)",2018,"complete cases, year 2018",events of this step,7903,3.2138541666666667,days
+3,"Wait before Payment Handled, P90 (2018 only)",2018,"complete cases, year 2018",events of this step,7903,4.414212962962963,days
+4a,Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted),2018,"submitted cases, year 2018",submitted cases,8160,13.137254901960784,% (1072 of 8160 cases)
+4a,"Rejected at least once, non-zero amounts only",2018,"submitted cases with amount > 0, year 2018",submitted cases with amount > 0,7907,10.357910712027318,% (819 of 7907 cases)
+4b,Rejections by ADMINISTRATION per 100 cases reaching ADMINISTRATION (2018 only),2018,"submitted cases reaching ADMINISTRATION, year 2018",cases with a ADMINISTRATION event,8160,11.617647058823529,per 100 cases (948 rejections)
+4b,Rejections by BUDGET OWNER per 100 cases reaching BUDGET OWNER (2018 only),2018,"submitted cases reaching BUDGET OWNER, year 2018",cases with a BUDGET OWNER event,2832,2.0833333333333335,per 100 cases (59 rejections)
+4b,Rejections by SUPERVISOR per 100 cases reaching SUPERVISOR (2018 only),2018,"submitted cases reaching SUPERVISOR, year 2018",cases with a SUPERVISOR event,7952,2.7917505030181085,per 100 cases (222 rejections)
+5a,Resubmissions (SUBMITTED events after the first),2018,"submitted cases, year 2018",submitted cases,8160,979,events
+5b,Cases with 1+ resubmission,2018,"submitted cases, year 2018",submitted cases,8160,10.392156862745098,%
+5c,"Cycle time median, paid WITH a rejection",2018,"paid cases rejected 1+, year 2018",paid cases rejected at least once,815,13.211261574074074,days
+5d,"Cycle time median, paid WITHOUT a rejection",2018,"paid cases never rejected, year 2018",paid cases never rejected,7088,7.3366493055555555,days
+6,Cases on the most common path,2018,"all cases, year 2018",all cases,8260,55.81113801452784,% (63 distinct paths)
+8a,"Drafts saved, never submitted",2018,"all cases, year 2018",all cases,8260,100,cases
+8b,Incomplete cases (no clear end),2018,"all cases, year 2018",all cases,8260,109,cases
+9,"Submissions per month, median",2018,"SUBMITTED events dated 2018 (Dutch time), any case",months,12,778.5,events per month
+10z,Cases with a zero amount (excluded from money figures),2018,"all cases, year 2018",all cases,8260,353,cases
+10a,"Median amount, Amount (units as in source)",2018,"cases with amount > 0, year 2018",cases with amount > 0,7907,43.75374171174609,units as in source
+10b,"Total amount in cases rejected 1+, Amount (units as in source)",2018,"cases with amount > 0, year 2018",cases with amount > 0,7907,134645.21707584706,units as in source
+10b,"Total amount, Amount (units as in source)",2018,"cases with amount > 0, year 2018",cases with amount > 0,7907,721736.6044141606,units as in source
+10b,Share of the total amount in cases rejected 1+,2018,"cases with amount > 0, year 2018",cases with amount > 0,7907,18.655727900227486,%
+10c,"Rejected at least once, zero-amount submitted cases",2018,"submitted cases with amount 0, year 2018",submitted zero-amount cases,253,100.0,% (253 cases)
+10c,"Rejected at least once, non-zero submitted cases",2018,"submitted cases with amount > 0, year 2018",submitted non-zero cases,7907,10.357910712027318,% (819 cases)
+10c,Share of rejected cases that have a zero amount,2018,"submitted cases rejected at least once, year 2018",rejected submitted cases,1072,23.600746268656717,% (253 cases)
+10d,Rejected zero-amount cases by outcome: paid,2018,"submitted zero-amount cases rejected at least once, year 2018",rejected zero-amount cases,253,0,cases
+10d,Rejected zero-amount cases by outcome: closed by employee,2018,"submitted zero-amount cases rejected at least once, year 2018",rejected zero-amount cases,253,248,cases
+10d,Rejected zero-amount cases by outcome: incomplete,2018,"submitted zero-amount cases rejected at least once, year 2018",rejected zero-amount cases,253,5,cases
+10e,"Rejected zero-amount cases, rejections by ADMINISTRATION (2018 only)",2018,"submitted zero-amount cases rejected at least once, year 2018",rejected zero-amount cases,253,230,rejection events (209 cases)
+10e,"Rejected zero-amount cases, rejections by BUDGET OWNER (2018 only)",2018,"submitted zero-amount cases rejected at least once, year 2018",rejected zero-amount cases,253,14,rejection events (14 cases)
+10e,"Rejected zero-amount cases, rejections by SUPERVISOR (2018 only)",2018,"submitted zero-amount cases rejected at least once, year 2018",rejected zero-amount cases,253,46,rejection events (45 cases)
+3b,Payment Handled events on a Monday or Thursday,2018,"Payment Handled events, cases of 2018 (Dutch time)",Payment Handled events,7903,99.65835758572693,%
+3c,"Submission to ADMINISTRATION action, median (2018 only)",2018,"complete cases, year 2018",SUBMITTED then ADMINISTRATION transitions,9123,41.0,seconds
+3c,"Submission to ADMINISTRATION action, under 1 minute (2018 only)",2018,"complete cases, year 2018",SUBMITTED then ADMINISTRATION transitions,9123,53.94058971829442,% (4921 transitions)
+3c,"Submission to ADMINISTRATION action, Q1 (P25) (2018 only)",2018,"complete cases, year 2018",SUBMITTED then ADMINISTRATION transitions,9123,6.0,seconds
+3c,"Submission to ADMINISTRATION action, Q3 (P75) (2018 only)",2018,"complete cases, year 2018",SUBMITTED then ADMINISTRATION transitions,9123,259.0,seconds
+0a,Cases paid (has a Payment Handled event),2017,"all cases, year 2017",all cases,2240,2141,cases
+0b,Cases closed by employee,2017,"all cases, year 2017",all cases,2240,35,cases
+0c,Cases incomplete,2017,"all cases, year 2017",all cases,2240,64,cases
+1a,"Cycle time, median",2017,"paid cases, year 2017",paid cases with a submission,2140,7.097361111111111,days
+1b,"Cycle time, mean",2017,"paid cases, year 2017",paid cases with a submission,2140,11.592124307718933,days
+1c,"Cycle time, P75",2017,"paid cases, year 2017",paid cases with a submission,2140,11.013093171296296,days
+1d,"Cycle time, P90",2017,"paid cases, year 2017",paid cases with a submission,2140,19.19034027777777,days
+4a,Cases rejected at least once (approver rejections; REJECTED by EMPLOYEE not counted),2017,"submitted cases, year 2017",submitted cases,2205,10.38548752834467,% (229 of 2205 cases)
+4a,"Rejected at least once, non-zero amounts only",2017,"submitted cases with amount > 0, year 2017",submitted cases with amount > 0,2146,7.921714818266542,% (170 of 2146 cases)
+5a,Resubmissions (SUBMITTED events after the first),2017,"submitted cases, year 2017",submitted cases,2205,187,events
+5b,Cases with 1+ resubmission,2017,"submitted cases, year 2017",submitted cases,2205,7.755102040816326,%
+5c,"Cycle time median, paid WITH a rejection",2017,"paid cases rejected 1+, year 2017",paid cases rejected at least once,164,13.261261574074075,days
+5d,"Cycle time median, paid WITHOUT a rejection",2017,"paid cases never rejected, year 2017",paid cases never rejected,1976,6.973269675925926,days
+6,Cases on the most common path,2017,"all cases, year 2017",all cases,2240,62.142857142857146,% (41 distinct paths)
+8a,"Drafts saved, never submitted",2017,"all cases, year 2017",all cases,2240,35,cases
+8b,Incomplete cases (no clear end),2017,"all cases, year 2017",all cases,2240,64,cases
+10z,Cases with a zero amount (excluded from money figures),2017,"all cases, year 2017",all cases,2240,93,cases
+10a,"Median amount, Amount (units as in source)",2017,"cases with amount > 0, year 2017",cases with amount > 0,2147,41.51944558934451,units as in source
+10b,"Total amount in cases rejected 1+, Amount (units as in source)",2017,"cases with amount > 0, year 2017",cases with amount > 0,2147,26533.252226682245,units as in source
+10b,"Total amount, Amount (units as in source)",2017,"cases with amount > 0, year 2017",cases with amount > 0,2147,185669.57205653406,units as in source
+10b,Share of the total amount in cases rejected 1+,2017,"cases with amount > 0, year 2017",cases with amount > 0,2147,14.290576497156573,%
 7,Compliance: payment_without_request,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,7,cases
 7,Compliance: payment_without_final_approval,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,2,cases
 7,Compliance: payment_before_final_approval,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,0,cases
 7,Compliance: paid_more_than_once,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,0,cases
 7,Compliance: events_after_payment,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,1,cases
+7,Compliance: paid_without_submission,all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,1,cases
+7,Compliance: flag events (all checks),all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,11,flag events
+7,Compliance: distinct cases flagged (any check),all,"cases with a Payment Handled event, both years",cases with a Payment Handled event,10044,9,cases
+7b,"Payments without Request Payment: final approval to payment, median",all,cases flagged payment_without_request,cases,7,48.36609953703704,days
+7b,"Payments without Request Payment: final approval to payment, minimum",all,cases flagged payment_without_request,cases,7,37.367662037037036,days
+7b,"Payments without Request Payment: final approval to payment, maximum",all,cases flagged payment_without_request,cases,7,284.27465277777776,days
