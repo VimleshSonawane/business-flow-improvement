@@ -107,3 +107,24 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
   have a zero amount.
 - **Reproducibility:** no randomness, fixed sort orders, and versions recorded. Two runs give
   byte-identical outputs.
+
+10. **2026-11-01 — Scenario method.** `analysis/03_scenarios.py` estimates what-if scenarios on
+    the 7,903 paid 2018 cases, with the same definitions as `analysis/02_baseline.py`. Each
+    scenario recomputes per-case cycle time as the sum of the waits between consecutive events
+    from the first `Declaration SUBMITTED by EMPLOYEE` to `Payment Handled`, after changing only
+    the stated waits:
+    - **S1 (daily payment runs):** the wait from `Request Payment` to `Payment Handled` is capped
+      at 1.0 day.
+    - **S2 (approval reminders):** the wait before each `Declaration APPROVED by BUDGET OWNER`,
+      `Declaration FINAL_APPROVED by SUPERVISOR` and `Request Payment` is capped at 3.0 days.
+      Rejections keep their wait.
+    - **S3:** S1 and S2 together.
+    - **S4 (fewer rejections):** for a random 40% of the paid cases rejected by ADMINISTRATION
+      (253 of 632; Python `random.Random(42).sample` over the cases in `cases.csv` order), the
+      time from each ADMINISTRATION rejection to the next submission is removed. The 40% is an
+      assumption, not a measurement. The implied rejection rate counts a picked case as
+      rejected only if another approver also rejected it, over 8,160 submitted 2018 cases.
+
+11. **2026-11-01 — Scenarios are estimates.** Scenario figures are what-if estimates on 2018
+    data, not results: none of the fixes was implemented. They are reported next to the measured
+    baseline, never in place of it, and always labelled as estimates.
