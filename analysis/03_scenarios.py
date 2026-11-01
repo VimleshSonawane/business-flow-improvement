@@ -1,7 +1,7 @@
 """What-if scenarios for BPI Challenge 2020 Domestic Declarations (2018 paid cases).
 
 Reads data/processed/events.csv and data/processed/cases.csv and writes:
-  data/outputs/scenarios.csv            baseline and scenarios S1-S5
+  data/outputs/scenarios.csv            baseline and scenarios S1-S6
   data/outputs/rework_extra_days.csv    extra cycle time of paid cases by rejecting role
 
 Definitions are the same as analysis/02_baseline.py: a case's year is the year of its first
@@ -19,6 +19,8 @@ events from the first SUBMITTED to Payment Handled, after changing only the stat
   S5 S4 plus a zero-amount check at submission (F2): submitted 2018 cases with amount 0 are
      blocked before submission. None of them was paid, so cycle times equal S4's; the rejection
      rate is given over the remaining submitted cases and over all submitted cases.
+  S6 F1 + F2 + F3 combined: S3's caps and S5's rejection changes applied together in one
+     recomputation.
 
 Scenarios are what-if estimates on 2018 data, not results. Standard library only; the random
 sample uses a fixed seed and a fixed case order, so two runs give byte-identical outputs.
@@ -174,6 +176,8 @@ def main():
                f"({S4_SHARE:.0%} assumption, seed {SEED})", {"s4": True}, n_rej_s4, set()),
         ("S5", f"S4 plus a zero-amount check at submission (F2): {len(blocked)} submitted "
                f"zero-amount cases blocked before submission", {"s4": True}, n_rej_s5, blocked),
+        ("S6", "F1 + F2 + F3 combined: S3's caps and S5's rejection changes together",
+               {"s1": True, "s2": True, "s4": True}, n_rej_s5, blocked),
     ]
     base = {c: cycle(c) for c in paid}
     rows = []

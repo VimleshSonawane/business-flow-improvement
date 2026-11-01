@@ -136,3 +136,12 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
     submitted cases that remain (8,160 − 253), and over all 8,160 submitted cases. The 40%
     ADMINISTRATION reduction is still an assumption; the zero-amount effect is observed directly,
     since every submitted zero-amount 2018 case was rejected.
+
+13. **2026-11-01 — Scenario S6 method.** S6 combines F1, F2 and F3: S3's caps (1.0 day from
+    `Request Payment` to `Payment Handled`; 3.0 days before each BUDGET OWNER approval,
+    SUPERVISOR approval and `Request Payment`) and S5's rejection changes (the same 253 of 632
+    ADMINISTRATION-rejected paid cases, seed 42, and the 253 blocked zero-amount cases) are
+    applied together in one recomputation of each paid case's cycle time. Waits removed by the
+    rejection change are not capped, because they no longer exist. The rejection rate is
+    reported the same two ways as S5. It is a what-if estimate, like the other scenarios
+    (decision 11).

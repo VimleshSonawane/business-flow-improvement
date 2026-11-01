@@ -103,8 +103,8 @@ Administration lead; approvers; employees; Payments team).
 
 ## Scenarios against the charter targets
 
-2018 paid cases (7,903); rejection rate over 8,160 submitted 2018 cases, except S5, which is
-over the 7,907 submitted cases that remain after blocking the zero-amount claims (and 7.07% over
+2018 paid cases (7,903); rejection rate over 8,160 submitted 2018 cases, except S5 and S6,
+which are over the 7,907 submitted cases that remain after blocking the zero-amount claims (and 7.07% over
 all 8,160). Source:
 `data/outputs/scenarios.csv`.
 
@@ -116,11 +116,14 @@ all 8,160). Source:
 | S3 = S1 + S2 | 4.75 | 9.01 | 5.62% (444) | 1.00 | 13.14% | **yes** | no | **yes** |
 | S4 Fewer rejections (F2) | 7.99 | 20.04 | 20.19% (1,596) | 3.21 | 10.17% | no | no | no |
 | S5 = S4 + zero-amount check (F2) | 7.99 | 20.04 | 20.19% (1,596) | 3.21 | 7.30% (7.07% of all 8,160) | no | **yes** | no |
+| S6 = F1 + F2 + F3 (S3 + S5) | 4.72 | 8.74 | 5.02% (397) | 1.00 | 7.30% (7.07% of all 8,160) | **yes** | **yes** | **yes** |
 
-- **S3 meets two of three targets** (P90 and payment wait). **S5 is the only scenario that meets
-  the rejection target**, on both bases: 577 rejected cases are 7.30% of the 7,907 remaining
-  submitted cases and 7.07% of all 8,160. Combining F1, F2 and F3 would aim at all three targets;
-  that combination was not modelled.
+- **S3 meets two of three targets** (P90 and payment wait). **S5 meets the rejection target**, on
+  both bases: 577 rejected cases are 7.30% of the 7,907 remaining submitted cases and 7.07% of
+  all 8,160. **S6, which combines F1, F2 and F3 in one recomputation, is the only scenario that
+  meets all three targets:** P90 8.74 days, rejection rate 7.30% (7.07% of all 8,160), and median
+  payment wait 1.00 day. Its median cycle time is 4.72 days, and 5.02% of paid cases (397) take
+  over 14 days.
 - **S1 meets the payment-wait target by construction:** the cap is 1 day, so the median becomes
   1.00 day.
 - **The rejection target needs more than S4.** S4 leaves 830 of 8,160 submitted cases rejected
