@@ -38,7 +38,13 @@ complete 2018 cases:
   A case rejected by more than one role appears in each of its groups, so these are not additive
   (`data/outputs/rework_extra_days.csv`).
 
-### 4. Control exceptions
+### 4. Zero-amount claims are always rejected
+- 253 of the 1,072 rejected 2018 claims (23.6%) had an amount of zero. These are submitted
+  claims; denominator: 1,072 submitted 2018 cases rejected at least once.
+- All 253 submitted zero-amount 2018 claims were rejected, and none was paid. The log can't show
+  whether a zero was entered on purpose or written as a default (decision 3).
+
+### 5. Control exceptions
 - Cases 95149 and 90815 (both 2017) were paid without final approval. They are control
   exceptions flagged for review: either a control failure or a data issue, not determinable from
   this data (decision 6).
@@ -66,12 +72,19 @@ Administration lead; approvers; employees; Payments team).
 - **Owner:** Payments team, with the Head of Finance as sponsor.
 
 ### F2 — Claim checklist at submission
-- **Cause targeted:** rework from ADMINISTRATION rejections (finding 3: 948 of 1,229 rejections).
-- **Expected effect (S4):** rejection rate 13.14% → 10.17%; median cycle time 8.05 → 7.99 days;
-  P90 20.25 → 20.04 days; share over 14 days 20.99% → 20.19%.
+- **Cause targeted:** rework from ADMINISTRATION rejections (finding 3: 948 of 1,229 rejections)
+  and zero-amount claims (finding 4: 253 of 1,072 rejected claims).
+- **Checklist rules:** the claim is complete before submission, and the amount is not zero (a
+  zero-amount claim cannot be submitted).
+- **Expected effect (S5):** rejection rate 13.14% → 7.30% of the 7,907 remaining submitted cases
+  (7.07% of all 8,160); median cycle time 8.05 → 7.99 days; P90 20.25 → 20.04 days; share over
+  14 days 20.99% → 20.19%. The cycle-time figures equal S4's because no zero-amount claim was
+  paid.
 - **Assumptions:** the checklist prevents 40% of ADMINISTRATION rejections in paid cases
   (253 of 632, chosen at random with seed 42). This 40% is an assumption, not a measurement: the
-  log does not record why a claim was rejected.
+  log does not record why a claim was rejected. The zero-amount rule blocks the 253 submitted
+  zero-amount claims before submission; this part is observed directly, since every one of them
+  was rejected.
 - **Risks:** the reasons for rejection are unknown, so a checklist may target the wrong errors;
   it adds a small step for every employee.
 - **Cost/effort:** low (a form or checklist at submission).
@@ -90,7 +103,9 @@ Administration lead; approvers; employees; Payments team).
 
 ## Scenarios against the charter targets
 
-2018 paid cases (7,903); rejection rate over 8,160 submitted 2018 cases. Source:
+2018 paid cases (7,903); rejection rate over 8,160 submitted 2018 cases, except S5, which is
+over the 7,907 submitted cases that remain after blocking the zero-amount claims (and 7.07% over
+all 8,160). Source:
 `data/outputs/scenarios.csv`.
 
 | Scenario | Median cycle (d) | P90 cycle (d) | Paid cases over 14 d | Median payment wait (d) | Rejection rate | P90 ≤ 14 d | Rejections ≤ 8% | Payment wait ≤ 1 d |
@@ -100,15 +115,18 @@ Administration lead; approvers; employees; Payments team).
 | S2 Approval reminders (F3) | 6.93 | 12.59 | 8.33% (658) | 3.21 | 13.14% | **yes** | no | no |
 | S3 = S1 + S2 | 4.75 | 9.01 | 5.62% (444) | 1.00 | 13.14% | **yes** | no | **yes** |
 | S4 Fewer rejections (F2) | 7.99 | 20.04 | 20.19% (1,596) | 3.21 | 10.17% | no | no | no |
+| S5 = S4 + zero-amount check (F2) | 7.99 | 20.04 | 20.19% (1,596) | 3.21 | 7.30% (7.07% of all 8,160) | no | **yes** | no |
 
-- **S3 meets two of three targets** (P90 and payment wait). No scenario meets the rejection
-  target.
+- **S3 meets two of three targets** (P90 and payment wait). **S5 is the only scenario that meets
+  the rejection target**, on both bases: 577 rejected cases are 7.30% of the 7,907 remaining
+  submitted cases and 7.07% of all 8,160. Combining F1, F2 and F3 would aim at all three targets;
+  that combination was not modelled.
 - **S1 meets the payment-wait target by construction:** the cap is 1 day, so the median becomes
   1.00 day.
 - **The rejection target needs more than S4.** S4 leaves 830 of 8,160 submitted cases rejected
   (10.17%). Reaching 8% means at most 652 rejected cases, so about 178 more would have to be
-  avoided. Rejections in cases that were never paid (for example the 253 zero-amount cases, all
-  rejected) are outside S4's sample.
+  avoided. Rejections in cases that were never paid (for example the 253 submitted zero-amount
+  cases, all rejected) are outside S4's sample; S5 adds them.
 
 ## What these numbers are and are not
 
@@ -116,6 +134,8 @@ Administration lead; approvers; employees; Payments team).
   changing only the stated waits and leaving every other step as recorded.
 - **They are not results.** None of the fixes was implemented, and no before-and-after data
   exists.
+- **The 40% reduction in ADMINISTRATION rejections remains an assumption; the zero-amount effect
+  is directly observed** (all 253 submitted zero-amount 2018 claims were rejected).
 - **They assume the fix fully works on the waits it targets** (caps of 1 and 3 days, a 40% cut in
   ADMINISTRATION rejections), and that nothing else changes. In practice, effects may be smaller,
   and fixes may interact.

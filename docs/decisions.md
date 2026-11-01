@@ -128,3 +128,11 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
 11. **2026-11-01 — Scenarios are estimates.** Scenario figures are what-if estimates on 2018
     data, not results: none of the fixes was implemented. They are reported next to the measured
     baseline, never in place of it, and always labelled as estimates.
+
+12. **2026-11-01 — Scenario S5 method.** S5 is S4 plus a zero-amount check at submission (F2):
+    the 253 submitted 2018 cases with amount 0 (`amount_flag = zero` in `cases.csv`) are blocked
+    before submission, so they are neither submitted nor rejected. None of them was paid, so S5's
+    cycle-time figures equal S4's. The rejection rate is reported two ways: over the 7,907
+    submitted cases that remain (8,160 − 253), and over all 8,160 submitted cases. The 40%
+    ADMINISTRATION reduction is still an assumption; the zero-amount effect is observed directly,
+    since every submitted zero-amount 2018 case was rejected.

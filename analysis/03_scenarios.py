@@ -1,7 +1,7 @@
 """What-if scenarios for BPI Challenge 2020 Domestic Declarations (2018 paid cases).
 
 Reads data/processed/events.csv and data/processed/cases.csv and writes:
-  data/outputs/scenarios.csv            baseline and scenarios S1-S4
+  data/outputs/scenarios.csv            baseline and scenarios S1-S5
   data/outputs/rework_extra_days.csv    extra cycle time of paid cases by rejecting role
 
 Definitions are the same as analysis/02_baseline.py: a case's year is the year of its first
@@ -16,6 +16,9 @@ events from the first SUBMITTED to Payment Handled, after changing only the stat
   S3 S1 and S2 together.
   S4 Fewer rejections (F2): for a random 40% (assumption; seed 42) of paid cases rejected by
      ADMINISTRATION, the time from each ADMINISTRATION rejection to the next SUBMITTED is removed.
+  S5 S4 plus a zero-amount check at submission (F2): submitted 2018 cases with amount 0 are
+     blocked before submission. None of them was paid, so cycle times equal S4's; the rejection
+     rate is given over the remaining submitted cases and over all submitted cases.
 
 Scenarios are what-if estimates on 2018 data, not results. Standard library only; the random
 sample uses a fixed seed and a fixed case order, so two runs give byte-identical outputs.
@@ -72,9 +75,10 @@ REMINDER_STEPS = {"Declaration APPROVED by BUDGET OWNER", "Declaration FINAL_APP
 
 
 def main():
-    cases = []
     with open(CASES_CSV, encoding="utf-8") as fh:
-        cases = [r["case_id"] for r in csv.DictReader(fh)]  # fixed case order
+        case_rows = list(csv.DictReader(fh))
+    cases = [r["case_id"] for r in case_rows]  # fixed case order
+    zero_amount = {r["case_id"] for r in case_rows if r["amount_flag"] == "zero"}
     events = collections.defaultdict(list)
     with open(EVENTS_CSV, encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
@@ -151,21 +155,29 @@ def main():
     # another approver rejected it.
     n_rej_s4 = sum(1 for c in submitted
                    if approver_rejected(c, removed=(ADMIN_REJECT,) if c in picked else ()))
+    # S5: S4, and submitted zero-amount cases are blocked before submission.
+    blocked = {c for c in submitted if c in zero_amount}
+    if blocked & set(paid):
+        sys.exit("STOP: a blocked zero-amount case was paid; S5 cycle times would differ from S4.")
+    n_rej_s5 = sum(1 for c in submitted if c not in blocked
+                   and approver_rejected(c, removed=(ADMIN_REJECT,) if c in picked else ()))
 
     scenarios = [
-        ("Baseline", "2018 as measured", {}, n_rej_base, 0),
+        ("Baseline", "2018 as measured", {}, n_rej_base, set()),
         ("S1", f"Daily payment runs (F1): Request Payment to Payment Handled capped at "
-               f"{PAYMENT_CAP} day", {"s1": True}, n_rej_base, None),
+               f"{PAYMENT_CAP} day", {"s1": True}, n_rej_base, set()),
         ("S2", f"Approval reminders (F3): wait before BUDGET OWNER approval, SUPERVISOR approval "
-               f"and Request Payment capped at {REMINDER_CAP} days", {"s2": True}, n_rej_base, None),
-        ("S3", "S1 and S2 together", {"s1": True, "s2": True}, n_rej_base, None),
+               f"and Request Payment capped at {REMINDER_CAP} days", {"s2": True}, n_rej_base, set()),
+        ("S3", "S1 and S2 together", {"s1": True, "s2": True}, n_rej_base, set()),
         ("S4", f"Fewer rejections (F2): ADMINISTRATION rejection-to-resubmission time removed for "
                f"{n_pick} of {len(admin_rej)} paid cases rejected by ADMINISTRATION "
-               f"({S4_SHARE:.0%} assumption, seed {SEED})", {"s4": True}, n_rej_s4, None),
+               f"({S4_SHARE:.0%} assumption, seed {SEED})", {"s4": True}, n_rej_s4, set()),
+        ("S5", f"S4 plus a zero-amount check at submission (F2): {len(blocked)} submitted "
+               f"zero-amount cases blocked before submission", {"s4": True}, n_rej_s5, blocked),
     ]
     base = {c: cycle(c) for c in paid}
     rows = []
-    for name, desc, kw, n_rej, _ in scenarios:
+    for name, desc, kw, n_rej, blk in scenarios:
         ct = {c: cycle(c, **kw) for c in paid}
         changed = sum(1 for c in paid if abs(ct[c] - base[c]) > 1e-9)
         vals = [ct[c] for c in paid]
@@ -173,7 +185,8 @@ def main():
         pw = payment_waits(s1=kw.get("s1", False))
         rows.append([name, desc, len(paid), changed, pct_point(vals, 50), pct_point(vals, 90),
                      over, 100 * over / len(paid), pct_point(pw, 50), len(pw), n_rej,
-                     len(submitted), 100 * n_rej / len(submitted)])
+                     len(submitted), 100 * n_rej / len(submitted), len(blk),
+                     len(submitted) - len(blk), 100 * n_rej / (len(submitted) - len(blk))])
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "scenarios.csv"), "w", newline="", encoding="utf-8") as fh:
@@ -181,7 +194,9 @@ def main():
         w.writerow(["scenario", "description", "paid_cases_2018", "cases_changed",
                     "cycle_median_days", "cycle_p90_days", "cases_over_14_days",
                     "share_over_14_days_pct", "payment_wait_median_days", "payment_wait_events",
-                    "approver_rejected_cases", "submitted_cases_2018", "rejection_rate_pct"])
+                    "approver_rejected_cases", "submitted_cases_2018", "rejection_rate_pct",
+                    "blocked_before_submission", "submitted_cases_remaining",
+                    "rejection_rate_remaining_pct"])
         w.writerows(rows)
 
     # Extra cycle time of paid cases rejected by each role, against paid cases never rejected.
@@ -201,7 +216,8 @@ def main():
 
     for r in rows:
         print(f"{r[0]:8} changed {r[3]:5}  median {r[4]:6.2f}  P90 {r[5]:6.2f}  over 14 d "
-              f"{r[7]:5.2f}% ({r[6]})  payment wait median {r[8]:.2f}  rejection rate {r[12]:.2f}%")
+              f"{r[7]:5.2f}% ({r[6]})  payment wait median {r[8]:.2f}  rejection rate {r[12]:.2f}% "
+              f"(over remaining {r[15]:.2f}%)")
     for r in extra:
         print(f"rejected by {r[1]}: {r[2]} paid cases, median {r[3]:.2f} d, extra {r[6]:+.2f} d")
 
