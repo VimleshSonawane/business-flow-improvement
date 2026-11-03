@@ -1,0 +1,16 @@
+Task Name,Start,Finish,Duration,Predecessors,Owner (role-played),Status,% Complete,Fix,KPI it moves,"Expected effect (what-if, 2018 data)"
+Wave 1 — Quick wins (proposed),,,,,,,,,,
+"F2 Claim checklist at submission, incl. amount > 0 rule",01/04/27,01/15/27,10d,,Process owner (Travel Administration lead),Proposed,0%,F2,Rejection rate,S5: 13.14% → 7.30% (zero-amount effect observed; 40% cut assumed)
+F3 Approval reminders after 3 days,01/04/27,01/15/27,10d,,IT / workflow admin,Proposed,0%,F3,P90 cycle time,S2: P90 20.25 → 12.59 days
+F4 Backup approver for absences,01/04/27,01/08/27,5d,,Sponsor (Head of Finance),Proposed,0%,F4,Approval P90 waits,Not modelled
+F6 Rejection reason codes,01/11/27,01/15/27,5d,,IT / workflow admin,Proposed,0%,F6,Rejection reasons recorded,Measurement fix: lets F2 checklist be tuned
+F7 Log Administration review time,01/11/27,01/15/27,5d,,IT / workflow admin,Proposed,0%,F7,Administration time measurable,Measurement fix: removes data limitation (decision 5)
+M5: Wave 1 live,01/15/27,01/15/27,0,"2, 3, 4, 5, 6",Process owner (Travel Administration lead),Proposed,0%,,,
+Wave 1 KPI review (4 weekly reviews against the control plan),01/18/27,02/12/27,20d,7,Process owner (Travel Administration lead),Proposed,0%,,All control-plan KPIs,
+Wave 2 — Major projects (proposed),,,,,,,,,,
+F1 Daily payment runs,01/18/27,02/26/27,30d,7,Payments team,Proposed,0%,F1,Payment wait,S1: median payment wait 3.21 → 1.00 day
+F8 Block payment without final approval,01/18/27,02/12/27,20d,7,IT / workflow admin + Finance,Proposed,0%,F8,Control exceptions,2 exceptions → 0
+M6: Wave 2 live,02/26/27,02/26/27,0,"10, 11",Sponsor (Head of Finance),Proposed,0%,,,
+Full-effect review against charter targets,03/01/27,03/26/27,20d,12,Sponsor (Head of Finance),Proposed,0%,,"P90, rejections, payment wait",S6 (F1+F2+F3): P90 8.74 d · rejections 7.30% · payment wait 1.00 d
+Later — decision point,,,,,,,,,,
+M7: Decide on F5 (skip budget-owner step under a threshold),03/26/27,03/26/27,0,13,Sponsor (Head of Finance),Proposed,0%,F5,Approval steps,Decide only after the full-effect review
