@@ -1,116 +1,174 @@
-# Business Flow Improvement
+# Business Flow Improvement: Approval Workflow (DMAIC, real data)
 
-**Author:** Vimlesh Sonawane, Project Manager
-**Status:** Self-initiated project — real public-data diagnostic, plus a proposed improvement framework.
-**What it is:** An end-to-end improvement of a business pipeline, from request intake to release, with the flow, the quality, and the reporting built as one system.
+Why 1 in 10 travel-expense claims at a university waits more than 20 days to be paid, and three
+proposed fixes that meet every target in a what-if model built on the real 2018 process log.
 
-## Real-data update — Boston 311, 2024
+**Links:**
+[Tableau dashboard](https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard) ·
+[Final presentation (PDF)](docs/approval-workflow-final-presentation.pdf) ·
+[Findings and business case](docs/findings-and-business-case.md) ·
+[Live demo page](https://business-flow-improvement-demo.vercel.app)
 
-This project now has two layers, kept separate on purpose:
+**Author:** Vimlesh Sonawane, project manager and analyst. Self-initiated portfolio project, run as
+a DMAIC project (Define, Measure, Analyze, Improve, Control).
 
-1. **Real diagnostic analysis** in `docs/real-data-analysis.md`: City of Boston
-   311 Service Requests, 2024, 306,756 requests, from Analyze Boston.
-   On time 76.5%, overdue 23.5%. Parking Enforcement (63,112 requests,
-   48.2% on time) and Pothole Repair (10,620 requests, 40.8% on time)
-   together account for 54.0% of all overdue cases, from 24.0% of volume.
-   Monthly volume peaks in August (30,713) and September (29,852).
-2. **Proposed improvement framework** in the other docs: the simulated
-   pipeline, its 12-week plan, and its stage times are a proposal for how
-   to measure and fix the flow found in layer 1. They are NOT results
-   measured from the 311 data, and no improvement result is claimed
-   from the diagnostic alone.
+## Results at a glance
 
-The tool files in `tools/` are built from layer 1: Tableau CSVs from the
-real 2024 counts, a Smartsheet / Asana plan for diagnosing and mapping
-Parking Enforcement and Pothole Repair first, and a Miro board structure
-with the real numbers to copy in.
+### 2018 baseline (measured)
 
-## What kind of project this is
+| KPI | Value | Base | Source |
+|---|---:|---|---|
+| Median days from submission to payment | 8.05 | 7,903 paid 2018 claims | `data/outputs/tableau/kpi_summary.csv` (1a) |
+| P90 days from submission to payment | 20.25 | 7,903 paid 2018 claims | `kpi_summary.csv` (1d) |
+| Claims rejected at least once | 13.14% | 1,072 of 8,160 submitted 2018 claims | `kpi_summary.csv` (4a) |
+| Payments made on a Monday or Thursday | 99.66% | 7,876 of 7,903 payments | `kpi_summary.csv` (3b) |
 
-This is a project management project, not a technology build. There is no software to build and no tool to buy here. The work is PM work: charter and scope, stakeholder alignment, a phased schedule, risk and change control, a playbook, quality gates, and a control plan that shows whether the improvement held. See `docs/pm-plan.md` for the full PM plan, including stakeholder roles, governance, and the risk log for the improvement itself. The demo is only a visual aid for the pipeline; the deliverables are the plan, the playbook, and the reporting routine.
+### Main findings (measured)
 
-## The problem I analysed
+From [`docs/findings-and-business-case.md`](docs/findings-and-business-case.md) and
+[`docs/baseline-kpi-report.md`](docs/baseline-kpi-report.md):
 
-In the simulated scenario, a subscription product and live experience operation was receiving about 35 requests a week — new features, content and experience improvements, partner requests, and member and guest experience fixes — and completing about 28 a week.
+1. **Payments run in batches.** Payments are released on Mondays and Thursdays. The wait from
+   payment request to payment is a median of 3.21 days, the longest median wait of any step.
+2. **Approvals have long tails.** Most approvals are quick, but the slowest 10% wait 4.85 days
+   (budget owner), 6.21 days (supervisor) and 6.83 days (before the payment request).
+3. **Rework costs time.** Administration made 948 of the 1,229 rejections. Rejected claims take a
+   median of 13.21 days to pay, against 7.34 days for claims never rejected. A supervisor
+   rejection adds the most: +9.30 days (`data/outputs/rework_extra_days.csv`).
+4. **Zero-amount claims are always rejected.** 253 of the 1,072 rejected claims (23.6%) had an
+   amount of zero. All 253 were rejected; none was paid.
+5. **Control exceptions.** Two claims (95149 and 90815, both 2017) were paid without final
+   approval. They are flagged for review: either a control failure or a data issue, not
+   determinable from this data. 7 payments had no payment request step.
 
-Work was not failing because people were slow. It was failing because the flow was broken:
+### All three fixes together (S6): a what-if estimate, not a result
 
-- Requests arrived incomplete, so work started, stopped, and started again.
-- No one owned a stage, so work waited for a decision.
-- Too much work was in progress at once, so everything moved slowly.
-- Quality was checked only at the end, so problems were found late and sent back.
-- Releases had last-minute changes, so delivery slipped.
+The three proposed fixes are daily payment runs (F1), a claim checklist with an "amount > 0" rule
+(F2), and approval reminders after 3 days (F3). Modelled together on the 2018 data
+(`data/outputs/scenarios.csv`, row S6):
 
-The result in baseline (Weeks 1–4, simulated): lead time about **21 days**, rework **22%**, quality escapes **14%**, and a backlog that grew from 84 to 110.
+| KPI | 2018 baseline | S6 estimate | Charter target | Target met? |
+|---|---:|---:|---:|:---:|
+| P90 days to payment | 20.25 | 8.74 | ≤ 14 | yes |
+| Claims rejected at least once | 13.14% | 7.30%* | ≤ 8% | yes |
+| Median payment wait (days) | 3.21 | 1.00 | ≤ 1 | yes |
 
-## What I created
+\* Over the 7,907 submitted claims left after zero-amount claims are blocked; 7.07% over all 8,160.
 
-- A value-stream map of the pipeline, stage by stage, with waiting time separated from working time.
-- An intake and prioritisation system: a completeness checklist, priority tiers, and a triage rule.
-- A playbook: runbooks for intake, build, quality, release, and recovery, with a definition of done for each stage.
-- A pipeline model: WIP limits, a daily flow review, and a quality gate moved earlier in the flow.
-- A reporting system: weekly pipeline metrics, a stage bottleneck view, and a business review template.
-- Proper process mapping: as-is and to-be flowcharts, a swimlane view, and a diagnostic order — measure, split waiting from working time, rank causes, map, plan, fix, control — in `docs/process-maps.md`.
-- A roadmap and schedule: phased roadmap with milestones M1, M2, M3, a 12-week Gantt schedule, and dependencies, in `docs/roadmap.md`.
-- Risk mitigations with level, owner, and trigger for each risk, in `docs/risk-mitigation.md`.
-- A working demo in `demo/index.html`: an interactive pipeline — a visual flow map with the rework loop, charts for lead time, demand vs. completed, and rework/escapes, a roadmap, a Gantt schedule, a risk table, click a stage to see its problem, its fix, and its numbers, and filter by phase.
+**These are estimates.** None of the fixes was implemented. The 40% cut in Administration
+rejections is an assumption; the zero-amount effect is observed in the data.
 
-## The result, in the simulated case
+## Deliverables
 
-| Metric | Baseline (W1–4) | Improve (W5–8) | Control (W9–12) |
+| # | Deliverable | Tool | File or screenshot |
 |---|---|---|---|
-| Lead time | about 21 days | about 16 days | about 12 days |
-| Throughput | about 28 / week | about 37 / week | about 39 / week |
-| Rework | 22% | about 14% | 9% |
-| Quality escapes | 14% | about 9% | 5% |
-| Backlog at phase end | 110 | 101 | 84 |
-| Waiting time in lead time | 14 days | about 9 days | 5 days |
-| Working time in lead time | about 7 days | about 7 days | about 7 days |
+| D1 | Project charter | GitHub | [`docs/charter.md`](docs/charter.md) |
+| D2 | Stakeholder map and RACI | Miro | [stakeholders](docs/Screenshots/miro-1-overview-stakeholders.png) · [RACI](docs/Screenshots/miro-2-raci.png) |
+| D3 | Baseline KPI report | Python, Tableau | [`docs/baseline-kpi-report.md`](docs/baseline-kpi-report.md) · [dashboard](docs/Screenshots/tableau-6-dashboard.png) |
+| D4 | As-is process map | Miro | [map](docs/Screenshots/miro-3-asis-map.png) · [rework loops](docs/Screenshots/miro-4-asis-loops.png) |
+| D5 | Root-cause analysis (fishbone) | Miro | [fishbone](docs/Screenshots/miro-5-fishbon.png) |
+| D6 | To-be process and prioritized fixes | Miro, Python | [impact/effort](docs/Screenshots/miro-6-impact-effort.png) · [to-be](docs/Screenshots/miro-7-tobe.png) · [`docs/findings-and-business-case.md`](docs/findings-and-business-case.md) |
+| D7 | Implementation roadmap and control plan | Smartsheet | [roadmap](docs/Screenshots/smartsheet-5-roadmap.png) · [control plan](docs/Screenshots/smartsheet-6-control-plan.png) |
+| D8 | Final presentation | PowerPoint | [PDF](docs/approval-workflow-final-presentation.pdf) · [PPTX](docs/approval-workflow-final-presentation.pptx) |
 
-The working time did not change. The waiting time did. That is the whole point of a flow project: the work itself was not slow, the waiting between stages was.
+## How the project was run
 
-## How this improves a business model
+### Smartsheet: schedule, RAID log, dashboard, roadmap, control plan
 
-This is covered in full in `docs/business-model.md`. In short, a faster, cleaner pipeline means:
+![Smartsheet Gantt schedule](docs/Screenshots/smartsheet-1-gantt.png)
+![Smartsheet RAID log](docs/Screenshots/smartsheet-2-raid.png)
+![Smartsheet dashboard](docs/Screenshots/smartsheet-3-dashboard.png)
+![Smartsheet progress by phase](docs/Screenshots/smartsheet-4-progress.png)
+![Smartsheet roadmap](docs/Screenshots/smartsheet-5-roadmap.png)
+![Smartsheet control plan](docs/Screenshots/smartsheet-6-control-plan.png)
 
-- **Faster time to value:** improvements reach members and guests in 12 days instead of 21.
-- **More capacity without more headcount:** throughput rises from 28 to about 39 a week in the simulated case, at the same simulated team size.
-- **Lower cost to serve:** rework falls from 22% to 9%, so less work is done twice.
-- **Better quality at release:** escapes fall from 14% to 5%, so fewer fixes are needed after release.
-- **Predictability:** lead time narrows from a baseline range of about 18–24 days to about 10–14 days in control, so planning and promises become reliable.
+### Asana: tasks, change requests, automation, status
 
-## How different roles use this project
+![Asana task list](docs/Screenshots/asana-1-list.png)
+![Asana board](docs/Screenshots/asana-2-board.png)
+![Asana change request form](docs/Screenshots/asana-3-form.png)
+![Asana automation rule](docs/Screenshots/asana-4-automation.png)
+![Asana change request](docs/Screenshots/asana-5-change-request.png)
+![Asana status update](docs/Screenshots/asana-6-status.png)
+![Asana task list with completed Miro deliverables](docs/Screenshots/asana-7-miro-done.png)
 
-`docs/role-angles.md` explains, for each role, which part of this project to lead with. The roles covered are Associate / Assistant Product Manager (APM), Product Manager, Product Operations, Business Operations, Process Improvement / Continuous Improvement, and Customer Experience. The data, the flow, and the limits are the same in every angle.
+### Miro: stakeholder map, RACI and process maps
 
-## Files
+![Miro overview and stakeholder map](docs/Screenshots/miro-1-overview-stakeholders.png)
+![Miro RACI](docs/Screenshots/miro-2-raci.png)
+![Miro as-is process map](docs/Screenshots/miro-3-asis-map.png)
+![Miro as-is rework loops](docs/Screenshots/miro-4-asis-loops.png)
+![Miro fishbone](docs/Screenshots/miro-5-fishbon.png)
+![Miro impact/effort matrix](docs/Screenshots/miro-6-impact-effort.png)
+![Miro to-be process](docs/Screenshots/miro-7-tobe.png)
 
-- `docs/charter.md` — improvement brief, goal, scope, stakeholders, success criteria
-- `docs/flow-analysis.md` — as-is value-stream map, waste, Pareto, and the bottleneck
-- `docs/pipeline.md` — stages, WIP, lead time, throughput, and the full 12-week table
-- `docs/intake-and-prioritisation.md` — intake form, completeness checklist, priority tiers, triage
-- `docs/playbook.md` — runbooks and definition of done for every stage
-- `docs/quality.md` — quality gates, escapes, and the early-quality fix
-- `docs/reporting.md` — KPI definitions, weekly review, and business review template
-- `docs/improvement-plan.md` — phased plan, one change per cause
-- `docs/business-model.md` — how flow improvement changes the business model
-- `docs/process-maps.md` — as-is and to-be flowcharts, swimlane, diagnostic order
-- `docs/roadmap.md` — roadmap, Gantt schedule, dependencies, milestone success criteria
-- `docs/risk-mitigation.md` — risk matrix with mitigation, owner, and trigger
-- `docs/pm-plan.md` — PM plan: scope, stakeholders, schedule, risk, change control, governance
-- `docs/role-angles.md` — how APM, PM, Product Operations, Business Operations, Process Improvement, and Customer Experience roles use this work
-- `docs/resume-bullets.md` — repo docs only, for resume use with a Project label
-- `docs/retrospective.md` — what worked, what did not, and what to do next
-- `docs/real-data-analysis.md` — Boston 311, 2024: real diagnostic, source, findings, and limits
-- `docs/tool-stack.md` — Tableau, Miro, Asana, and Smartsheet: what each tool shows, and its import files
-- `docs/miro-board-structure.md` — Miro board frames with the real 311 numbers to copy in
-- `tools/tableau-311-2024-by-month.csv`, `tools/tableau-311-2024-by-type.csv`, `tools/tableau-311-2024-ontime.csv` — real 2024 counts for Tableau Public
-- `tools/smartsheet-plan.csv`, `tools/asana-tasks.csv` — real-data diagnostic and mapping plan, proposed steps, not completed work
-- `demo/index.html` — interactive pipeline demo
+### Tableau: baseline dashboard
 
-## Limits, stated plainly
+[Open the live dashboard](https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard)
 
-- Simulated data. Twelve weeks, no holidays, no staffing changes, no seasonal variation.
-- Phased interventions show a sequence and phase averages. They do not prove how much any single intervention caused on its own.
-- Four control weeks show direction, not a proven new stable level. A real version would need a longer control period, a capacity and hours view, and a real cost view before any financial claim is made.
-- This project does not cover physical safety operations, financial accounting, or content production craft. Those are out of scope.
+![Tableau dashboard](docs/Screenshots/tableau-6-dashboard.png)
+![Tableau cycle time](docs/Screenshots/tableau-1-cycle-time.png)
+![Tableau wait by step](docs/Screenshots/tableau-2-wait-by-step.png)
+![Tableau rejections by role](docs/Screenshots/tableau-3-rejections.png)
+![Tableau monthly volume](docs/Screenshots/tableau-4-monthly.png)
+![Tableau KPIs](docs/Screenshots/tableau-5-kpis.png)
+
+## Data and reproducibility
+
+- **Source:** BPI Challenge 2020, Domestic Declarations: the travel-expense approval log of a
+  university, 2017–2018. 10,500 claims and 56,437 events.
+- **DOI:** https://doi.org/10.4121/uuid:3f422315-ed9d-4882-891f-e180b5b4feb5
+- **License:** CC BY-NC 4.0 (attribution, non-commercial use only). Citation: van Dongen,
+  Boudewijn (2020): BPI Challenge 2020: Domestic Declarations. 4TU.ResearchData.
+- **Checksum verification:** the GitHub Actions workflow
+  [`.github/workflows/fetch-bpi2020.yml`](.github/workflows/fetch-bpi2020.yml) downloaded the raw
+  file. Its size (933,930 bytes) and MD5 (`6a78c39491498363ce4788e0e8ca75ef`) match the
+  publisher's values. The result is recorded in
+  [`data/raw/bpi2020/SOURCE.md`](data/raw/bpi2020/SOURCE.md).
+
+To rebuild every output from the raw file, run these three scripts. They use only the Python 3
+standard library, and each run gives byte-identical files.
+
+```bash
+python3 analysis/01_clean.py
+```
+Cleans the log into `data/processed/` and writes `docs/data-cleaning-log.md`.
+
+```bash
+python3 analysis/02_baseline.py
+```
+Writes the baseline KPIs to `data/outputs/tableau/` and `docs/baseline-kpi-report.md`.
+
+```bash
+python3 analysis/03_scenarios.py
+```
+Writes the what-if scenarios to `data/outputs/scenarios.csv` and `data/outputs/rework_extra_days.csv`.
+
+Every analysis decision is recorded in [`docs/decisions.md`](docs/decisions.md).
+
+## What is real and what is not
+
+- **Real:** the data. It is a published event log, verified against the publisher's checksum,
+  and every number traces to a script in `analysis/`.
+- **Role-played:** the stakeholders (sponsor, process owner, approvers, payments team). There was
+  no access to the real organisation.
+- **Proposed, not implemented:** the fixes F1–F3 and the roadmap.
+- **Estimates, not results:** the scenarios S1–S6 are what-if models on 2018 data. Causes that the
+  data can't show (such as why a claim was rejected) are labelled as hypotheses.
+
+## Repository structure
+
+```
+analysis/        01_clean.py, 02_baseline.py, 03_scenarios.py
+data/raw/        the original event log and SOURCE.md (never modified)
+data/processed/  events.csv and cases.csv (cleaned)
+data/outputs/    scenarios.csv, rework_extra_days.csv; tableau/ holds the dashboard tables
+docs/            charter, KPI report, findings and business case, decisions, cleaning log,
+                 final presentation (PDF, PPTX), Screenshots/
+demo/            index.html, the demo page (business-flow-improvement-demo.vercel.app)
+.github/         the workflow that downloads and verifies the raw data
+tools/           legacy files from an earlier version of this project (not used)
+```
+
+Some files in `docs/` and `tools/` come from earlier versions of this project (a simulated
+pipeline and a Boston 311 analysis). They are kept for history and are not part of these results.
