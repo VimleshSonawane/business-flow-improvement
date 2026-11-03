@@ -7,6 +7,7 @@ proposed fixes that meet every target in a what-if model built on the real 2018 
 [Tableau dashboard](https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard) ·
 [Final presentation (PDF)](docs/approval-workflow-final-presentation.pdf) ·
 [Findings and business case](docs/findings-and-business-case.md) ·
+[Retrospective](docs/retrospective.md) ·
 [Live demo page](https://business-flow-improvement-demo.vercel.app)
 
 **Author:** Vimlesh Sonawane, project manager and analyst. Self-initiated portfolio project, run as
@@ -164,7 +165,7 @@ data/raw/        the original event log and SOURCE.md (never modified)
 data/processed/  events.csv and cases.csv (cleaned)
 data/outputs/    scenarios.csv, rework_extra_days.csv; tableau/ holds the dashboard tables
 docs/            charter, KPI report, findings and business case, decisions, cleaning log,
-                 final presentation (PDF, PPTX), Screenshots/
+                 retrospective, final presentation (PDF, PPTX), Screenshots/
 demo/            index.html, the demo page (business-flow-improvement-demo.vercel.app)
 .github/         the workflow that downloads and verifies the raw data
 tools/           legacy files from an earlier version of this project (not used)
