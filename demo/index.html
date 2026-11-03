@@ -4,228 +4,192 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Approval Workflow Improvement</title>
-<meta name="description" content="DMAIC project on real data (BPI Challenge 2020): why 1 in 10 expense claims waits 20+ days to be paid, and three fixes that meet every target in a what-if model.">
-<style>
-  :root {
-    --bg: #f7f7f5; --surface: #ffffff; --text: #1b1d21; --muted: #5b606a; --line: #e2e3e0;
-    --accent: #2f5fd0; --accent-soft: #e8eefc; --bad: #c2410c; --good: #15803d; --track: #eceeea;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #141518; --surface: #1d1f24; --text: #ececef; --muted: #a3a8b3; --line: #2e3138;
-      --accent: #7ea2ff; --accent-soft: #232c44; --bad: #fb923c; --good: #4ade80; --track: #2a2d33;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #141518; --surface: #1d1f24; --text: #ececef; --muted: #a3a8b3; --line: #2e3138;
-    --accent: #7ea2ff; --accent-soft: #232c44; --bad: #fb923c; --good: #4ade80; --track: #2a2d33;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  }
-  main { max-width: 960px; margin: 0 auto; padding: 32px 16px 56px; }
-  header p.kicker { margin: 0 0 6px; color: var(--accent); font-weight: 600; font-size: 13px;
-    letter-spacing: .06em; text-transform: uppercase; }
-  h1 { margin: 0 0 10px; font-size: clamp(26px, 5vw, 38px); line-height: 1.15; }
-  h2 { margin: 40px 0 12px; font-size: 21px; }
-  p { margin: 0 0 12px; }
-  .lead { font-size: 18px; color: var(--muted); max-width: 46em; }
-  .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .links a { display: inline-block; padding: 8px 14px; border-radius: 999px; text-decoration: none;
-    background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 14px; }
-  .links a:hover { text-decoration: underline; }
-  .grid { display: grid; gap: 12px; }
-  .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
-  .kpi b { display: block; font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .kpi span { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
-  .note { font-size: 13px; color: var(--muted); }
-  ol.findings { margin: 0; padding-left: 22px; }
-  ol.findings li { margin: 0 0 10px; }
-  .ba-row { display: grid; grid-template-columns: 170px 1fr; gap: 12px; align-items: center;
-    padding: 12px 0; border-top: 1px solid var(--line); }
-  .ba-row:first-of-type { border-top: 0; }
-  .ba-label b { display: block; }
-  .ba-label span { font-size: 13px; color: var(--muted); }
-  .bar { display: flex; align-items: center; gap: 10px; margin: 4px 0; font-size: 14px;
-    font-variant-numeric: tabular-nums; }
-  .bar i { display: block; height: 14px; border-radius: 4px; flex: none; }
-  .bar.now i { background: var(--bad); }
-  .bar.after i { background: var(--good); }
-  .bar em { font-style: normal; color: var(--muted); width: 44px; flex: none; }
-  .fix h3 { margin: 0 0 6px; font-size: 17px; }
-  .fix .tag { display: inline-block; margin-bottom: 8px; font-size: 12px; font-weight: 600;
-    color: var(--accent); }
-  .fix p { font-size: 15px; }
-  .docs { padding: 4px 16px; }
-  .doc { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
-    padding: 12px 0; border-top: 1px solid var(--line); }
-  .doc:first-child { border-top: 0; }
-  .doc b { display: block; }
-  .doc span { display: block; font-size: 14px; color: var(--muted); }
-  .btn { display: inline-block; padding: 7px 14px; border-radius: 8px; text-decoration: none;
-    font-size: 14px; font-weight: 600; white-space: nowrap; border: 1px solid var(--accent);
-    color: var(--accent); }
-  .btn.primary { background: var(--accent); color: var(--surface); }
-  .btn:hover { text-decoration: underline; }
-  .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .shot { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
-    overflow: hidden; }
-  .shot a { display: block; background: #fff; }
-  .shot img { display: block; width: 100%; height: 150px; object-fit: cover; object-position: top left; }
-  .shot figcaption { padding: 10px 12px; font-size: 14px; color: var(--muted); }
-  .shot figcaption b { color: var(--text); }
-  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
-  @media (max-width: 760px) {
-    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .cards { grid-template-columns: 1fr; }
-    .ba-row { grid-template-columns: 1fr; gap: 4px; }
-    .gallery { grid-template-columns: 1fr; }
-    .shot img { height: auto; object-fit: contain; }
-  }
-  @media (max-width: 480px) {
-    .doc { grid-template-columns: 1fr; gap: 8px; }
-    .doc .btn { justify-self: start; }
-  }
-</style>
+<meta name="description" content="An interactive walk-through of a real-data process improvement project: why 1 in 10 expense claims waits 20+ days to be paid, and three fixes that meet every target in a what-if model.">
+<link rel="stylesheet" href="assets/site.css">
+<script defer src="assets/site.js"></script>
 </head>
 <body>
-<main>
-  <header>
-    <p class="kicker">DMAIC · real data · BPI Challenge 2020</p>
-    <h1>Approval Workflow Improvement</h1>
-    <p class="lead">Why 1 in 10 travel-expense claims at a university waits more than 20 days to be
-      paid, and three proposed fixes that meet every target in a what-if model built on the real
-      2018 process log (10,500 claims, 56,437 events).</p>
-    <nav class="links" aria-label="Project links">
-      <a href="https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard">Tableau dashboard</a>
-      <a href="files/approval-workflow-final-presentation.pdf">Final presentation (PDF)</a>
-      <a href="https://github.com/VimleshSonawane/business-flow-improvement">GitHub repository</a>
-    </nav>
+<a class="skip" href="#top">Skip to content</a>
+<nav class="topnav" aria-label="Sections">
+  <div class="topnav-inner">
+    <a class="brand" href="#top">Approval workflow</a>
+    <div class="navlinks" id="navlinks">
+      <a href="#journey">Journey</a>
+      <a href="#data">Data</a>
+      <a href="#map">Process map</a>
+      <a href="#charts">Charts</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#causes">Root causes</a>
+      <a href="#managed">Managed</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#documents">Documents</a>
+      <a href="#real">What's real</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+  <!-- Hero -->
+  <header class="hero section" id="hero">
+    <p class="kicker">Process improvement · real data · BPI Challenge 2020</p>
+    <h1>Why 1 in 10 expense claims waits weeks to be paid</h1>
+    <p class="lead">A university's travel-expense approval process, measured from its real event log
+      (<span data-v="baseline.cases_total" data-f="int"></span> claims,
+      <span data-v="baseline.events_total" data-f="int"></span> recorded steps), and three proposed
+      fixes that meet every target in a what-if model.</p>
+    <div class="grid kpis">
+      <div class="card kpi"><b data-count="baseline.median_days.value" data-d="2" data-suffix=" days"></b><span>Typical (median) time from submitting a claim to payment</span></div>
+      <div class="card kpi"><b data-count="baseline.p90_days.value" data-d="2" data-suffix=" days"></b><span>The slowest 1 in 10 claims take longer than this (P90)</span></div>
+      <div class="card kpi"><b data-count="baseline.rejected_pct.value" data-d="2" data-suffix="%"></b><span>Claims sent back (rejected) at least once</span></div>
+      <div class="card kpi"><b data-count="baseline.mon_thu_pct.value" data-d="2" data-suffix="%"></b><span>Payments made on a Monday or Thursday</span></div>
+    </div>
+    <p class="note">2018. Base: <span data-v="baseline.p90_days.denominator" data-f="int"></span> paid claims;
+      rejections over <span data-v="baseline.rejected_pct.denominator" data-f="int"></span> submitted claims. Measured.</p>
+
+    <div class="card s6">
+      <div class="s6-head"><h2 class="h3">If all three fixes were made</h2><span class="badge warn">What-if estimate</span></div>
+      <div class="grid ba">
+        <div><span class="ba-k">Slowest 1 in 10 (P90)</span><span class="ba-v"><s data-v="scen.Baseline.p90_days" data-f="2" data-suffix=" d"></s> → <b data-v="scen.S6.p90_days" data-f="2" data-suffix=" d"></b></span></div>
+        <div><span class="ba-k">Claims rejected</span><span class="ba-v"><s data-v="scen.Baseline.rejection_pct" data-f="2" data-suffix="%"></s> → <b data-v="scen.S6.rejection_pct" data-f="2" data-suffix="%"></b></span></div>
+        <div><span class="ba-k">Wait for the payment run</span><span class="ba-v"><s data-v="scen.Baseline.payment_wait_days" data-f="2" data-suffix=" d"></s> → <b data-v="scen.S6.payment_wait_days" data-f="2" data-suffix=" d"></b></span></div>
+      </div>
+      <p class="note">Modelled on the 2018 data (scenario S6). None of the fixes was implemented.</p>
+    </div>
   </header>
 
-  <section aria-labelledby="baseline">
-    <h2 id="baseline">2018 baseline</h2>
-    <div class="grid kpis">
-      <div class="card kpi"><b>8.05 d</b><span>Median days from submission to payment</span></div>
-      <div class="card kpi"><b>20.25 d</b><span>P90: the slowest 1 in 10 claims</span></div>
-      <div class="card kpi"><b>13.14%</b><span>Claims rejected at least once</span></div>
-      <div class="card kpi"><b>99.66%</b><span>Payments made on a Monday or Thursday</span></div>
-    </div>
-    <p class="note" style="margin-top:10px">Base: 7,903 paid 2018 claims; rejections over 8,160
-      submitted claims. Measured from the real log.</p>
+  <!-- Journey -->
+  <section class="section" id="journey">
+    <h2>Project journey</h2>
+    <p class="intro">The project followed five standard improvement phases (known as DMAIC). Pick a phase to see what was produced and with which tools.</p>
+    <div class="tabs" role="tablist" aria-label="Project phases" id="journey-tabs"></div>
+    <div class="card" id="journey-panel" role="tabpanel" tabindex="0"></div>
   </section>
 
-  <section aria-labelledby="findings">
-    <h2 id="findings">Key findings</h2>
+  <!-- Data pipeline -->
+  <section class="section" id="data">
+    <h2>How the data was built</h2>
+    <p class="intro">Every number on this site comes from one public log, processed by three short Python scripts. Click a step to see what it does and the real code behind it.</p>
+    <div class="pipeline" id="pipeline"></div>
+    <div class="card" id="pipeline-panel" aria-live="polite"></div>
+  </section>
+
+  <!-- Process map -->
+  <section class="section" id="map">
+    <h2>The approval process, as it really ran in 2018</h2>
+    <p class="intro">Each box is a step; each arrow shows how many claims moved that way. Click a step or an arrow for counts and waits. Red marks the three bottlenecks.</p>
+    <div class="map-tools">
+      <label class="switch"><input type="checkbox" id="loops-toggle" checked> <span>Show rejection loops</span></label>
+      <span class="legend"><i class="lg main"></i>Main flow <i class="lg loop"></i>Rejection loop <i class="lg hot"></i>Bottleneck</span>
+    </div>
+    <div class="map-wrap card"><svg id="pmap" role="group" aria-label="Process map of the 2018 approval flow"></svg></div>
+    <p class="note map-hint">On a phone, swipe the map sideways to see all of it.</p>
+    <div class="grid two">
+      <div class="card" id="map-panel" aria-live="polite"><p class="muted">Click a step or an arrow.</p></div>
+      <div class="card" id="bottlenecks"></div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section class="section" id="charts">
+    <h2>What the data shows</h2>
+    <p class="intro">Hover or tap a bar for its exact value. All charts: 2018.</p>
+    <div class="grid two">
+      <figure class="card chart"><figcaption><b>How long paid claims take</b><span>Paid claims by days from submission to payment, split by whether they were ever rejected</span></figcaption><div class="chart-box" id="ch-dist"></div></figure>
+      <figure class="card chart"><figcaption><b>Waiting time before each step</b><span>Median and slowest 10% (P90), in days</span></figcaption><div class="chart-box" id="ch-wait"></div></figure>
+      <figure class="card chart"><figcaption><b>Rejections by who made them</b><span>Number of rejections; the rate per 100 claims is in the tooltip</span></figcaption><div class="chart-box" id="ch-rej"></div></figure>
+      <figure class="card chart"><figcaption><b>Payments by weekday</b><span>Number of payments made on each day</span></figcaption><div class="chart-box" id="ch-week"></div></figure>
+      <figure class="card chart wide"><figcaption><b>Claims submitted each month</b><span>First submissions and resubmissions after a rejection</span></figcaption><div class="chart-box" id="ch-month"></div></figure>
+    </div>
+    <div class="tip" id="tip" role="status" hidden></div>
+  </section>
+
+  <!-- Scenarios -->
+  <section class="section" id="scenarios">
+    <h2>Scenario explorer</h2>
+    <p class="intro">Tick fixes to see their estimated effect on the 2018 data, against the project's three targets.</p>
     <div class="card">
-      <ol class="findings">
-        <li><b>Payments run in batches.</b> They are released on Mondays and Thursdays, so the wait
-          from payment request to payment (median 3.21 days) is the longest of any step.</li>
-        <li><b>Approvals have long tails.</b> Most are quick, but the slowest 10% wait 4.85 days
-          (budget owner), 6.21 days (supervisor) and 6.83 days (before the payment request).</li>
-        <li><b>Rework costs time.</b> Administration made 948 of the 1,229 rejections. Rejected
-          claims take a median of 13.21 days to pay, against 7.34 days; a supervisor rejection adds
-          the most (+9.30 days).</li>
-        <li><b>Zero-amount claims are always rejected.</b> 253 of the 1,072 rejected claims had an
-          amount of zero, and none was paid.</li>
-        <li><b>Control exceptions.</b> Two claims were paid without final approval, flagged for
-          review (a control failure or a data issue, not determinable from the data).</li>
-      </ol>
+      <fieldset class="fixes">
+        <legend class="sr">Fixes</legend>
+        <label><input type="checkbox" value="F1"> <b>F1</b> Daily payment runs</label>
+        <label><input type="checkbox" value="F2"> <b>F2</b> Checklist with an amount &gt; 0 rule</label>
+        <label><input type="checkbox" value="F3"> <b>F3</b> Reminders after 3 days</label>
+      </fieldset>
+      <div id="scen-out" aria-live="polite"></div>
+      <p class="note">What-if estimates, not results. F2 assumes a 40% cut in Administration rejections (an assumption) and blocks zero-amount claims (an effect seen in the data).</p>
     </div>
   </section>
 
-  <section aria-labelledby="s6">
-    <h2 id="s6">Before and after: all three fixes (S6)</h2>
-    <div class="card">
-      <div class="ba-row">
-        <div class="ba-label"><b>P90 days to payment</b><span>Target ≤ 14 days · met</span></div>
-        <div>
-          <div class="bar now"><em>Now</em><i style="width:calc((100% - 120px) * 1)"></i>20.25 d</div>
-          <div class="bar after"><em>After</em><i style="width:calc((100% - 120px) * 0.4314)"></i>8.74 d</div>
-        </div>
-      </div>
-      <div class="ba-row">
-        <div class="ba-label"><b>Claims rejected</b><span>Target ≤ 8% · met</span></div>
-        <div>
-          <div class="bar now"><em>Now</em><i style="width:calc((100% - 120px) * 1)"></i>13.14%</div>
-          <div class="bar after"><em>After</em><i style="width:calc((100% - 120px) * 0.5556)"></i>7.30%</div>
-        </div>
-      </div>
-      <div class="ba-row">
-        <div class="ba-label"><b>Median payment wait</b><span>Target ≤ 1 day · met</span></div>
-        <div>
-          <div class="bar now"><em>Now</em><i style="width:calc((100% - 120px) * 1)"></i>3.21 d</div>
-          <div class="bar after"><em>After</em><i style="width:calc((100% - 120px) * 0.3115)"></i>1.00 d</div>
-        </div>
-      </div>
+  <!-- Root causes -->
+  <section class="section" id="causes">
+    <h2>Root causes</h2>
+    <p class="intro">From the fishbone diagram. Some causes are shown by the data; others are hypotheses to test with the people involved.</p>
+    <div class="seg" role="radiogroup" aria-label="Filter causes" id="cause-filter">
+      <button type="button" role="radio" aria-checked="true" data-filter="all">All</button>
+      <button type="button" role="radio" aria-checked="false" data-filter="proven">Proven by data</button>
+      <button type="button" role="radio" aria-checked="false" data-filter="hypothesis">Hypothesis to test</button>
     </div>
-    <p class="note" style="margin-top:10px"><b>What-if estimates on 2018 data, not results.</b>
-      None of the fixes was implemented. The rejection rate is over the 7,907 claims left after
-      zero-amount claims are blocked (7.07% over all 8,160). The 40% cut in Administration
-      rejections is an assumption; the zero-amount effect is observed.</p>
+    <div class="grid three" id="cause-cards"></div>
   </section>
 
-  <section aria-labelledby="fixes">
-    <h2 id="fixes">Top 3 fixes</h2>
-    <div class="grid cards">
-      <div class="card fix">
-        <span class="tag">F1 · targets the payment wait</span>
-        <h3>Daily payment runs</h3>
-        <p>Pay every working day instead of Mondays and Thursdays, so no approved claim waits
-          days for the next run.</p>
-      </div>
-      <div class="card fix">
-        <span class="tag">F2 · targets rejections</span>
-        <h3>Claim checklist at submission</h3>
-        <p>Check the claim is complete before it is sent, and block zero-amount claims, which are
-          always rejected.</p>
-      </div>
-      <div class="card fix">
-        <span class="tag">F3 · targets the slow tail</span>
-        <h3>Approval reminders after 3 days</h3>
-        <p>Remind budget owners and supervisors when a claim has waited 3 days for their
-          approval.</p>
-      </div>
-    </div>
+  <!-- Managed -->
+  <section class="section" id="managed">
+    <h2>How the project was managed</h2>
+    <p class="intro">The schedule, tasks, maps and dashboards were kept in four tools. Pick a tool; click an image to enlarge it.</p>
+    <div class="tabs" role="tablist" aria-label="Tools" id="tools-tabs"></div>
+    <div id="tools-panel" role="tabpanel" tabindex="0"></div>
+    <h3>Milestones</h3>
+    <ol class="timeline" id="milestones"></ol>
   </section>
 
-  <section aria-labelledby="documents">
-    <h2 id="documents">Documents</h2>
-    <div class="card docs">
-      <div class="doc"><div><b>Final presentation (PDF)</b><span>The 18-slide DMAIC deck, from problem to control plan.</span></div><a class="btn primary" href="files/approval-workflow-final-presentation.pdf">Open PDF</a></div>
-      <div class="doc"><div><b>Final presentation (PowerPoint)</b><span>The same deck as an editable .pptx file.</span></div><a class="btn" href="files/approval-workflow-final-presentation.pptx" download>Download</a></div>
-      <div class="doc"><div><b>Findings and business case</b><span>Findings, the business case for F1–F3, and the what-if scenarios.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/findings-and-business-case.md">View on GitHub</a></div>
-      <div class="doc"><div><b>Project charter</b><span>Problem, goal, targets, scope, deliverables, milestones and risks.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/charter.md">View on GitHub</a></div>
-      <div class="doc"><div><b>Baseline KPI report</b><span>Every 2018 baseline KPI with its definition, filter and denominator.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/baseline-kpi-report.md">View on GitHub</a></div>
-      <div class="doc"><div><b>Decisions log</b><span>Numbered, dated decisions behind the analysis and scenarios.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/decisions.md">View on GitHub</a></div>
-      <div class="doc"><div><b>Retrospective</b><span>What went well, what didn't, and what I'd do differently.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/retrospective.md">View on GitHub</a></div>
-      <div class="doc"><div><b>Data cleaning log</b><span>Every data check, what was found and the decision taken.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/data-cleaning-log.md">View on GitHub</a></div>
-      <div class="doc"><div><b>Tableau dashboard</b><span>The live, interactive 2018 baseline dashboard.</span></div><a class="btn" href="https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard">Open dashboard</a></div>
-    </div>
+  <!-- Roadmap -->
+  <section class="section" id="roadmap">
+    <h2>Roadmap and control plan</h2>
+    <p class="intro">A proposed plan: quick wins first, then the bigger payment change, with checks to keep the gains.</p>
+    <div class="card" id="waves"></div>
+    <h3>How the gains would be kept</h3>
+    <div class="card table-wrap"><table id="control"><thead><tr><th scope="col">Measure</th><th scope="col">Now</th><th scope="col">Target</th><th scope="col">Alert if</th><th scope="col">Owner</th></tr></thead><tbody></tbody></table></div>
   </section>
 
-  <section aria-labelledby="screenshots">
-    <h2 id="screenshots">Screenshots</h2>
-    <div class="grid gallery">
-      <figure class="shot"><a href="files/screenshots/tableau-6-dashboard.webp"><img src="files/screenshots/tableau-6-dashboard-thumb.webp" alt="Tableau: Baseline dashboard (D3)" loading="lazy" width="720" height="434"></a><figcaption><b>Tableau</b> · Baseline dashboard (D3)</figcaption></figure>
-      <figure class="shot"><a href="files/screenshots/miro-4-asis-loops.webp"><img src="files/screenshots/miro-4-asis-loops-thumb.webp" alt="Miro: As-is map with rejection loops (D4)" loading="lazy" width="720" height="409"></a><figcaption><b>Miro</b> · As-is map with rejection loops (D4)</figcaption></figure>
-      <figure class="shot"><a href="files/screenshots/miro-5-fishbon.webp"><img src="files/screenshots/miro-5-fishbon-thumb.webp" alt="Miro: Fishbone root-cause analysis (D5)" loading="lazy" width="720" height="485"></a><figcaption><b>Miro</b> · Fishbone root-cause analysis (D5)</figcaption></figure>
-      <figure class="shot"><a href="files/screenshots/miro-6-impact-effort.webp"><img src="files/screenshots/miro-6-impact-effort-thumb.webp" alt="Miro: Fixes scored for impact and effort (D6)" loading="lazy" width="720" height="438"></a><figcaption><b>Miro</b> · Fixes scored for impact and effort (D6)</figcaption></figure>
-      <figure class="shot"><a href="files/screenshots/smartsheet-5-roadmap.webp"><img src="files/screenshots/smartsheet-5-roadmap-thumb.webp" alt="Smartsheet: Implementation roadmap (D7)" loading="lazy" width="720" height="194"></a><figcaption><b>Smartsheet</b> · Implementation roadmap (D7)</figcaption></figure>
-      <figure class="shot"><a href="files/screenshots/smartsheet-6-control-plan.webp"><img src="files/screenshots/smartsheet-6-control-plan-thumb.webp" alt="Smartsheet: Control plan (D7)" loading="lazy" width="720" height="344"></a><figcaption><b>Smartsheet</b> · Control plan (D7)</figcaption></figure>
-    </div>
-    <p class="note" style="margin-top:10px">Click an image to open it full size.</p>
+  <!-- Documents -->
+  <section class="section" id="documents">
+    <h2>Documents</h2>
+    <div class="card docs" id="doc-list"></div>
   </section>
 
-  <footer>
-    <p class="note">Data: BPI Challenge 2020, Domestic Declarations (van Dongen, 2020,
-      4TU.ResearchData), CC BY-NC 4.0. Stakeholders were role-played; fixes are proposed, not
-      implemented. Project by Vimlesh Sonawane.</p>
-  </footer>
+  <!-- Real -->
+  <section class="section" id="real">
+    <h2>What's real and what isn't</h2>
+    <div class="grid two">
+      <div class="card"><h3 class="h3">Real</h3><ul>
+        <li>The data: a published event log, checked against the publisher's checksum (result: <span data-v="raw.check"></span>).</li>
+        <li>Every number on this site, read from the project's output files.</li>
+      </ul></div>
+      <div class="card"><h3 class="h3">Not real</h3><ul>
+        <li>The stakeholders were role-played; there was no access to the organisation.</li>
+        <li>The fixes are proposed, not implemented.</li>
+        <li>The scenarios are what-if estimates on 2018 data, not results.</li>
+      </ul></div>
+    </div>
+  </section>
 </main>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="https://github.com/VimleshSonawane/business-flow-improvement">GitHub repository</a>
+    <a href="https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard">Tableau dashboard</a>
+    <a href="https://vimleshsonawane.com">vimleshsonawane.com</a>
+  </div>
+  <p class="note">Data: BPI Challenge 2020, Domestic Declarations (van Dongen, 2020, 4TU.ResearchData), CC BY-NC 4.0. Project by Vimlesh Sonawane.</p>
+</footer>
+
+<dialog id="zoom" aria-label="Enlarged screenshot">
+  <figure><img id="zoom-img" alt=""><figcaption id="zoom-cap"></figcaption></figure>
+  <div class="zoom-bar">
+    <button type="button" id="zoom-prev" aria-label="Previous image">← Previous</button>
+    <a id="zoom-open" href="#" target="_blank" rel="noopener">Open full size</a>
+    <button type="button" id="zoom-next" aria-label="Next image">Next →</button>
+    <button type="button" id="zoom-close">Close</button>
+  </div>
+</dialog>
 </body>
 </html>

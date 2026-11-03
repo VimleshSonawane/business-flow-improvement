@@ -145,3 +145,13 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
     rejection change are not capped, because they no longer exist. The rejection rate is
     reported the same two ways as S5. It is a what-if estimate, like the other scenarios
     (decision 11).
+
+14. **2026-11-03 — Site data.** `analysis/04_site_data.py` builds `demo/data/site.json`, the only
+    source of numbers on the demo site. It reads existing files only: the CSVs in
+    `data/outputs/` and `data/outputs/tableau/`, row counts of `data/processed/`, the checksum in
+    `data/raw/bpi2020/SOURCE.md`, the targets and milestones in `docs/charter.md`, decision titles
+    from `docs/decisions.md` and `docs/data-cleaning-log.md`, the control plan on slide 16 of the
+    final presentation, and short code excerpts copied unchanged from the scripts. It stops if the
+    charter or the deck disagrees with the outputs. The Wave 1/2 dates exist only in the
+    Smartsheet roadmap and are the one set of values written into the script. Two runs give
+    byte-identical output.
