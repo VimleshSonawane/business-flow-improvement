@@ -595,9 +595,31 @@
     });
     var ms = $("#milestones");
     D.milestones.forEach(function (m) {
-      ms.appendChild(h("li", {}, [h("b", { text: m.id + " · " + m.name }), h("span", { text: day(m.date) })]));
+      ms.appendChild(h("li", { class: m.done ? "done" : null }, [h("b", { text: m.id + " · " + m.name }),
+        h("span", { text: "Planned " + day(m.date) }),
+        h("span", { class: "badge " + (m.done ? "good" : "info"), text: m.done ? "Done" : "Open" })]));
     });
-    ms.insertAdjacentElement("afterend", h("p", { class: "note", text: "Dates from the project charter." }));
+    ms.insertAdjacentElement("afterend", h("p", { class: "note", text: "Status and planned dates from the project charter." +
+      (D.project_closed ? " The project closed on " + day(D.project_closed) + "." : "") }));
+
+    // RAID summary (docs/pm/raid-log.csv)
+    var rd = D.raid, rbox = $("#raid");
+    var plural = { Risk: "Risks", Assumption: "Assumptions", Issue: "Issues", Dependency: "Dependencies" };
+    rbox.appendChild(h("div", { class: "grid raid-counts" }, ["Risk", "Assumption", "Issue", "Dependency"].map(function (t) {
+      return h("div", { class: "card kpi" }, [h("b", { text: fmt(rd.counts[t] || 0) }), h("span", { text: plural[t] })]);
+    })));
+    var cls = { High: "bad", Medium: "warn", Low: "good" };
+    rbox.appendChild(h("div", { class: "grid three risks" }, rd.risks.map(function (r) {
+      return h("div", { class: "card risk" }, [
+        h("div", { class: "risk-head" }, [h("b", { text: r.id }), h("span", { class: "badge " + cls[r.rating], text: r.rating }),
+          h("span", { class: "chip", text: r.status })]),
+        h("p", { text: r.description }),
+        h("p", { class: "risk-score" }, [document.createTextNode("Probability " + r.probability + " × impact " + r.impact + " = "), h("b", { text: "score " + r.score })]),
+        h("p", { class: "note", text: "Response: " + r.response })
+      ]);
+    })));
+    rbox.appendChild(h("p", { class: "note", text: fmt(rd.total) + " RAID entries, from the Smartsheet RAID log. Risks are sorted by score (probability × impact, each 1–5); " +
+      rd.rating_bands.map(function (b) { return b.rating + " " + (b.min_score ? "≥ " + b.min_score : "below " + rd.rating_bands[rd.rating_bands.length - 2].min_score); }).join(", ") + "." }));
 
     var t0 = Date.UTC(2027, 0, 1), t1 = Date.UTC(2027, 3, 1);
     function pos(iso) { var p = iso.split("-"); return 100 * (Date.UTC(+p[0], +p[1] - 1, +p[2]) - t0) / (t1 - t0); }
@@ -620,12 +642,15 @@
     wv.appendChild(h("div", { class: "ms-list" }, D.wave_milestones.map(function (m) {
       return h("span", {}, [h("i", { "aria-hidden": "true" }), h("b", { text: m.id + " " }), document.createTextNode(m.name + " · " + day(m.date))]);
     })));
-    wv.appendChild(h("p", { class: "note", text: "Proposed dates, from the Smartsheet roadmap. Nothing has been implemented." }));
+    wv.appendChild(h("p", { class: "note", text: "Proposed dates (status: " + D.wave_milestones.map(function (m) { return m.status; }).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(", ") + "), from the Smartsheet roadmap. Nothing has been implemented." }));
 
     var tb = $("#control tbody");
     D.control_plan.forEach(function (c) {
-      tb.appendChild(h("tr", {}, [h("th", { scope: "row", text: c.kpi }), h("td", { text: c.now }), h("td", { text: c.target }), h("td", { text: c.alert }), h("td", { text: c.owner })]));
+      tb.appendChild(h("tr", {}, [h("th", { scope: "row", text: c.kpi }), h("td", { text: c.now }), h("td", { text: c.target }), h("td", { text: c.alert }), h("td", { text: c.frequency }), h("td", { text: c.owner })]));
     });
+    $("#control").closest(".table-wrap").insertAdjacentElement("afterend", h("p", { class: "note" }, [
+      document.createTextNode("Review rhythm: " + D.control_review + ". The five measures that also appear in the final presentation; the "),
+      h("a", { href: GH + "docs/pm/control-plan.csv", text: "full control plan" }), document.createTextNode(" has " + fmt(D.control_plan_total) + " rows.")]));
 
     var docs = [
       ["Final presentation (PDF)", "The full project story, from problem to control plan.", "files/approval-workflow-final-presentation.pdf", "Open PDF", "primary"],

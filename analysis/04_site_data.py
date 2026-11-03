@@ -4,10 +4,11 @@ Reads only files already in the repository and writes demo/data/site.json:
   data/outputs/*.csv, data/outputs/tableau/*.csv, data/processed/*.csv (row counts)
   data/raw/bpi2020/SOURCE.md (checksum), docs/charter.md (targets, milestones),
   docs/decisions.md and docs/data-cleaning-log.md (decision titles),
-  docs/approval-workflow-final-presentation.pptx (control plan, slide 16),
+  docs/pm/roadmap.csv, docs/pm/control-plan.csv and docs/pm/raid-log.csv (Smartsheet exports),
+  docs/approval-workflow-final-presentation.pptx (slide 16, only to cross-check the control plan),
   analysis/*.py and .github/workflows/fetch-bpi2020.yml (short code excerpts, copied as is).
-Nothing is computed from the raw log; no number is typed in by hand, except the Wave 1/2 dates,
-which exist only in the Smartsheet roadmap (docs/Screenshots/smartsheet-5-roadmap.png).
+Nothing is computed from the raw log and no number is typed in by hand. It stops with an error if
+the charter, the Smartsheet exports or the deck disagree with the output files.
 
 Standard library only. Deterministic: fixed key order, fixed rounding, no timestamps, so two
 runs give byte-identical output.
@@ -29,18 +30,9 @@ T = os.path.join(ROOT, "data", "outputs", "tableau")
 YEAR = "2018"
 GITHUB = "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/"
 
-# Exist only in the Smartsheet roadmap (docs/Screenshots/smartsheet-5-roadmap.png).
-WAVES = [
-    {"wave": "Wave 1 — quick wins", "start": "2027-01-04", "end": "2027-02-12",
-     "items": ["F2 Claim checklist at submission, incl. amount > 0 rule", "F3 Approval reminders after 3 days",
-               "F4 Backup approver for absences", "F6 Rejection reason codes",
-               "F7 Log Administration review time", "Wave 1 KPI review"]},
-    {"wave": "Wave 2 — major projects", "start": "2027-01-18", "end": "2027-03-26",
-     "items": ["F1 Daily payment runs", "F8 Block payment without final approval",
-               "Full-effect review against charter targets"]},
-]
-WAVE_MILESTONES = [("M5", "Wave 1 live", "2027-01-15"), ("M6", "Wave 2 live", "2027-02-26"),
-                   ("M7", "Decide on F5 (skip budget-owner step under a threshold)", "2027-03-26")]
+# RAID rating bands for score = probability x impact (1-5 scales). The Smartsheet Rating column is
+# a formula and is not in the export; these bands reproduce it for every risk in the sheet.
+RATING = [(10, "High"), (5, "Medium"), (0, "Low")]
 
 
 def path(*p):
@@ -188,25 +180,108 @@ def main():
     milestones = [{"id": m.group(1), "name": m.group(2).strip(), "date": m.group(3),
                    "done": bool(m.group(4))}
                   for m in re.finditer(r"(M\d) (.+?) — (\d{4}-\d{2}-\d{2})( \(done\))?", ms_line)]
+    closed = re.search(r"Project closed:\*\* (\d{4}-\d{2}-\d{2})", charter)
+    project_closed = closed.group(1) if closed else None
 
-    # Control plan, slide 16 of the deck (KPI, now, target, alert, owner).
+    pm = path("docs", "pm")
+
+    def nums(text):
+        return [float(x.replace(",", "")) for x in re.findall(r"\d[\d,]*(?:\.\d+)?", text or "")]
+
+    def stop(msg):
+        sys.exit("STOP: " + msg)
+
+    # Control plan: the Smartsheet export, checked against the outputs, the charter and the deck.
+    plan = rows("control-plan.csv", pm)
+    cp = {r["KPI"]: r for r in plan}
+    w = {x["step"]: x for x in waits}
+    s6 = next(x for x in scenarios if x["id"] == "S6")
+    expect = {
+        "P90 cycle time": f"{baseline['p90_days']['value']:.2f} days",
+        "Median cycle time": f"{baseline['median_days']['value']:.2f} days",
+        "Rejection rate": f"{baseline['rejected_pct']['value']:.2f}%",
+        "Zero-amount submissions": f"{int(kpi[('10c', 'Share of rejected cases that have a zero amount', YEAR)]['unit'].split('(')[1].split()[0])} (all rejected)",
+        "Payment wait": f"{scenarios[0]['payment_wait_days']:.2f} days",
+        "Payments on Monday or Thursday": f"{baseline['mon_thu_pct']['value']:.2f}%",
+        "Approval wait P90": " / ".join(f"{w[x]['p90_days']:.2f}" for x in ("BUDGET OWNER", "SUPERVISOR", "Request Payment")) + " days",
+        "Paid without final approval": f"{len(exceptions['paid_without_final_approval'])} (cases "
+            + ", ".join(sorted((c.split()[-1] for c in exceptions["paid_without_final_approval"]), reverse=True)) + ")",
+    }
+    for kk, v in expect.items():
+        if cp[kk]["Baseline (2018)"] != v:
+            stop(f"control-plan.csv baseline for {kk!r} is {cp[kk]['Baseline (2018)']!r}, outputs give {v!r}.")
+    if f"{s6['median_days']:.2f}" not in cp["Median cycle time"]["Target"]:
+        stop("control-plan.csv median target doesn't quote the S6 median.")
+    for kk, t in (("P90 cycle time", targets["p90_days"]), ("Rejection rate", targets["rejection_pct"]),
+                  ("Payment wait", targets["payment_wait_days"])):
+        if nums(cp[kk]["Target"]) != [t]:
+            stop(f"control-plan.csv target for {kk!r} doesn't match the charter ({t}).")
+    # Cross-check with the deck's control-plan slide (slide 16): same baseline and target numbers.
     z = zipfile.ZipFile(path("docs", "approval-workflow-final-presentation.pptx"))
     xml = z.read("ppt/slides/slide16.xml").decode("utf-8")
-    cells = [re.sub(r"<[^>]+>", "", c).replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&")
-             for c in re.findall(r"<a:tc>(.*?)</a:tc>", xml, re.S)]
-    cells = [re.sub(r"\s+", " ", c).strip() for c in cells]
-    head = cells.index("Owner") + 1
-    body = cells[head:]
-    control = [{"kpi": body[i], "now": body[i + 1], "target": body[i + 2], "alert": body[i + 3],
-                "owner": body[i + 4]} for i in range(0, len(body) - 4, 5)]
+    cells = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", c).replace("&gt;", ">").replace("&lt;", "<")
+                    .replace("&amp;", "&")).strip() for c in re.findall(r"<a:tc>(.*?)</a:tc>", xml, re.S)]
+    body = cells[cells.index("Owner") + 1:]
+    deck = [body[i:i + 5] for i in range(0, len(body) - 4, 5)]
+    deck_name = {"Payment wait (median)": "Payment wait"}
+    shown = []
+    for k_, now_, tgt_, _, _ in deck:
+        r = cp[deck_name.get(k_, k_)]
+        if nums(now_) != nums(r["Baseline (2018)"])[:len(nums(now_))] or nums(tgt_) != nums(r["Target"]):
+            stop(f"the deck's control plan disagrees with control-plan.csv for {k_!r}.")
+        shown.append(r["KPI"])
+    control = [{"kpi": r["KPI"], "now": r["Baseline (2018)"], "target": r["Target"],
+                "alert": r["Alert trigger"], "owner": r["Owner (role-played)"], "frequency": r["Check frequency"],
+                "fix": r["Linked fix"]} for r in plan if r["KPI"] in shown]
+    review = cp["Review cadence"]["Target"]
 
-    now = {c["kpi"]: c["now"] for c in control}
-    expect = {"P90 cycle time": f"{baseline['p90_days']['value']:.2f} d",
-              "Rejection rate": f"{baseline['rejected_pct']['value']:.2f}%",
-              "Payment wait (median)": f"{scenarios[0]['payment_wait_days']:.2f} d",
-              "Paid without final approval": str(len(exceptions["paid_without_final_approval"]))}
-    if any(now.get(kk) != v for kk, v in expect.items()):
-        sys.exit(f"STOP: control plan in the deck doesn't match the outputs: {now} vs {expect}")
+    # Roadmap: waves, their tasks and milestones M5-M7, from the Smartsheet export.
+    def iso(d):
+        m, d_, y = d.split("/")
+        return f"20{y}-{m}-{d_}"
+    waves, wave_ms, current = [], [], None
+    for r in rows("roadmap.csv", pm):
+        name = r["Task Name"]
+        if not r["Start"]:
+            current = {"wave": name, "tasks": []}
+            waves.append(current)
+            continue
+        m = re.match(r"(M\d+): (.+)", name)
+        if m:
+            wave_ms.append({"id": m.group(1), "name": m.group(2), "date": iso(r["Start"]), "status": r["Status"]})
+            continue
+        current["tasks"].append({"name": name, "start": iso(r["Start"]), "end": iso(r["Finish"]),
+                                 "owner": r["Owner (role-played)"], "status": r["Status"],
+                                 "effect": r["Expected effect (what-if, 2018 data)"]})
+        sid = re.match(r"(S\d)", r["Expected effect (what-if, 2018 data)"])
+        if sid:
+            sc = next(x for x in scenarios if x["id"] == sid.group(1))
+            allowed = {round(v, 2) for v in (sc["p90_days"], sc["median_days"], sc["payment_wait_days"],
+                                              sc["rejection_pct"], scenarios[0]["p90_days"],
+                                              scenarios[0]["payment_wait_days"], scenarios[0]["rejection_pct"])}
+            text = re.sub(r"\b(?:[SF]\d|P90)\b", "", r["Expected effect (what-if, 2018 data)"])
+            bad = [v for v in nums(text) if v not in allowed and v != 40]  # 40 = the S4/S5 assumed cut (%)
+            if bad:
+                stop(f"roadmap.csv effect for {name!r} has numbers not in scenarios.csv: {bad}")
+    waves = [{"wave": wv["wave"], "start": min(t["start"] for t in wv["tasks"]),
+              "end": max(t["end"] for t in wv["tasks"]), "items": [t["name"] for t in wv["tasks"]]}
+             for wv in waves if wv["tasks"]]
+
+    # RAID log, from the Smartsheet export.
+    raid_rows = rows("raid-log.csv", pm)
+    raid_counts = dict(collections.Counter(r["Type"] for r in raid_rows))
+    risks = []
+    for r in raid_rows:
+        if r["Type"] != "Risk":
+            continue
+        pr, im = int(r["Probability"]), int(r["Impact"])
+        sc_ = pr * im
+        risks.append({"id": r["ID"], "description": r["Description"], "probability": pr, "impact": im,
+                      "score": sc_, "rating": next(lbl for lo, lbl in RATING if sc_ >= lo),
+                      "status": r["Status"], "response": r["Response"], "owner": r["Owner"]})
+    risks.sort(key=lambda x: (-x["score"], x["id"]))
+    raid = {"counts": raid_counts, "total": len(raid_rows), "risks": risks,
+            "rating_bands": [{"min_score": lo, "rating": lbl} for lo, lbl in RATING]}
 
     dec = decision_titles("docs/decisions.md")
     clean = decision_titles("docs/data-cleaning-log.md")
@@ -281,9 +356,13 @@ def main():
             "share_pct": num(kpi[("10c", "Share of rejected cases that have a zero amount", YEAR)]["value"])},
         "raw": raw,
         "milestones": milestones,
-        "waves": WAVES,
-        "wave_milestones": [{"id": a, "name": b, "date": c} for a, b, c in WAVE_MILESTONES],
+        "project_closed": project_closed,
+        "waves": waves,
+        "wave_milestones": wave_ms,
         "control_plan": control,
+        "control_review": review,
+        "control_plan_total": len(plan),
+        "raid": raid,
         "pipeline": pipeline,
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)

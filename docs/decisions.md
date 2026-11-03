@@ -147,11 +147,20 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
     (decision 11).
 
 14. **2026-11-03 — Site data.** `analysis/04_site_data.py` builds `demo/data/site.json`, the only
-    source of numbers on the demo site. It reads existing files only: the CSVs in
-    `data/outputs/` and `data/outputs/tableau/`, row counts of `data/processed/`, the checksum in
-    `data/raw/bpi2020/SOURCE.md`, the targets and milestones in `docs/charter.md`, decision titles
-    from `docs/decisions.md` and `docs/data-cleaning-log.md`, the control plan on slide 16 of the
-    final presentation, and short code excerpts copied unchanged from the scripts. It stops if the
-    charter or the deck disagrees with the outputs. The Wave 1/2 dates exist only in the
-    Smartsheet roadmap and are the one set of values written into the script. Two runs give
-    byte-identical output.
+    source of numbers on the demo site. It reads existing files only:
+    - the CSVs in `data/outputs/` and `data/outputs/tableau/`, and row counts of `data/processed/`;
+    - the checksum in `data/raw/bpi2020/SOURCE.md`;
+    - the targets, milestones and closing date in `docs/charter.md`;
+    - decision titles from `docs/decisions.md` and `docs/data-cleaning-log.md`;
+    - the Smartsheet exports in `docs/pm/`: `roadmap.csv` (Wave 1 and Wave 2 tasks and dates,
+      milestones M5–M7), `control-plan.csv` (the control plan) and `raid-log.csv` (the RAID
+      summary);
+    - slide 16 of the final presentation, only to cross-check the control plan;
+    - short code excerpts copied unchanged from the scripts.
+
+    It stops with an error if the charter, the control plan, the roadmap's expected effects or the
+    deck disagree with the output files. The site shows the five control-plan measures that also
+    appear in the deck. A risk's score is probability × impact; its rating is High for a score of
+    10 or more, Medium for 5–9 and Low for 4 or less. The Smartsheet Rating column is a formula
+    that is not in the export; these bands reproduce it for every risk in the sheet. No value is
+    typed into the script. Two runs give byte-identical output.

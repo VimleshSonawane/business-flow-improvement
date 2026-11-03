@@ -913,30 +913,31 @@
    "id": "M1",
    "name": "Charter approved",
    "date": "2026-11-03",
-   "done": false
+   "done": true
   },
   {
    "id": "M2",
    "name": "Baseline and as-is map",
    "date": "2026-11-06",
-   "done": false
+   "done": true
   },
   {
    "id": "M3",
    "name": "Root causes and recommendations",
    "date": "2026-11-13",
-   "done": false
+   "done": true
   },
   {
    "id": "M4",
    "name": "Final presentation",
    "date": "2026-11-20",
-   "done": false
+   "done": true
   }
  ],
+ "project_closed": "2026-11-03",
  "waves": [
   {
-   "wave": "Wave 1 — quick wins",
+   "wave": "Wave 1 — Quick wins (proposed)",
    "start": "2027-01-04",
    "end": "2027-02-12",
    "items": [
@@ -945,11 +946,11 @@
     "F4 Backup approver for absences",
     "F6 Rejection reason codes",
     "F7 Log Administration review time",
-    "Wave 1 KPI review"
+    "Wave 1 KPI review (4 weekly reviews against the control plan)"
    ]
   },
   {
-   "wave": "Wave 2 — major projects",
+   "wave": "Wave 2 — Major projects (proposed)",
    "start": "2027-01-18",
    "end": "2027-03-26",
    "items": [
@@ -963,56 +964,162 @@
   {
    "id": "M5",
    "name": "Wave 1 live",
-   "date": "2027-01-15"
+   "date": "2027-01-15",
+   "status": "Proposed"
   },
   {
    "id": "M6",
    "name": "Wave 2 live",
-   "date": "2027-02-26"
+   "date": "2027-02-26",
+   "status": "Proposed"
   },
   {
    "id": "M7",
    "name": "Decide on F5 (skip budget-owner step under a threshold)",
-   "date": "2027-03-26"
+   "date": "2027-03-26",
+   "status": "Proposed"
   }
  ],
  "control_plan": [
   {
    "kpi": "P90 cycle time",
-   "now": "20.25 d",
-   "target": "≤ 14 d",
-   "alert": "> 14 d two weeks running",
-   "owner": "Process owner"
+   "now": "20.25 days",
+   "target": "≤ 14 days",
+   "alert": "Above 14 days for 2 weekly checks in a row",
+   "owner": "Process owner (Travel Administration lead)",
+   "frequency": "Weekly",
+   "fix": "F3, F4"
   },
   {
    "kpi": "Rejection rate",
    "now": "13.14%",
    "target": "≤ 8%",
-   "alert": "> 9% in a month",
-   "owner": "Process owner"
+   "alert": "Above 9% in a month",
+   "owner": "Process owner (Travel Administration lead)",
+   "frequency": "Monthly",
+   "fix": "F2, F6"
   },
   {
    "kpi": "Zero-amount submissions",
-   "now": "253",
+   "now": "253 (all rejected)",
    "target": "0",
    "alert": "Any",
-   "owner": "IT / workflow admin"
+   "owner": "IT / workflow admin",
+   "frequency": "Weekly",
+   "fix": "F2"
   },
   {
-   "kpi": "Payment wait (median)",
-   "now": "3.21 d",
-   "target": "≤ 1 d",
-   "alert": "> 1.5 d in a week",
-   "owner": "Payments team"
+   "kpi": "Payment wait",
+   "now": "3.21 days",
+   "target": "≤ 1 day",
+   "alert": "Above 1.5 days in a week",
+   "owner": "Payments team",
+   "frequency": "Weekly",
+   "fix": "F1"
   },
   {
    "kpi": "Paid without final approval",
-   "now": "2",
+   "now": "2 (cases 95149, 90815)",
    "target": "0",
    "alert": "Any",
-   "owner": "Finance"
+   "owner": "Finance",
+   "frequency": "Every payment run",
+   "fix": "F8"
   }
  ],
+ "control_review": "Weekly for 4 weeks after each wave, then monthly; sponsor review quarterly",
+ "control_plan_total": 10,
+ "raid": {
+  "counts": {
+   "Risk": 6,
+   "Assumption": 2,
+   "Issue": 3,
+   "Dependency": 3
+  },
+  "total": 14,
+  "risks": [
+   {
+    "id": "R1",
+    "description": "Proposed fixes may target the wrong cause, because causes cannot be validated with real process owners",
+    "probability": 3,
+    "impact": 4,
+    "score": 12,
+    "rating": "High",
+    "status": "Open",
+    "response": "Label causes as hypotheses; test each one against the data before recommending it",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R3",
+    "description": "Scope creep into the other four BPI 2020 logs",
+    "probability": 3,
+    "impact": 3,
+    "score": 9,
+    "rating": "Medium",
+    "status": "Open",
+    "response": "Keep them on the charter's out-of-scope list; log any request as a change",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R5",
+    "description": "Single-person team: schedule slips if other commitments take priority",
+    "probability": 3,
+    "impact": 3,
+    "score": 9,
+    "rating": "Medium",
+    "status": "Open",
+    "response": "Weekly status update every Friday; watch critical-path tasks first",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R2",
+    "description": "System-recorded steps could be misread as human work (Administration's first step is a median 41 seconds after submission)",
+    "probability": 2,
+    "impact": 4,
+    "score": 8,
+    "rating": "Medium",
+    "status": "Monitoring",
+    "response": "Apply decision 5: report that step as a data limitation, not review time",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R4",
+    "description": "Findings may not generalise, because 2017 covers only two departments",
+    "probability": 2,
+    "impact": 3,
+    "score": 6,
+    "rating": "Medium",
+    "status": "Monitoring",
+    "response": "Apply decision 1: 2018 is the main view; never show 2017 vs 2018 as a trend",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R6",
+    "description": "Smartsheet trial ends before the project closes",
+    "probability": 1,
+    "impact": 3,
+    "score": 3,
+    "rating": "Low",
+    "status": "Open",
+    "response": "Finish by 11/20 and export the schedule and screenshots before the trial ends",
+    "owner": "Vimlesh Sonawane"
+   }
+  ],
+  "rating_bands": [
+   {
+    "min_score": 10,
+    "rating": "High"
+   },
+   {
+    "min_score": 5,
+    "rating": "Medium"
+   },
+   {
+    "min_score": 0,
+    "rating": "Low"
+   }
+  ]
+ },
  "pipeline": [
   {
    "id": "raw",

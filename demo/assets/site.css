@@ -179,6 +179,12 @@ dl.facts dd { margin: 0; }
 .timeline li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; border-top: 4px solid var(--accent); }
 .timeline b { display: block; }
 .timeline span { font-size: 13px; color: var(--muted); display: block; }
+.timeline .badge { display: inline-block; margin-top: 8px; }
+.timeline li.done { border-top-color: var(--good); }
+.raid-counts { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 12px; }
+.risk-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.risk p { margin: 0 0 8px; font-size: 15px; }
+.risk-score { font-variant-numeric: tabular-nums; }
 .waves { display: grid; gap: 14px; }
 .wave-axis { position: relative; height: 20px; font-size: 12px; color: var(--muted); }
 .wave-axis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
@@ -224,6 +230,7 @@ dialog#zoom figcaption { padding: 10px 14px 0; font-size: 14px; }
   .two, .three, .phase-grid, .gallery { grid-template-columns: 1fr; }
   .ba { grid-template-columns: 1fr; }
   .timeline { grid-template-columns: 1fr 1fr; }
+  .raid-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .map-hint { display: block; }
   .brand { display: none; }
 }
