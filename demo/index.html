@@ -60,11 +60,35 @@
   .fix .tag { display: inline-block; margin-bottom: 8px; font-size: 12px; font-weight: 600;
     color: var(--accent); }
   .fix p { font-size: 15px; }
+  .docs { padding: 4px 16px; }
+  .doc { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+    padding: 12px 0; border-top: 1px solid var(--line); }
+  .doc:first-child { border-top: 0; }
+  .doc b { display: block; }
+  .doc span { display: block; font-size: 14px; color: var(--muted); }
+  .btn { display: inline-block; padding: 7px 14px; border-radius: 8px; text-decoration: none;
+    font-size: 14px; font-weight: 600; white-space: nowrap; border: 1px solid var(--accent);
+    color: var(--accent); }
+  .btn.primary { background: var(--accent); color: var(--surface); }
+  .btn:hover { text-decoration: underline; }
+  .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .shot { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; }
+  .shot a { display: block; background: #fff; }
+  .shot img { display: block; width: 100%; height: 150px; object-fit: cover; object-position: top left; }
+  .shot figcaption { padding: 10px 12px; font-size: 14px; color: var(--muted); }
+  .shot figcaption b { color: var(--text); }
   footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
   @media (max-width: 760px) {
     .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .cards { grid-template-columns: 1fr; }
     .ba-row { grid-template-columns: 1fr; gap: 4px; }
+    .gallery { grid-template-columns: 1fr; }
+    .shot img { height: auto; object-fit: contain; }
+  }
+  @media (max-width: 480px) {
+    .doc { grid-template-columns: 1fr; gap: 8px; }
+    .doc .btn { justify-self: start; }
   }
 </style>
 </head>
@@ -78,7 +102,7 @@
       2018 process log (10,500 claims, 56,437 events).</p>
     <nav class="links" aria-label="Project links">
       <a href="https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard">Tableau dashboard</a>
-      <a href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/approval-workflow-final-presentation.pdf">Final presentation (PDF)</a>
+      <a href="files/approval-workflow-final-presentation.pdf">Final presentation (PDF)</a>
       <a href="https://github.com/VimleshSonawane/business-flow-improvement">GitHub repository</a>
     </nav>
   </header>
@@ -167,6 +191,34 @@
           approval.</p>
       </div>
     </div>
+  </section>
+
+  <section aria-labelledby="documents">
+    <h2 id="documents">Documents</h2>
+    <div class="card docs">
+      <div class="doc"><div><b>Final presentation (PDF)</b><span>The 18-slide DMAIC deck, from problem to control plan.</span></div><a class="btn primary" href="files/approval-workflow-final-presentation.pdf">Open PDF</a></div>
+      <div class="doc"><div><b>Final presentation (PowerPoint)</b><span>The same deck as an editable .pptx file.</span></div><a class="btn" href="files/approval-workflow-final-presentation.pptx" download>Download</a></div>
+      <div class="doc"><div><b>Findings and business case</b><span>Findings, the business case for F1–F3, and the what-if scenarios.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/findings-and-business-case.md">View on GitHub</a></div>
+      <div class="doc"><div><b>Project charter</b><span>Problem, goal, targets, scope, deliverables, milestones and risks.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/charter.md">View on GitHub</a></div>
+      <div class="doc"><div><b>Baseline KPI report</b><span>Every 2018 baseline KPI with its definition, filter and denominator.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/baseline-kpi-report.md">View on GitHub</a></div>
+      <div class="doc"><div><b>Decisions log</b><span>Numbered, dated decisions behind the analysis and scenarios.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/decisions.md">View on GitHub</a></div>
+      <div class="doc"><div><b>Retrospective</b><span>What went well, what didn't, and what I'd do differently.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/retrospective.md">View on GitHub</a></div>
+      <div class="doc"><div><b>Data cleaning log</b><span>Every data check, what was found and the decision taken.</span></div><a class="btn" href="https://github.com/VimleshSonawane/business-flow-improvement/blob/main/docs/data-cleaning-log.md">View on GitHub</a></div>
+      <div class="doc"><div><b>Tableau dashboard</b><span>The live, interactive 2018 baseline dashboard.</span></div><a class="btn" href="https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard">Open dashboard</a></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="screenshots">
+    <h2 id="screenshots">Screenshots</h2>
+    <div class="grid gallery">
+      <figure class="shot"><a href="files/screenshots/tableau-6-dashboard.webp"><img src="files/screenshots/tableau-6-dashboard-thumb.webp" alt="Tableau: Baseline dashboard (D3)" loading="lazy" width="720" height="434"></a><figcaption><b>Tableau</b> · Baseline dashboard (D3)</figcaption></figure>
+      <figure class="shot"><a href="files/screenshots/miro-4-asis-loops.webp"><img src="files/screenshots/miro-4-asis-loops-thumb.webp" alt="Miro: As-is map with rejection loops (D4)" loading="lazy" width="720" height="409"></a><figcaption><b>Miro</b> · As-is map with rejection loops (D4)</figcaption></figure>
+      <figure class="shot"><a href="files/screenshots/miro-5-fishbon.webp"><img src="files/screenshots/miro-5-fishbon-thumb.webp" alt="Miro: Fishbone root-cause analysis (D5)" loading="lazy" width="720" height="485"></a><figcaption><b>Miro</b> · Fishbone root-cause analysis (D5)</figcaption></figure>
+      <figure class="shot"><a href="files/screenshots/miro-6-impact-effort.webp"><img src="files/screenshots/miro-6-impact-effort-thumb.webp" alt="Miro: Fixes scored for impact and effort (D6)" loading="lazy" width="720" height="438"></a><figcaption><b>Miro</b> · Fixes scored for impact and effort (D6)</figcaption></figure>
+      <figure class="shot"><a href="files/screenshots/smartsheet-5-roadmap.webp"><img src="files/screenshots/smartsheet-5-roadmap-thumb.webp" alt="Smartsheet: Implementation roadmap (D7)" loading="lazy" width="720" height="194"></a><figcaption><b>Smartsheet</b> · Implementation roadmap (D7)</figcaption></figure>
+      <figure class="shot"><a href="files/screenshots/smartsheet-6-control-plan.webp"><img src="files/screenshots/smartsheet-6-control-plan-thumb.webp" alt="Smartsheet: Control plan (D7)" loading="lazy" width="720" height="344"></a><figcaption><b>Smartsheet</b> · Control plan (D7)</figcaption></figure>
+    </div>
+    <p class="note" style="margin-top:10px">Click an image to open it full size.</p>
   </section>
 
   <footer>
