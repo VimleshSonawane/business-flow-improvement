@@ -107,3 +107,41 @@ Decisions that shape the analysis. Each one is applied in `analysis/02_baseline.
   have a zero amount.
 - **Reproducibility:** no randomness, fixed sort orders, and versions recorded. Two runs give
   byte-identical outputs.
+
+10. **2026-11-01 — Scenario method.** `analysis/03_scenarios.py` estimates what-if scenarios on
+    the 7,903 paid 2018 cases, with the same definitions as `analysis/02_baseline.py`. Each
+    scenario recomputes per-case cycle time as the sum of the waits between consecutive events
+    from the first `Declaration SUBMITTED by EMPLOYEE` to `Payment Handled`, after changing only
+    the stated waits:
+    - **S1 (daily payment runs):** the wait from `Request Payment` to `Payment Handled` is capped
+      at 1.0 day.
+    - **S2 (approval reminders):** the wait before each `Declaration APPROVED by BUDGET OWNER`,
+      `Declaration FINAL_APPROVED by SUPERVISOR` and `Request Payment` is capped at 3.0 days.
+      Rejections keep their wait.
+    - **S3:** S1 and S2 together.
+    - **S4 (fewer rejections):** for a random 40% of the paid cases rejected by ADMINISTRATION
+      (253 of 632; Python `random.Random(42).sample` over the cases in `cases.csv` order), the
+      time from each ADMINISTRATION rejection to the next submission is removed. The 40% is an
+      assumption, not a measurement. The implied rejection rate counts a picked case as
+      rejected only if another approver also rejected it, over 8,160 submitted 2018 cases.
+
+11. **2026-11-01 — Scenarios are estimates.** Scenario figures are what-if estimates on 2018
+    data, not results: none of the fixes was implemented. They are reported next to the measured
+    baseline, never in place of it, and always labelled as estimates.
+
+12. **2026-11-01 — Scenario S5 method.** S5 is S4 plus a zero-amount check at submission (F2):
+    the 253 submitted 2018 cases with amount 0 (`amount_flag = zero` in `cases.csv`) are blocked
+    before submission, so they are neither submitted nor rejected. None of them was paid, so S5's
+    cycle-time figures equal S4's. The rejection rate is reported two ways: over the 7,907
+    submitted cases that remain (8,160 − 253), and over all 8,160 submitted cases. The 40%
+    ADMINISTRATION reduction is still an assumption; the zero-amount effect is observed directly,
+    since every submitted zero-amount 2018 case was rejected.
+
+13. **2026-11-01 — Scenario S6 method.** S6 combines F1, F2 and F3: S3's caps (1.0 day from
+    `Request Payment` to `Payment Handled`; 3.0 days before each BUDGET OWNER approval,
+    SUPERVISOR approval and `Request Payment`) and S5's rejection changes (the same 253 of 632
+    ADMINISTRATION-rejected paid cases, seed 42, and the 253 blocked zero-amount cases) are
+    applied together in one recomputation of each paid case's cycle time. Waits removed by the
+    rejection change are not capped, because they no longer exist. The rejection rate is
+    reported the same two ways as S5. It is a what-if estimate, like the other scenarios
+    (decision 11).
