@@ -3,6 +3,7 @@
 **Project type:** Self-initiated portfolio project. Real public data (BPI Challenge 2020, a university's travel-expense approval process, 2017–2018). Stakeholder roles are role-played.
 **Project manager and analyst:** Vimlesh Sonawane
 **Charter date:** 2026-10-30
+**Project closed:** 2026-11-03
 
 ## Background
 Employees submit domestic travel-expense claims, which pass through administration, budget owner and supervisor approval before payment.
@@ -26,7 +27,9 @@ Out: international declarations, travel permits, prepaid travel costs and reques
 D1 Project charter · D2 Stakeholder map and RACI (Miro) · D3 Baseline KPI report (done) · D4 As-is process map (Miro) · D5 Root-cause analysis (Miro) · D6 To-be process and prioritized recommendations (Miro) · D7 Implementation roadmap and control plan (Smartsheet) · D8 Final presentation
 
 ## Milestones
-M0 Data feasibility confirmed — 2026-10-29 (done) · M1 Charter approved — 2026-11-03 · M2 Baseline and as-is map — 2026-11-06 · M3 Root causes and recommendations — 2026-11-13 · M4 Final presentation — 2026-11-20
+M0 Data feasibility confirmed — 2026-10-29 (done) · M1 Charter approved — 2026-11-03 (done) · M2 Baseline and as-is map — 2026-11-06 (done) · M3 Root causes and recommendations — 2026-11-13 (done) · M4 Final presentation — 2026-11-20 (done)
+
+All milestones were completed by 2026-11-03, when the project closed. The dates above are the planned dates.
 
 ## Stakeholders (role-played)
 Sponsor: Head of Finance · Process owner: Travel Administration lead · Approvers: budget owners and supervisors · Customers: employees who submit claims · Payments team

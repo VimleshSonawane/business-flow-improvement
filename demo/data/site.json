@@ -1,0 +1,1280 @@
+{
+ "generated_by": "analysis/04_site_data.py",
+ "year": "2018",
+ "baseline": {
+  "median_days": {
+   "value": 8.0468,
+   "denominator": 7903,
+   "denominator_description": "paid cases with a submission",
+   "filter": "paid cases, year 2018"
+  },
+  "p90_days": {
+   "value": 20.2508,
+   "denominator": 7903,
+   "denominator_description": "paid cases with a submission",
+   "filter": "paid cases, year 2018"
+  },
+  "rejected_pct": {
+   "value": 13.1373,
+   "denominator": 8160,
+   "denominator_description": "submitted cases",
+   "filter": "submitted cases, year 2018",
+   "rejected": 1072
+  },
+  "mon_thu_pct": {
+   "value": 99.6584,
+   "denominator": 7903,
+   "denominator_description": "Payment Handled events",
+   "filter": "Payment Handled events, cases of 2018 (Dutch time)"
+  },
+  "mean_days": {
+   "value": 11.6244,
+   "denominator": 7903,
+   "denominator_description": "paid cases with a submission",
+   "filter": "paid cases, year 2018"
+  },
+  "p75_days": {
+   "value": 13.0396,
+   "denominator": 7903,
+   "denominator_description": "paid cases with a submission",
+   "filter": "paid cases, year 2018"
+  },
+  "paid_cases": {
+   "value": 7903,
+   "denominator": 8260,
+   "denominator_description": "all cases",
+   "filter": "all cases, year 2018"
+  },
+  "with_rejection_median": {
+   "value": 13.2113,
+   "denominator": 815,
+   "denominator_description": "paid cases rejected at least once",
+   "filter": "paid cases rejected 1+, year 2018"
+  },
+  "without_rejection_median": {
+   "value": 7.3366,
+   "denominator": 7088,
+   "denominator_description": "paid cases never rejected",
+   "filter": "paid cases never rejected, year 2018"
+  },
+  "admin_median_seconds": {
+   "value": 41.0,
+   "denominator": 9123,
+   "denominator_description": "SUBMITTED then ADMINISTRATION transitions",
+   "filter": "complete cases, year 2018"
+  },
+  "cases_2018": 8260,
+  "cases_total": 10500,
+  "events_total": 56437
+ },
+ "targets": {
+  "p90_days": 14.0,
+  "rejection_pct": 8.0,
+  "payment_wait_days": 1.0
+ },
+ "cycle_distribution": {
+  "labels": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17",
+   "18",
+   "19",
+   "20",
+   "21",
+   "22",
+   "23",
+   "24",
+   "25",
+   "26",
+   "27",
+   "28",
+   "29",
+   "30",
+   "31",
+   "32",
+   "33",
+   "34",
+   "35",
+   "36",
+   "37",
+   "38",
+   "39",
+   "40",
+   "41",
+   "42",
+   "43",
+   "44",
+   "45",
+   "46",
+   "47",
+   "48",
+   "49",
+   "50",
+   "51",
+   "52",
+   "53",
+   "54",
+   "55",
+   "56",
+   "57",
+   "58",
+   "59",
+   "60+"
+  ],
+  "rejected": [
+   0,
+   1,
+   5,
+   20,
+   6,
+   17,
+   44,
+   59,
+   35,
+   31,
+   72,
+   55,
+   34,
+   47,
+   43,
+   20,
+   24,
+   27,
+   18,
+   13,
+   15,
+   24,
+   10,
+   9,
+   13,
+   7,
+   11,
+   10,
+   7,
+   5,
+   5,
+   2,
+   6,
+   6,
+   5,
+   9,
+   4,
+   3,
+   5,
+   0,
+   1,
+   2,
+   2,
+   2,
+   6,
+   4,
+   2,
+   0,
+   4,
+   5,
+   0,
+   0,
+   2,
+   2,
+   0,
+   0,
+   1,
+   0,
+   2,
+   0,
+   53
+  ],
+  "never_rejected": [
+   0,
+   32,
+   208,
+   668,
+   251,
+   531,
+   1121,
+   937,
+   394,
+   388,
+   486,
+   301,
+   206,
+   295,
+   231,
+   119,
+   94,
+   127,
+   66,
+   40,
+   76,
+   51,
+   38,
+   27,
+   52,
+   14,
+   20,
+   30,
+   29,
+   13,
+   13,
+   16,
+   9,
+   5,
+   14,
+   21,
+   8,
+   3,
+   16,
+   5,
+   3,
+   4,
+   14,
+   4,
+   2,
+   7,
+   4,
+   0,
+   4,
+   4,
+   3,
+   2,
+   6,
+   2,
+   3,
+   4,
+   4,
+   3,
+   3,
+   2,
+   55
+  ],
+  "total": 7903
+ },
+ "waits": [
+  {
+   "step": "ADMINISTRATION",
+   "events": 9123,
+   "cases": 8151,
+   "median_days": 0.0005,
+   "p90_days": 0.0219
+  },
+  {
+   "step": "BUDGET OWNER",
+   "events": 2874,
+   "cases": 2831,
+   "median_days": 0.8637,
+   "p90_days": 4.852
+  },
+  {
+   "step": "SUPERVISOR",
+   "events": 8121,
+   "cases": 7948,
+   "median_days": 1.0186,
+   "p90_days": 6.2086
+  },
+  {
+   "step": "Request Payment",
+   "events": 7896,
+   "cases": 7896,
+   "median_days": 1.0597,
+   "p90_days": 6.8322
+  },
+  {
+   "step": "Payment Handled",
+   "events": 7903,
+   "cases": 7903,
+   "median_days": 3.2139,
+   "p90_days": 4.4142
+  }
+ ],
+ "rejections": [
+  {
+   "role": "ADMINISTRATION",
+   "rejections": 948,
+   "cases_with_rejection": 842,
+   "cases_reaching_role": 8160,
+   "per_100": 11.6176
+  },
+  {
+   "role": "BUDGET OWNER",
+   "rejections": 59,
+   "cases_with_rejection": 58,
+   "cases_reaching_role": 2832,
+   "per_100": 2.0833
+  },
+  {
+   "role": "SUPERVISOR",
+   "rejections": 222,
+   "cases_with_rejection": 217,
+   "cases_reaching_role": 7952,
+   "per_100": 2.7918
+  }
+ ],
+ "rework_extra": {
+  "ADMINISTRATION": {
+   "paid_cases": 632,
+   "median_days": 13.1189,
+   "extra_days": 5.7823
+  },
+  "BUDGET OWNER": {
+   "paid_cases": 44,
+   "median_days": 13.1837,
+   "extra_days": 5.8471
+  },
+  "SUPERVISOR": {
+   "paid_cases": 168,
+   "median_days": 16.6395,
+   "extra_days": 9.3028
+  }
+ },
+ "weekdays": [
+  {
+   "day": "Monday",
+   "payments": 3297
+  },
+  {
+   "day": "Tuesday",
+   "payments": 26
+  },
+  {
+   "day": "Wednesday",
+   "payments": 1
+  },
+  {
+   "day": "Thursday",
+   "payments": 4579
+  },
+  {
+   "day": "Friday",
+   "payments": 0
+  },
+  {
+   "day": "Saturday",
+   "payments": 0
+  },
+  {
+   "day": "Sunday",
+   "payments": 0
+  }
+ ],
+ "monthly": [
+  {
+   "month": "2018-01",
+   "submissions": 593,
+   "first": 551,
+   "resubmissions": 42
+  },
+  {
+   "month": "2018-02",
+   "submissions": 717,
+   "first": 658,
+   "resubmissions": 59
+  },
+  {
+   "month": "2018-03",
+   "submissions": 743,
+   "first": 681,
+   "resubmissions": 62
+  },
+  {
+   "month": "2018-04",
+   "submissions": 814,
+   "first": 747,
+   "resubmissions": 67
+  },
+  {
+   "month": "2018-05",
+   "submissions": 716,
+   "first": 629,
+   "resubmissions": 87
+  },
+  {
+   "month": "2018-06",
+   "submissions": 1014,
+   "first": 904,
+   "resubmissions": 110
+  },
+  {
+   "month": "2018-07",
+   "submissions": 819,
+   "first": 672,
+   "resubmissions": 147
+  },
+  {
+   "month": "2018-08",
+   "submissions": 348,
+   "first": 294,
+   "resubmissions": 54
+  },
+  {
+   "month": "2018-09",
+   "submissions": 716,
+   "first": 635,
+   "resubmissions": 81
+  },
+  {
+   "month": "2018-10",
+   "submissions": 879,
+   "first": 791,
+   "resubmissions": 88
+  },
+  {
+   "month": "2018-11",
+   "submissions": 921,
+   "first": 840,
+   "resubmissions": 81
+  },
+  {
+   "month": "2018-12",
+   "submissions": 869,
+   "first": 758,
+   "resubmissions": 111
+  }
+ ],
+ "paths": [
+  {
+   "rank": 1,
+   "cases": 4610,
+   "pct": 55.8111,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 2,
+   "cases": 2472,
+   "pct": 29.9274,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration APPROVED by BUDGET OWNER",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 3,
+   "cases": 344,
+   "pct": 4.1646,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration REJECTED by ADMINISTRATION",
+    "Declaration REJECTED by EMPLOYEE",
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 4,
+   "cases": 186,
+   "pct": 2.2518,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration REJECTED by ADMINISTRATION",
+    "Declaration REJECTED by EMPLOYEE",
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration APPROVED by BUDGET OWNER",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 5,
+   "cases": 174,
+   "pct": 2.1065,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration REJECTED by ADMINISTRATION",
+    "Declaration REJECTED by EMPLOYEE"
+   ]
+  },
+  {
+   "rank": 6,
+   "cases": 100,
+   "pct": 1.2107,
+   "steps": [
+    "Declaration SAVED by EMPLOYEE"
+   ]
+  },
+  {
+   "rank": 7,
+   "cases": 77,
+   "pct": 0.9322,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration REJECTED by SUPERVISOR",
+    "Declaration REJECTED by EMPLOYEE",
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 8,
+   "cases": 49,
+   "pct": 0.5932,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration REJECTED by SUPERVISOR",
+    "Declaration REJECTED by EMPLOYEE",
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration APPROVED by BUDGET OWNER",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 9,
+   "cases": 36,
+   "pct": 0.4358,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration REJECTED by ADMINISTRATION",
+    "Declaration REJECTED by EMPLOYEE",
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration REJECTED by ADMINISTRATION",
+    "Declaration REJECTED by EMPLOYEE",
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration FINAL_APPROVED by SUPERVISOR",
+    "Request Payment",
+    "Payment Handled"
+   ]
+  },
+  {
+   "rank": 10,
+   "cases": 31,
+   "pct": 0.3753,
+   "steps": [
+    "Declaration SUBMITTED by EMPLOYEE",
+    "Declaration APPROVED by ADMINISTRATION",
+    "Declaration REJECTED by SUPERVISOR",
+    "Declaration REJECTED by EMPLOYEE"
+   ]
+  }
+ ],
+ "transitions": [
+  {
+   "from": "START",
+   "to": "Declaration SUBMITTED by EMPLOYEE",
+   "cases": 8151,
+   "transitions": 8151,
+   "median_days": null,
+   "p90_days": null
+  },
+  {
+   "from": "Declaration SUBMITTED by EMPLOYEE",
+   "to": "Declaration APPROVED by ADMINISTRATION",
+   "cases": 7961,
+   "transitions": 8180,
+   "median_days": 0.0004,
+   "p90_days": 0.0159
+  },
+  {
+   "from": "Payment Handled",
+   "to": "END",
+   "cases": 7903,
+   "transitions": 7903,
+   "median_days": null,
+   "p90_days": null
+  },
+  {
+   "from": "Declaration FINAL_APPROVED by SUPERVISOR",
+   "to": "Request Payment",
+   "cases": 7896,
+   "transitions": 7896,
+   "median_days": 1.0597,
+   "p90_days": 6.8322
+  },
+  {
+   "from": "Request Payment",
+   "to": "Payment Handled",
+   "cases": 7896,
+   "transitions": 7896,
+   "median_days": 3.2138,
+   "p90_days": 4.4134
+  },
+  {
+   "from": "Declaration APPROVED by ADMINISTRATION",
+   "to": "Declaration FINAL_APPROVED by SUPERVISOR",
+   "cases": 5119,
+   "transitions": 5119,
+   "median_days": 0.8698,
+   "p90_days": 4.773
+  },
+  {
+   "from": "Declaration APPROVED by ADMINISTRATION",
+   "to": "Declaration APPROVED by BUDGET OWNER",
+   "cases": 2802,
+   "transitions": 2815,
+   "median_days": 0.8655,
+   "p90_days": 4.8588
+  },
+  {
+   "from": "Declaration APPROVED by BUDGET OWNER",
+   "to": "Declaration FINAL_APPROVED by SUPERVISOR",
+   "cases": 2784,
+   "transitions": 2784,
+   "median_days": 1.9083,
+   "p90_days": 6.7202
+  },
+  {
+   "from": "Declaration REJECTED by EMPLOYEE",
+   "to": "Declaration SUBMITTED by EMPLOYEE",
+   "cases": 841,
+   "transitions": 955,
+   "median_days": 0.2171,
+   "p90_days": 11.2698
+  },
+  {
+   "from": "Declaration SUBMITTED by EMPLOYEE",
+   "to": "Declaration REJECTED by ADMINISTRATION",
+   "cases": 836,
+   "transitions": 942,
+   "median_days": 0.0011,
+   "p90_days": 0.9615
+  },
+  {
+   "from": "Declaration REJECTED by ADMINISTRATION",
+   "to": "Declaration REJECTED by EMPLOYEE",
+   "cases": 832,
+   "transitions": 923,
+   "median_days": 0.9219,
+   "p90_days": 5.0391
+  },
+  {
+   "from": "Declaration REJECTED by EMPLOYEE",
+   "to": "END",
+   "cases": 248,
+   "transitions": 248,
+   "median_days": null,
+   "p90_days": null
+  },
+  {
+   "from": "Declaration REJECTED by SUPERVISOR",
+   "to": "Declaration REJECTED by EMPLOYEE",
+   "cases": 211,
+   "transitions": 216,
+   "median_days": 1.0137,
+   "p90_days": 7.5674
+  },
+  {
+   "from": "Declaration APPROVED by ADMINISTRATION",
+   "to": "Declaration REJECTED by SUPERVISOR",
+   "cases": 183,
+   "transitions": 187,
+   "median_days": 0.9467,
+   "p90_days": 4.9295
+  },
+  {
+   "from": "Declaration APPROVED by ADMINISTRATION",
+   "to": "Declaration REJECTED by BUDGET OWNER",
+   "cases": 58,
+   "transitions": 59,
+   "median_days": 0.4142,
+   "p90_days": 3.3212
+  },
+  {
+   "from": "Declaration REJECTED by BUDGET OWNER",
+   "to": "Declaration REJECTED by EMPLOYEE",
+   "cases": 57,
+   "transitions": 58,
+   "median_days": 1.0234,
+   "p90_days": 4.9235
+  },
+  {
+   "from": "Declaration APPROVED by BUDGET OWNER",
+   "to": "Declaration REJECTED by SUPERVISOR",
+   "cases": 31,
+   "transitions": 31,
+   "median_days": 4.0422,
+   "p90_days": 6.841
+  },
+  {
+   "from": "Declaration REJECTED by ADMINISTRATION",
+   "to": "Declaration SUBMITTED by EMPLOYEE",
+   "cases": 14,
+   "transitions": 19,
+   "median_days": 0.9483,
+   "p90_days": 6.2473
+  },
+  {
+   "from": "Declaration FINAL_APPROVED by SUPERVISOR",
+   "to": "Payment Handled",
+   "cases": 7,
+   "transitions": 7,
+   "median_days": 48.3661,
+   "p90_days": 147.3976
+  },
+  {
+   "from": "Declaration SUBMITTED by EMPLOYEE",
+   "to": "Declaration REJECTED by EMPLOYEE",
+   "cases": 6,
+   "transitions": 6,
+   "median_days": 0.0001,
+   "p90_days": 0.0002
+  },
+  {
+   "from": "Declaration REJECTED by SUPERVISOR",
+   "to": "Declaration SUBMITTED by EMPLOYEE",
+   "cases": 2,
+   "transitions": 2,
+   "median_days": 1.9146,
+   "p90_days": 2.5838
+  },
+  {
+   "from": "Declaration FOR_APPROVAL by ADMINISTRATION",
+   "to": "Declaration SUBMITTED by EMPLOYEE",
+   "cases": 1,
+   "transitions": 1,
+   "median_days": 1.0165,
+   "p90_days": 1.0165
+  },
+  {
+   "from": "Declaration REJECTED by BUDGET OWNER",
+   "to": "Declaration SUBMITTED by EMPLOYEE",
+   "cases": 1,
+   "transitions": 1,
+   "median_days": 6.0923,
+   "p90_days": 6.0923
+  },
+  {
+   "from": "Declaration SUBMITTED by EMPLOYEE",
+   "to": "Declaration FOR_APPROVAL by ADMINISTRATION",
+   "cases": 1,
+   "transitions": 1,
+   "median_days": 0.0068,
+   "p90_days": 0.0068
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "Baseline",
+   "description": "2018 as measured",
+   "median_days": 8.0468,
+   "p90_days": 20.2508,
+   "over_14_pct": 20.992,
+   "over_14_cases": 1659,
+   "payment_wait_days": 3.2138,
+   "rejected_cases": 1072,
+   "rejection_pct": 13.1373,
+   "rejection_pct_all_submitted": 13.1373,
+   "submitted_base": 8160,
+   "submitted_all": 8160
+  },
+  {
+   "id": "S1",
+   "description": "Daily payment runs (F1): Request Payment to Payment Handled capped at 1.0 day",
+   "median_days": 5.9747,
+   "p90_days": 16.9091,
+   "over_14_pct": 14.2224,
+   "over_14_cases": 1124,
+   "payment_wait_days": 1.0,
+   "rejected_cases": 1072,
+   "rejection_pct": 13.1373,
+   "rejection_pct_all_submitted": 13.1373,
+   "submitted_base": 8160,
+   "submitted_all": 8160
+  },
+  {
+   "id": "S2",
+   "description": "Approval reminders (F3): wait before BUDGET OWNER approval, SUPERVISOR approval and Request Payment capped at 3.0 days",
+   "median_days": 6.9304,
+   "p90_days": 12.5919,
+   "over_14_pct": 8.326,
+   "over_14_cases": 658,
+   "payment_wait_days": 3.2138,
+   "rejected_cases": 1072,
+   "rejection_pct": 13.1373,
+   "rejection_pct_all_submitted": 13.1373,
+   "submitted_base": 8160,
+   "submitted_all": 8160
+  },
+  {
+   "id": "S3",
+   "description": "S1 and S2 together",
+   "median_days": 4.7468,
+   "p90_days": 9.0079,
+   "over_14_pct": 5.6181,
+   "over_14_cases": 444,
+   "payment_wait_days": 1.0,
+   "rejected_cases": 1072,
+   "rejection_pct": 13.1373,
+   "rejection_pct_all_submitted": 13.1373,
+   "submitted_base": 8160,
+   "submitted_all": 8160
+  },
+  {
+   "id": "S4",
+   "description": "Fewer rejections (F2): ADMINISTRATION rejection-to-resubmission time removed for 253 of 632 paid cases rejected by ADMINISTRATION (40% assumption, seed 42)",
+   "median_days": 7.9898,
+   "p90_days": 20.0383,
+   "over_14_pct": 20.1949,
+   "over_14_cases": 1596,
+   "payment_wait_days": 3.2138,
+   "rejected_cases": 830,
+   "rejection_pct": 10.1716,
+   "rejection_pct_all_submitted": 10.1716,
+   "submitted_base": 8160,
+   "submitted_all": 8160
+  },
+  {
+   "id": "S5",
+   "description": "S4 plus a zero-amount check at submission (F2): 253 submitted zero-amount cases blocked before submission",
+   "median_days": 7.9898,
+   "p90_days": 20.0383,
+   "over_14_pct": 20.1949,
+   "over_14_cases": 1596,
+   "payment_wait_days": 3.2138,
+   "rejected_cases": 577,
+   "rejection_pct": 7.2973,
+   "rejection_pct_all_submitted": 7.0711,
+   "submitted_base": 7907,
+   "submitted_all": 8160
+  },
+  {
+   "id": "S6",
+   "description": "F1 + F2 + F3 combined: S3's caps and S5's rejection changes together",
+   "median_days": 4.7161,
+   "p90_days": 8.7351,
+   "over_14_pct": 5.0234,
+   "over_14_cases": 397,
+   "payment_wait_days": 1.0,
+   "rejected_cases": 577,
+   "rejection_pct": 7.2973,
+   "rejection_pct_all_submitted": 7.0711,
+   "submitted_base": 7907,
+   "submitted_all": 8160
+  }
+ ],
+ "exceptions": {
+  "flag_events": 11,
+  "distinct_cases": 9,
+  "by_check": {
+   "events_after_payment": 1,
+   "paid_without_submission": 1,
+   "payment_without_final_approval": 2,
+   "payment_without_request": 7
+  },
+  "paid_without_final_approval": [
+   "declaration 90815",
+   "declaration 95149"
+  ],
+  "paid_cases_checked": 10044
+ },
+ "zero_amount": {
+  "rejected_zero": 253,
+  "rejected_total": 1072,
+  "share_pct": 23.6007
+ },
+ "raw": {
+  "size_bytes": 933930,
+  "md5": "6a78c39491498363ce4788e0e8ca75ef",
+  "check": "MATCH"
+ },
+ "milestones": [
+  {
+   "id": "M0",
+   "name": "Data feasibility confirmed",
+   "date": "2026-10-29",
+   "done": true
+  },
+  {
+   "id": "M1",
+   "name": "Charter approved",
+   "date": "2026-11-03",
+   "done": true
+  },
+  {
+   "id": "M2",
+   "name": "Baseline and as-is map",
+   "date": "2026-11-06",
+   "done": true
+  },
+  {
+   "id": "M3",
+   "name": "Root causes and recommendations",
+   "date": "2026-11-13",
+   "done": true
+  },
+  {
+   "id": "M4",
+   "name": "Final presentation",
+   "date": "2026-11-20",
+   "done": true
+  }
+ ],
+ "project_closed": "2026-11-03",
+ "waves": [
+  {
+   "wave": "Wave 1 — Quick wins (proposed)",
+   "start": "2027-01-04",
+   "end": "2027-02-12",
+   "items": [
+    "F2 Claim checklist at submission, incl. amount > 0 rule",
+    "F3 Approval reminders after 3 days",
+    "F4 Backup approver for absences",
+    "F6 Rejection reason codes",
+    "F7 Log Administration review time",
+    "Wave 1 KPI review (4 weekly reviews against the control plan)"
+   ]
+  },
+  {
+   "wave": "Wave 2 — Major projects (proposed)",
+   "start": "2027-01-18",
+   "end": "2027-03-26",
+   "items": [
+    "F1 Daily payment runs",
+    "F8 Block payment without final approval",
+    "Full-effect review against charter targets"
+   ]
+  }
+ ],
+ "wave_milestones": [
+  {
+   "id": "M5",
+   "name": "Wave 1 live",
+   "date": "2027-01-15",
+   "status": "Proposed"
+  },
+  {
+   "id": "M6",
+   "name": "Wave 2 live",
+   "date": "2027-02-26",
+   "status": "Proposed"
+  },
+  {
+   "id": "M7",
+   "name": "Decide on F5 (skip budget-owner step under a threshold)",
+   "date": "2027-03-26",
+   "status": "Proposed"
+  }
+ ],
+ "control_plan": [
+  {
+   "kpi": "P90 cycle time",
+   "now": "20.25 days",
+   "target": "≤ 14 days",
+   "alert": "Above 14 days for 2 weekly checks in a row",
+   "owner": "Process owner (Travel Administration lead)",
+   "frequency": "Weekly",
+   "fix": "F3, F4"
+  },
+  {
+   "kpi": "Rejection rate",
+   "now": "13.14%",
+   "target": "≤ 8%",
+   "alert": "Above 9% in a month",
+   "owner": "Process owner (Travel Administration lead)",
+   "frequency": "Monthly",
+   "fix": "F2, F6"
+  },
+  {
+   "kpi": "Zero-amount submissions",
+   "now": "253 (all rejected)",
+   "target": "0",
+   "alert": "Any",
+   "owner": "IT / workflow admin",
+   "frequency": "Weekly",
+   "fix": "F2"
+  },
+  {
+   "kpi": "Payment wait",
+   "now": "3.21 days",
+   "target": "≤ 1 day",
+   "alert": "Above 1.5 days in a week",
+   "owner": "Payments team",
+   "frequency": "Weekly",
+   "fix": "F1"
+  },
+  {
+   "kpi": "Paid without final approval",
+   "now": "2 (cases 95149, 90815)",
+   "target": "0",
+   "alert": "Any",
+   "owner": "Finance",
+   "frequency": "Every payment run",
+   "fix": "F8"
+  }
+ ],
+ "control_review": "Weekly for 4 weeks after each wave, then monthly; sponsor review quarterly",
+ "control_plan_total": 10,
+ "raid": {
+  "counts": {
+   "Risk": 6,
+   "Assumption": 2,
+   "Issue": 3,
+   "Dependency": 3
+  },
+  "total": 14,
+  "risks": [
+   {
+    "id": "R1",
+    "description": "Proposed fixes may target the wrong cause, because causes cannot be validated with real process owners",
+    "probability": 3,
+    "impact": 4,
+    "score": 12,
+    "rating": "High",
+    "status": "Open",
+    "response": "Label causes as hypotheses; test each one against the data before recommending it",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R3",
+    "description": "Scope creep into the other four BPI 2020 logs",
+    "probability": 3,
+    "impact": 3,
+    "score": 9,
+    "rating": "Medium",
+    "status": "Open",
+    "response": "Keep them on the charter's out-of-scope list; log any request as a change",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R5",
+    "description": "Single-person team: schedule slips if other commitments take priority",
+    "probability": 3,
+    "impact": 3,
+    "score": 9,
+    "rating": "Medium",
+    "status": "Open",
+    "response": "Weekly status update every Friday; watch critical-path tasks first",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R2",
+    "description": "System-recorded steps could be misread as human work (Administration's first step is a median 41 seconds after submission)",
+    "probability": 2,
+    "impact": 4,
+    "score": 8,
+    "rating": "Medium",
+    "status": "Monitoring",
+    "response": "Apply decision 5: report that step as a data limitation, not review time",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R4",
+    "description": "Findings may not generalise, because 2017 covers only two departments",
+    "probability": 2,
+    "impact": 3,
+    "score": 6,
+    "rating": "Medium",
+    "status": "Monitoring",
+    "response": "Apply decision 1: 2018 is the main view; never show 2017 vs 2018 as a trend",
+    "owner": "Vimlesh Sonawane"
+   },
+   {
+    "id": "R6",
+    "description": "Smartsheet trial ends before the project closes",
+    "probability": 1,
+    "impact": 3,
+    "score": 3,
+    "rating": "Low",
+    "status": "Open",
+    "response": "Finish by 11/20 and export the schedule and screenshots before the trial ends",
+    "owner": "Vimlesh Sonawane"
+   }
+  ],
+  "rating_bands": [
+   {
+    "min_score": 10,
+    "rating": "High"
+   },
+   {
+    "min_score": 5,
+    "rating": "Medium"
+   },
+   {
+    "min_score": 0,
+    "rating": "Low"
+   }
+  ]
+ },
+ "pipeline": [
+  {
+   "id": "raw",
+   "name": "Raw event log",
+   "file": "data/raw/bpi2020/DomesticDeclarations.xes.gz",
+   "does": "The original BPI Challenge 2020 log of domestic travel-expense claims, saved unchanged.",
+   "rows": {
+    "claims": 10500,
+    "events": 56437
+   },
+   "decision": null,
+   "excerpt": null,
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/data/raw/bpi2020/DomesticDeclarations.xes.gz"
+  },
+  {
+   "id": "checksum",
+   "name": "Checksum check",
+   "file": ".github/workflows/fetch-bpi2020.yml",
+   "does": "A GitHub Actions workflow downloads the log and compares its size and MD5 with the publisher's values.",
+   "rows": null,
+   "decision": null,
+   "excerpt": {
+    "file": ".github/workflows/fetch-bpi2020.yml",
+    "start_line": 42,
+    "end_line": 53,
+    "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/.github/workflows/fetch-bpi2020.yml#L42-L53",
+    "code": "EXPECTED_SIZE=933930\nEXPECTED_MD5=6a78c39491498363ce4788e0e8ca75ef\nSIZE=$(stat -c %s \"$OUT\")\nMD5=$(md5sum \"$OUT\" | cut -d' ' -f1)\necho \"Size: $SIZE bytes (expected $EXPECTED_SIZE)\"\necho \"MD5:  $MD5 (expected $EXPECTED_MD5)\"\nif [ \"$SIZE\" = \"$EXPECTED_SIZE\" ] && [ \"$MD5\" = \"$EXPECTED_MD5\" ]; then\n  RESULT=MATCH\nelse\n  RESULT=MISMATCH\nfi\necho \"Result: $RESULT\""
+   },
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/.github/workflows/fetch-bpi2020.yml"
+  },
+  {
+   "id": "clean",
+   "name": "01_clean.py",
+   "file": "analysis/01_clean.py",
+   "does": "Reads the log with the Python standard library, converts times to UTC and flags problems without deleting rows.",
+   "rows": null,
+   "decision": {
+    "source": "docs/data-cleaning-log.md",
+    "id": 5,
+    "title": "Duplicate events",
+    "text": ""
+   },
+   "excerpt": {
+    "file": "analysis/01_clean.py",
+    "start_line": 176,
+    "end_line": 182,
+    "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/analysis/01_clean.py#L176-L182",
+    "code": "# Duplicate events: same case, activity, timestamp, role and resource.\nkey = lambda r: (r[\"case_id\"], r[\"activity\"], r[\"timestamp\"], r[\"org:role\"], r[\"org:resource\"])\nseen = collections.Counter()\nfor r in rows:\n    seen[key(r)] += 1\n    r[\"duplicate_of_earlier\"] = \"yes\" if seen[key(r)] > 1 else \"no\"\ndups = [r for r in rows if r[\"duplicate_of_earlier\"] == \"yes\"]"
+   },
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/analysis/01_clean.py"
+  },
+  {
+   "id": "processed",
+   "name": "events.csv and cases.csv",
+   "file": "data/processed/events.csv",
+   "does": "Clean tables: one row per event and one row per claim.",
+   "rows": {
+    "events": 56437,
+    "cases": 10500
+   },
+   "decision": {
+    "source": "docs/data-cleaning-log.md",
+    "id": 7,
+    "title": "Cases without a clear end",
+    "text": ""
+   },
+   "excerpt": null,
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/data/processed/events.csv"
+  },
+  {
+   "id": "baseline",
+   "name": "02_baseline.py",
+   "file": "analysis/02_baseline.py",
+   "does": "Computes the baseline KPIs: cycle time, waits, rejections, paths and control checks.",
+   "rows": null,
+   "decision": {
+    "source": "docs/decisions.md",
+    "id": 2,
+    "title": "2026-10-29 — Complete cases and cycle time",
+    "text": "\"Complete\" means paid, or closed by the"
+   },
+   "excerpt": {
+    "file": "analysis/02_baseline.py",
+    "start_line": 189,
+    "end_line": 200,
+    "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/analysis/02_baseline.py#L189-L200",
+    "code": "# 1. Cycle time, paid cases: first SUBMITTED -> Payment Handled.\ncycle = {}\ncycle_rows = []\nfor c in cases:\n    if c not in paid:\n        continue\n    evs = events[c]\n    subs = [e[\"_t\"] for e in evs if e[\"activity\"] == SUBMIT]\n    pays = [e[\"_t\"] for e in evs if e[\"activity\"] == PAID]\n    if not subs or not pays:\n        continue\n    cycle[c] = days(min(subs), min(pays))"
+   },
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/analysis/02_baseline.py"
+  },
+  {
+   "id": "kpi",
+   "name": "KPI and Tableau CSVs",
+   "file": "data/outputs/tableau/kpi_summary.csv",
+   "does": "Tables for the report and the Tableau dashboard, with every KPI's filter and denominator.",
+   "rows": {
+    "kpi_rows": 81,
+    "csv_files": 9
+   },
+   "decision": {
+    "source": "docs/decisions.md",
+    "id": 1,
+    "title": "2026-10-29 — Years",
+    "text": "Keep 2017 and 2018. Use 2018 as the main view for process-wide KPIs."
+   },
+   "excerpt": null,
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/data/outputs/tableau/kpi_summary.csv"
+  },
+  {
+   "id": "scenarios",
+   "name": "03_scenarios.py",
+   "file": "analysis/03_scenarios.py",
+   "does": "Recomputes each paid claim's cycle time with capped or removed waits to estimate what-if scenarios.",
+   "rows": null,
+   "decision": {
+    "source": "docs/decisions.md",
+    "id": 11,
+    "title": "2026-11-01 — Scenarios are estimates",
+    "text": "Scenario figures are what-if estimates on 2018"
+   },
+   "excerpt": {
+    "file": "analysis/03_scenarios.py",
+    "start_line": 134,
+    "end_line": 146,
+    "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/analysis/03_scenarios.py#L134-L146",
+    "code": "def cycle(c, s1=False, s2=False, s4=False):\n    removed = s4_removed_waits(c) if s4 and c in picked else set()\n    total = 0.0\n    for i, (prev, e, d) in enumerate(waits[c]):\n        if i in removed:\n            continue\n        if s1 and prev[\"activity\"] == REQUEST and e[\"activity\"] == PAID:\n            d = min(d, PAYMENT_CAP)\n        if s2 and e[\"activity\"] in REMINDER_STEPS:\n            d = min(d, REMINDER_CAP)\n        total += d\n    return total\n"
+   },
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/analysis/03_scenarios.py"
+  },
+  {
+   "id": "scenario_csv",
+   "name": "scenarios.csv",
+   "file": "data/outputs/scenarios.csv",
+   "does": "One row per scenario: median, P90, share over 14 days, payment wait and rejection rate.",
+   "rows": {
+    "scenarios": 7
+   },
+   "decision": {
+    "source": "docs/decisions.md",
+    "id": 10,
+    "title": "2026-11-01 — Scenario method",
+    "text": "`analysis/03_scenarios.py` estimates what-if scenarios on"
+   },
+   "excerpt": null,
+   "url": "https://github.com/VimleshSonawane/business-flow-improvement/blob/main/data/outputs/scenarios.csv"
+  },
+  {
+   "id": "tableau",
+   "name": "Tableau dashboard",
+   "file": null,
+   "url": "https://public.tableau.com/app/profile/vimlesh.vilas.sonawane/viz/ApprovalWorkflowBaselineBPI2020realdata/Baselinedashboard",
+   "does": "The interactive 2018 baseline dashboard, built from the Tableau CSVs.",
+   "rows": null,
+   "decision": null,
+   "excerpt": null
+  }
+ ]
+}
